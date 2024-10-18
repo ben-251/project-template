@@ -17,19 +17,22 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r load-lib, message = FALSE}
 library(tidyverse)
 library(readxl)
+<<<<<<< HEAD
 # Add any other libraries here
 
+=======
+>>>>>>> 505cd3c605d91aae56da19052644591e70d64e72
 
 
 ```
 
 
 ```{r load-data}
-# load your data 
-
-
-
-
+read_excel("AdjudicationsQ12023.csv")
+read_excel("caseloadQ12023.csv")
+read_excel("PunishmentsQ12023.csv")
+read_excel("startsQ12023.csv")
+read_excel("terminationsQ12023.csv")
 ```
 
 
