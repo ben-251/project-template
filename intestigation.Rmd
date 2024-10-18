@@ -1,6 +1,6 @@
 ---
 title: "IDS investigation worksheet"
-author: "by Team-Name: Gigi, Ben, Jamie & Adam"
+author: "by The Code Crunchers: Gigi, Ben, Jamie & Adam"
 date: "`r Sys.Date()`"
 output: html_document
 ---
