@@ -45,4 +45,17 @@ adjudications %>%
   )
 )
 
+adjudications %>%
+  mutate(
+    Ethnicity = 
+      case_when(
+        Ethnicity == "a Asian or Asian British" ~ "Asian or Asian British",
+        Ethnicity == "b Black/African/Caribbean/Black British" ~ "Black/African/Caribbean/Black British",
+        Ethnicity == "f Not known" ~ "Not known",
+        Ethnicity == "e White" ~ "White",
+        Ethnicity == "c Mixed/ Multiple ethnic groups" ~ "Mixed/ Multiple ethnic groups",
+        Ethnicity == "d Other ethnic group" ~ "Other ethnic group",
+        TRUE ~ "Other"
+  )
+)
 ```
