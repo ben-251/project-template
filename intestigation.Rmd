@@ -23,11 +23,11 @@ library(readxl)
 
 
 ```{r load-data}
-# load your data 
-
-
-
-
+read_excel("AdjudicationsQ12023.csv")
+read_excel("caseloadQ12023.csv")
+read_excel("PunishmentsQ12023.csv")
+read_excel("startsQ12023.csv")
+read_excel("terminationsQ12023.csv")
 ```
 
 
