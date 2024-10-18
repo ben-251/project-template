@@ -24,9 +24,25 @@ library(readxl)
 ```{r load-data}
 adjudications <- read_csv("data/AdjudicationsQ12023.csv")
 caseload <- read_csv("data/caseloadQ12023.csv")
-punishments <- read_csv("data/PunishmentsQ12023.csv")
+punishments <- read_excel("data/PunishmentsQ12023.csv")
 starts <- read_csv("data/startsQ12023.csv")
 terminations <- read_csv("data/terminationsQ12023.csv")
 ```
+```{r clear-letters}
+adjudications %>%
+  mutate(
+    Religion = 
+      case_when(
+        Religion == "a Christian" ~ "Christian",
+        Religion == "b Muslim" ~ "Muslim",
+        Religion == "i No religion" ~ "No religion",
+        Religion == "f Jewish" ~ "Jewish",
+        Religion == "e Buddhist" ~ "Buddhist",
+        Religion == "g Other religious groups" ~ "Other religious groups",
+        Religion == "c Hindu" ~ "Hindu",
+        Religion == "d Sikh" ~ "Sikh",
+        TRUE ~ "Other"
+  )
+)
 
-
+```
