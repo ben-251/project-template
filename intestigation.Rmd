@@ -29,7 +29,7 @@ starts <- read_csv("data/startsQ12023.csv")
 terminations <- read_csv("data/terminationsQ12023.csv")
 ```
 ```{r clear-letters}
-adjudications %>%
+adjudications <- adjudications %>%
   mutate(
     Religion = 
       case_when(
