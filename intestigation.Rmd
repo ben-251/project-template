@@ -28,6 +28,7 @@ punishments <- read_excel("data/PunishmentsQ12023.csv")
 starts <- read_csv("data/startsQ12023.csv")
 terminations <- read_csv("data/terminationsQ12023.csv")
 ```
+
 ```{r clear-letters}
 adjudications <- adjudications %>%
   mutate(
@@ -58,4 +59,24 @@ adjudications %>%
         TRUE ~ "Other"
   )
 )
+```
+
+```{r missing values }
+terminations %>%
+mutate(,na_if(COUNT,"c"))
+
+punishments %>%
+  
+
+
+
+```
+
+```{r joining data}
+
+fat_dataset<-full_join(terminations,starts)
+view(fat_dataset)
+
+
+
 ```
