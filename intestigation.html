@@ -11,7 +11,7 @@
 
 <meta name="author" content="by The Code Crunchers: Gigi, Ben, Jamie &amp; Adam" />
 
-<meta name="date" content="2024-10-18" />
+<meta name="date" content="2024-10-25" />
 
 <title>IDS investigation worksheet</title>
 
@@ -353,7 +353,7 @@ display: none;
 <h1 class="title toc-ignore">IDS investigation worksheet</h1>
 <h4 class="author">by The Code Crunchers: Gigi, Ben, Jamie &amp;
 Adam</h4>
-<h4 class="date">2024-10-18</h4>
+<h4 class="date">2024-10-25</h4>
 
 </div>
 
@@ -404,7 +404,7 @@ starts &lt;- read_csv(&quot;data/startsQ12023.csv&quot;)</code></pre>
 ## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<pre class="r"><code>adjudications %&gt;%
+<pre class="r"><code>adjudications &lt;- adjudications %&gt;%
   mutate(
     Religion = 
       case_when(
@@ -418,25 +418,9 @@ starts &lt;- read_csv(&quot;data/startsQ12023.csv&quot;)</code></pre>
         Religion == &quot;d Sikh&quot; ~ &quot;Sikh&quot;,
         TRUE ~ &quot;Other&quot;
   )
-)</code></pre>
-<pre><code>## # A tibble: 24,647 × 12
-##    Date  Outcomes  Predominant function of est…¹ Establishment Adjudicator Sex  
-##    &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;                         &lt;chr&gt;         &lt;chr&gt;       &lt;chr&gt;
-##  1 Q1    Dismissed Category A (High Security)    Belmarsh      Governor    M    
-##  2 Q1    Dismissed Category A (High Security)    Belmarsh      Governor    M    
-##  3 Q1    Dismissed Category A (High Security)    Belmarsh      Governor    M    
-##  4 Q1    Dismissed Category A (High Security)    Belmarsh      Governor    M    
-##  5 Q1    Dismissed Category A (High Security)    Belmarsh      Governor    M    
-##  6 Q1    Dismissed Category A (High Security)    Belmarsh      Governor    M    
-##  7 Q1    Dismissed Category A (High Security)    Belmarsh      Governor    M    
-##  8 Q1    Dismissed Category A (High Security)    Belmarsh      Governor    M    
-##  9 Q1    Dismissed Category A (High Security)    Belmarsh      Governor    M    
-## 10 Q1    Dismissed Category A (High Security)    Belmarsh      Governor    M    
-## # ℹ 24,637 more rows
-## # ℹ abbreviated name: ¹​`Predominant function of establishment`
-## # ℹ 6 more variables: `Age group` &lt;chr&gt;, Ethnicity &lt;chr&gt;, Religion &lt;chr&gt;,
-## #   Offence &lt;chr&gt;, `Detailed offence` &lt;chr&gt;, Count &lt;dbl&gt;</code></pre>
-<pre class="r"><code>adjudications %&gt;%
+)
+
+adjudications %&gt;%
   mutate(
     Ethnicity = 
       case_when(
@@ -466,6 +450,36 @@ starts &lt;- read_csv(&quot;data/startsQ12023.csv&quot;)</code></pre>
 ## # ℹ abbreviated name: ¹​`Predominant function of establishment`
 ## # ℹ 6 more variables: `Age group` &lt;chr&gt;, Ethnicity &lt;chr&gt;, Religion &lt;chr&gt;,
 ## #   Offence &lt;chr&gt;, `Detailed offence` &lt;chr&gt;, Count &lt;dbl&gt;</code></pre>
+<pre class="r"><code>adjudications %&gt;%
+filter(Establishment == &quot;Belmarsh&quot;) %&gt;%
+    select(Ethnicity, Offence) %&gt;%
+  count(Ethnicity)</code></pre>
+<pre><code>## # A tibble: 6 × 2
+##   Ethnicity                                      n
+##   &lt;chr&gt;                                      &lt;int&gt;
+## 1 a Asian or Asian British                      16
+## 2 b Black/ African/ Caribbean/ Black British   116
+## 3 c Mixed/ Multiple ethnic groups               23
+## 4 d Other ethnic group                          15
+## 5 e White                                       71
+## 6 f Not known                                    6</code></pre>
+<pre class="r"><code>adjudications %&gt;%
+filter(Establishment == &quot;Altcourse&quot;) %&gt;%
+      select(Ethnicity, Offence) %&gt;%
+  count(Ethnicity)</code></pre>
+<pre><code>## # A tibble: 5 × 2
+##   Ethnicity                                      n
+##   &lt;chr&gt;                                      &lt;int&gt;
+## 1 a Asian or Asian British                       7
+## 2 b Black/ African/ Caribbean/ Black British    22
+## 3 c Mixed/ Multiple ethnic groups                3
+## 4 d Other ethnic group                           2
+## 5 e White                                      149</code></pre>
+<p><strong>Side note</strong>, Men have multiple different category
+prisons to be divided into depending on the severity of their offense
+whilst all women are put into a prison for females. Thus, we have
+decided to not analse the relavence between gender, offense and
+estbalishment as the ultimate result would turn out to be biase.</p>
 
 
 
