@@ -377,104 +377,65 @@ library(readxl)</code></pre>
 ## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<pre class="r"><code>caseload &lt;- read_csv(&quot;data/caseloadQ12023.csv&quot;)</code></pre>
-<pre><code>## Rows: 310 Columns: 5
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: &quot;,&quot;
-## chr (4): REGION, ORDER TYPE, SEX, DATE
-## dbl (1): COUNT
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<pre class="r"><code>punishments &lt;- read_excel(&quot;data/PunishmentsQ12023.csv&quot;)
-starts &lt;- read_csv(&quot;data/startsQ12023.csv&quot;)</code></pre>
-<pre><code>## Rows: 228 Columns: 5
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: &quot;,&quot;
-## chr (4): REGION, ORDER TYPE, SEX, DATE
-## dbl (1): COUNT
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<pre class="r"><code>terminations &lt;- read_csv(&quot;data/terminationsQ12023.csv&quot;)</code></pre>
-<pre><code>## Rows: 217 Columns: 6
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: &quot;,&quot;
-## chr (6): REGION, ORDER TYPE, REASON, SEX, DATE, COUNT
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<pre class="r"><code>adjudications &lt;- adjudications %&gt;%
-  mutate(
-    Religion = 
-      case_when(
-        Religion == &quot;a Christian&quot; ~ &quot;Christian&quot;,
-        Religion == &quot;b Muslim&quot; ~ &quot;Muslim&quot;,
-        Religion == &quot;i No religion&quot; ~ &quot;No religion&quot;,
-        Religion == &quot;f Jewish&quot; ~ &quot;Jewish&quot;,
-        Religion == &quot;e Buddhist&quot; ~ &quot;Buddhist&quot;,
-        Religion == &quot;g Other religious groups&quot; ~ &quot;Other religious groups&quot;,
-        Religion == &quot;c Hindu&quot; ~ &quot;Hindu&quot;,
-        Religion == &quot;d Sikh&quot; ~ &quot;Sikh&quot;,
-        TRUE ~ &quot;Other&quot;
-  )
-)
+<pre class="r"><code>punishments &lt;- read_excel(&quot;data/PunishmentsQ12023.csv&quot;)</code></pre>
+<pre class="r"><code>dataset_list &lt;- list(adjudications = adjudications, punishments = punishments)
 
-adjudications %&gt;%
-  mutate(
-    Ethnicity = 
-      case_when(
+# Loop through adjudications and punishments for efficiency
+for (dataset_name in names(dataset_list)) {
+  dataset_list[[dataset_name]] &lt;- dataset_list[[dataset_name]] %&gt;%
+    select(-Date) %&gt;%
+    mutate(
+      Religion = 
+        case_when(
+          Religion == &quot;a Christian&quot; ~ &quot;Christian&quot;,
+          Religion == &quot;b Muslim&quot; ~ &quot;Muslim&quot;,
+          Religion == &quot;c Hindu&quot; ~ &quot;Hindu&quot;,
+          Religion == &quot;d Sikh&quot; ~ &quot;Sikh&quot;,
+          Religion == &quot;e Buddhist&quot; ~ &quot;Buddhist&quot;,
+          Religion == &quot;f Jewish&quot; ~ &quot;Jewish&quot;,
+          Religion == &quot;g Other religious groups&quot; ~ &quot;Other religious groups&quot;,
+          Religion == &quot;i No religion&quot; ~ &quot;No religion&quot;,
+          TRUE ~ &quot;Other&quot;
+        ),
+      Ethnicity = case_when(
         Ethnicity == &quot;a Asian or Asian British&quot; ~ &quot;Asian or Asian British&quot;,
-        Ethnicity == &quot;b Black/African/Caribbean/Black British&quot; ~ &quot;Black/African/Caribbean/Black British&quot;,
+        Ethnicity == &quot;b Black/ African/ Caribbean/ Black British&quot; ~ &quot;Black/ African/ Caribbean/ Black British&quot;,
         Ethnicity == &quot;f Not known&quot; ~ &quot;Not known&quot;,
         Ethnicity == &quot;e White&quot; ~ &quot;White&quot;,
         Ethnicity == &quot;c Mixed/ Multiple ethnic groups&quot; ~ &quot;Mixed/ Multiple ethnic groups&quot;,
         Ethnicity == &quot;d Other ethnic group&quot; ~ &quot;Other ethnic group&quot;,
         TRUE ~ &quot;Other&quot;
+        )
   )
-)</code></pre>
-<pre><code>## # A tibble: 24,647 × 12
-##    Date  Outcomes  Predominant function of est…¹ Establishment Adjudicator Sex  
-##    &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;                         &lt;chr&gt;         &lt;chr&gt;       &lt;chr&gt;
-##  1 Q1    Dismissed Category A (High Security)    Belmarsh      Governor    M    
-##  2 Q1    Dismissed Category A (High Security)    Belmarsh      Governor    M    
-##  3 Q1    Dismissed Category A (High Security)    Belmarsh      Governor    M    
-##  4 Q1    Dismissed Category A (High Security)    Belmarsh      Governor    M    
-##  5 Q1    Dismissed Category A (High Security)    Belmarsh      Governor    M    
-##  6 Q1    Dismissed Category A (High Security)    Belmarsh      Governor    M    
-##  7 Q1    Dismissed Category A (High Security)    Belmarsh      Governor    M    
-##  8 Q1    Dismissed Category A (High Security)    Belmarsh      Governor    M    
-##  9 Q1    Dismissed Category A (High Security)    Belmarsh      Governor    M    
-## 10 Q1    Dismissed Category A (High Security)    Belmarsh      Governor    M    
-## # ℹ 24,637 more rows
-## # ℹ abbreviated name: ¹​`Predominant function of establishment`
-## # ℹ 6 more variables: `Age group` &lt;chr&gt;, Ethnicity &lt;chr&gt;, Religion &lt;chr&gt;,
-## #   Offence &lt;chr&gt;, `Detailed offence` &lt;chr&gt;, Count &lt;dbl&gt;</code></pre>
+}
+  # Reassign the datasets based on this loop result
+  adjudications &lt;- dataset_list$adjudications
+  punishments &lt;- dataset_list$punishments</code></pre>
 <pre class="r"><code>adjudications %&gt;%
 filter(Establishment == &quot;Belmarsh&quot;) %&gt;%
     select(Ethnicity, Offence) %&gt;%
   count(Ethnicity)</code></pre>
 <pre><code>## # A tibble: 6 × 2
-##   Ethnicity                                      n
-##   &lt;chr&gt;                                      &lt;int&gt;
-## 1 a Asian or Asian British                      16
-## 2 b Black/ African/ Caribbean/ Black British   116
-## 3 c Mixed/ Multiple ethnic groups               23
-## 4 d Other ethnic group                          15
-## 5 e White                                       71
-## 6 f Not known                                    6</code></pre>
+##   Ethnicity                                    n
+##   &lt;chr&gt;                                    &lt;int&gt;
+## 1 Asian or Asian British                      16
+## 2 Black/ African/ Caribbean/ Black British   116
+## 3 Mixed/ Multiple ethnic groups               23
+## 4 Not known                                    6
+## 5 Other ethnic group                          15
+## 6 White                                       71</code></pre>
 <pre class="r"><code>adjudications %&gt;%
 filter(Establishment == &quot;Altcourse&quot;) %&gt;%
       select(Ethnicity, Offence) %&gt;%
   count(Ethnicity)</code></pre>
 <pre><code>## # A tibble: 5 × 2
-##   Ethnicity                                      n
-##   &lt;chr&gt;                                      &lt;int&gt;
-## 1 a Asian or Asian British                       7
-## 2 b Black/ African/ Caribbean/ Black British    22
-## 3 c Mixed/ Multiple ethnic groups                3
-## 4 d Other ethnic group                           2
-## 5 e White                                      149</code></pre>
+##   Ethnicity                                    n
+##   &lt;chr&gt;                                    &lt;int&gt;
+## 1 Asian or Asian British                       7
+## 2 Black/ African/ Caribbean/ Black British    22
+## 3 Mixed/ Multiple ethnic groups                3
+## 4 Other ethnic group                           2
+## 5 White                                      149</code></pre>
 <p><strong>Side note</strong>, Men have multiple different category
 prisons to be divided into depending on the severity of their offense
 whilst all women are put into a prison for females. Thus, we have
