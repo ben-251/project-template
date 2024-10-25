@@ -404,52 +404,37 @@ starts &lt;- read_csv(&quot;data/startsQ12023.csv&quot;)</code></pre>
 ## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<pre class="r"><code>adjudications &lt;- adjudications %&gt;%
-  mutate(
-    Religion = 
-      case_when(
-        Religion == &quot;a Christian&quot; ~ &quot;Christian&quot;,
-        Religion == &quot;b Muslim&quot; ~ &quot;Muslim&quot;,
-        Religion == &quot;i No religion&quot; ~ &quot;No religion&quot;,
-        Religion == &quot;f Jewish&quot; ~ &quot;Jewish&quot;,
-        Religion == &quot;e Buddhist&quot; ~ &quot;Buddhist&quot;,
-        Religion == &quot;g Other religious groups&quot; ~ &quot;Other religious groups&quot;,
-        Religion == &quot;c Hindu&quot; ~ &quot;Hindu&quot;,
-        Religion == &quot;d Sikh&quot; ~ &quot;Sikh&quot;,
-        TRUE ~ &quot;Other&quot;
-  )
-)
+<pre class="r"><code>dataset_list &lt;- list(adjudications = adjudications, punishments = punishments)
 
-adjudications %&gt;%
-  mutate(
-    Ethnicity = 
-      case_when(
+# Loop through each dataset in the list
+for (dataset_name in names(dataset_list)) {
+  dataset_list[[dataset_name]] &lt;- dataset_list[[dataset_name]] %&gt;%
+    mutate(
+      Religion = 
+        case_when(
+          Religion == &quot;a Christian&quot; ~ &quot;Christian&quot;,
+          Religion == &quot;b Muslim&quot; ~ &quot;Muslim&quot;,
+          Religion == &quot;i No religion&quot; ~ &quot;No religion&quot;,
+          Religion == &quot;f Jewish&quot; ~ &quot;Jewish&quot;,
+          Religion == &quot;e Buddhist&quot; ~ &quot;Buddhist&quot;,
+          Religion == &quot;g Other religious groups&quot; ~ &quot;Other religious groups&quot;,
+          Religion == &quot;c Hindu&quot; ~ &quot;Hindu&quot;,
+          Religion == &quot;d Sikh&quot; ~ &quot;Sikh&quot;,
+          TRUE ~ &quot;Other&quot;
+        ),
+      Ethnicity = case_when(
         Ethnicity == &quot;a Asian or Asian British&quot; ~ &quot;Asian or Asian British&quot;,
-        Ethnicity == &quot;b Black/African/Caribbean/Black British&quot; ~ &quot;Black/African/Caribbean/Black British&quot;,
+        Ethnicity == &quot;b Black/ African/ Caribbean/ Black British&quot; ~ &quot;Black/ African/ Caribbean/ Black British&quot;,
         Ethnicity == &quot;f Not known&quot; ~ &quot;Not known&quot;,
         Ethnicity == &quot;e White&quot; ~ &quot;White&quot;,
         Ethnicity == &quot;c Mixed/ Multiple ethnic groups&quot; ~ &quot;Mixed/ Multiple ethnic groups&quot;,
         Ethnicity == &quot;d Other ethnic group&quot; ~ &quot;Other ethnic group&quot;,
         TRUE ~ &quot;Other&quot;
+        )
   )
-)</code></pre>
-<pre><code>## # A tibble: 24,647 × 12
-##    Date  Outcomes  Predominant function of est…¹ Establishment Adjudicator Sex  
-##    &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;                         &lt;chr&gt;         &lt;chr&gt;       &lt;chr&gt;
-##  1 Q1    Dismissed Category A (High Security)    Belmarsh      Governor    M    
-##  2 Q1    Dismissed Category A (High Security)    Belmarsh      Governor    M    
-##  3 Q1    Dismissed Category A (High Security)    Belmarsh      Governor    M    
-##  4 Q1    Dismissed Category A (High Security)    Belmarsh      Governor    M    
-##  5 Q1    Dismissed Category A (High Security)    Belmarsh      Governor    M    
-##  6 Q1    Dismissed Category A (High Security)    Belmarsh      Governor    M    
-##  7 Q1    Dismissed Category A (High Security)    Belmarsh      Governor    M    
-##  8 Q1    Dismissed Category A (High Security)    Belmarsh      Governor    M    
-##  9 Q1    Dismissed Category A (High Security)    Belmarsh      Governor    M    
-## 10 Q1    Dismissed Category A (High Security)    Belmarsh      Governor    M    
-## # ℹ 24,637 more rows
-## # ℹ abbreviated name: ¹​`Predominant function of establishment`
-## # ℹ 6 more variables: `Age group` &lt;chr&gt;, Ethnicity &lt;chr&gt;, Religion &lt;chr&gt;,
-## #   Offence &lt;chr&gt;, `Detailed offence` &lt;chr&gt;, Count &lt;dbl&gt;</code></pre>
+}
+  adjudications &lt;- dataset_list$adjudications
+  punishments &lt;- dataset_list$punishments</code></pre>
 
 
 
