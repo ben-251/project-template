@@ -17,16 +17,12 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r load-lib, message = FALSE}
 library(tidyverse)
 library(readxl)
-
 ```
 
 
 ```{r load-data}
 adjudications <- read_csv("data/AdjudicationsQ12023.csv")
-caseload <- read_csv("data/caseloadQ12023.csv")
 punishments <- read_excel("data/PunishmentsQ12023.csv")
-starts <- read_csv("data/startsQ12023.csv")
-terminations <- read_csv("data/terminationsQ12023.csv")
 ```
 
 ```{r clear-letters}
@@ -68,21 +64,10 @@ for (dataset_name in names(dataset_list)) {
 ```
 
 ```{r missing values }
-terminations %>%
-mutate(,na_if(COUNT,"c"))
-
-punishments %>%
-  
-
 
 
 ```
 
 ```{r joining data}
-
-fat_dataset<-full_join(terminations,starts)
-view(fat_dataset)
-
-
 
 ```
