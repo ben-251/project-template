@@ -406,7 +406,7 @@ starts &lt;- read_csv(&quot;data/startsQ12023.csv&quot;)</code></pre>
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 <pre class="r"><code>dataset_list &lt;- list(adjudications = adjudications, punishments = punishments)
 
-# Loop through each dataset in the list
+# Loop through adjudications and punishments for efficiency
 for (dataset_name in names(dataset_list)) {
   dataset_list[[dataset_name]] &lt;- dataset_list[[dataset_name]] %&gt;%
     mutate(
@@ -414,12 +414,12 @@ for (dataset_name in names(dataset_list)) {
         case_when(
           Religion == &quot;a Christian&quot; ~ &quot;Christian&quot;,
           Religion == &quot;b Muslim&quot; ~ &quot;Muslim&quot;,
-          Religion == &quot;i No religion&quot; ~ &quot;No religion&quot;,
-          Religion == &quot;f Jewish&quot; ~ &quot;Jewish&quot;,
-          Religion == &quot;e Buddhist&quot; ~ &quot;Buddhist&quot;,
-          Religion == &quot;g Other religious groups&quot; ~ &quot;Other religious groups&quot;,
           Religion == &quot;c Hindu&quot; ~ &quot;Hindu&quot;,
           Religion == &quot;d Sikh&quot; ~ &quot;Sikh&quot;,
+          Religion == &quot;e Buddhist&quot; ~ &quot;Buddhist&quot;,
+          Religion == &quot;f Jewish&quot; ~ &quot;Jewish&quot;,
+          Religion == &quot;g Other religious groups&quot; ~ &quot;Other religious groups&quot;,
+          Religion == &quot;i No religion&quot; ~ &quot;No religion&quot;,
           TRUE ~ &quot;Other&quot;
         ),
       Ethnicity = case_when(
@@ -433,6 +433,7 @@ for (dataset_name in names(dataset_list)) {
         )
   )
 }
+  # Reassign the datasets based on this loop result
   adjudications &lt;- dataset_list$adjudications
   punishments &lt;- dataset_list$punishments</code></pre>
 
