@@ -35,6 +35,7 @@ dataset_list <- list(adjudications = adjudications, punishments = punishments)
 # Loop through adjudications and punishments for efficiency
 for (dataset_name in names(dataset_list)) {
   dataset_list[[dataset_name]] <- dataset_list[[dataset_name]] %>%
+    select(-Date) %>%
     mutate(
       Religion = 
         case_when(
