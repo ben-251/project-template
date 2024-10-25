@@ -17,47 +17,59 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r load-lib, message = FALSE}
 library(tidyverse)
 library(readxl)
-
 ```
 
 
 ```{r load-data}
 adjudications <- read_csv("data/AdjudicationsQ12023.csv")
-caseload <- read_csv("data/caseloadQ12023.csv")
 punishments <- read_excel("data/PunishmentsQ12023.csv")
-starts <- read_csv("data/startsQ12023.csv")
-terminations <- read_csv("data/terminationsQ12023.csv")
 ```
-```{r clear-letters}
-adjudications <- adjudications %>%
-  mutate(
-    Religion = 
-      case_when(
-        Religion == "a Christian" ~ "Christian",
-        Religion == "b Muslim" ~ "Muslim",
-        Religion == "i No religion" ~ "No religion",
-        Religion == "f Jewish" ~ "Jewish",
-        Religion == "e Buddhist" ~ "Buddhist",
-        Religion == "g Other religious groups" ~ "Other religious groups",
-        Religion == "c Hindu" ~ "Hindu",
-        Religion == "d Sikh" ~ "Sikh",
-        TRUE ~ "Other"
-  )
-)
 
-adjudications %>%
-  mutate(
-    Ethnicity = 
-      case_when(
+```{r clear-letters}
+
+dataset_list <- list(adjudications = adjudications, punishments = punishments)
+
+# Loop through adjudications and punishments for efficiency
+for (dataset_name in names(dataset_list)) {
+  dataset_list[[dataset_name]] <- dataset_list[[dataset_name]] %>%
+    select(-Date) %>%
+    mutate(
+      Religion = 
+        case_when(
+          Religion == "a Christian" ~ "Christian",
+          Religion == "b Muslim" ~ "Muslim",
+          Religion == "c Hindu" ~ "Hindu",
+          Religion == "d Sikh" ~ "Sikh",
+          Religion == "e Buddhist" ~ "Buddhist",
+          Religion == "f Jewish" ~ "Jewish",
+          Religion == "g Other religious groups" ~ "Other religious groups",
+          Religion == "i No religion" ~ "No religion",
+          TRUE ~ "Other"
+        ),
+      Ethnicity = case_when(
         Ethnicity == "a Asian or Asian British" ~ "Asian or Asian British",
-        Ethnicity == "b Black/African/Caribbean/Black British" ~ "Black/African/Caribbean/Black British",
+        Ethnicity == "b Black/ African/ Caribbean/ Black British" ~ "Black/ African/ Caribbean/ Black British",
         Ethnicity == "f Not known" ~ "Not known",
         Ethnicity == "e White" ~ "White",
         Ethnicity == "c Mixed/ Multiple ethnic groups" ~ "Mixed/ Multiple ethnic groups",
         Ethnicity == "d Other ethnic group" ~ "Other ethnic group",
         TRUE ~ "Other"
+        )
   )
-)
+}
+  # Reassign the datasets based on this loop result
+  adjudications <- dataset_list$adjudications
+  punishments <- dataset_list$punishments
+  
+```
+
+```{r missing values }
+
+
+```
+
+```{r joining data}
+
 ```
 
 
