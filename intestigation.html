@@ -409,6 +409,7 @@ starts &lt;- read_csv(&quot;data/startsQ12023.csv&quot;)</code></pre>
 # Loop through adjudications and punishments for efficiency
 for (dataset_name in names(dataset_list)) {
   dataset_list[[dataset_name]] &lt;- dataset_list[[dataset_name]] %&gt;%
+    select(-Date) %&gt;%
     mutate(
       Religion = 
         case_when(
