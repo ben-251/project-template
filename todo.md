@@ -1,3 +1,4 @@
 - [x] add for loop for mutate across all datasets
 - [x] check for h under religion // none
 - [x] project statements
+- [ ] read population sheets individually
