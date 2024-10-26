@@ -377,33 +377,7 @@ library(readxl)</code></pre>
 ## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<pre class="r"><code>caseload &lt;- read_csv(&quot;data/caseloadQ12023.csv&quot;)</code></pre>
-<pre><code>## Rows: 310 Columns: 5
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: &quot;,&quot;
-## chr (4): REGION, ORDER TYPE, SEX, DATE
-## dbl (1): COUNT
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<pre class="r"><code>punishments &lt;- read_excel(&quot;data/PunishmentsQ12023.csv&quot;)
-starts &lt;- read_csv(&quot;data/startsQ12023.csv&quot;)</code></pre>
-<pre><code>## Rows: 228 Columns: 5
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: &quot;,&quot;
-## chr (4): REGION, ORDER TYPE, SEX, DATE
-## dbl (1): COUNT
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<pre class="r"><code>terminations &lt;- read_csv(&quot;data/terminationsQ12023.csv&quot;)</code></pre>
-<pre><code>## Rows: 217 Columns: 6
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: &quot;,&quot;
-## chr (6): REGION, ORDER TYPE, REASON, SEX, DATE, COUNT
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<pre class="r"><code>punishments &lt;- read_excel(&quot;data/PunishmentsQ12023.csv&quot;)</code></pre>
 <pre class="r"><code>dataset_list &lt;- list(adjudications = adjudications, punishments = punishments)
 
 # Loop through adjudications and punishments for efficiency
@@ -437,6 +411,36 @@ for (dataset_name in names(dataset_list)) {
   # Reassign the datasets based on this loop result
   adjudications &lt;- dataset_list$adjudications
   punishments &lt;- dataset_list$punishments</code></pre>
+<pre class="r"><code>adjudications %&gt;%
+filter(Establishment == &quot;Belmarsh&quot;) %&gt;%
+    select(Ethnicity, Offence) %&gt;%
+  count(Ethnicity)</code></pre>
+<pre><code>## # A tibble: 6 × 2
+##   Ethnicity                                    n
+##   &lt;chr&gt;                                    &lt;int&gt;
+## 1 Asian or Asian British                      16
+## 2 Black/ African/ Caribbean/ Black British   116
+## 3 Mixed/ Multiple ethnic groups               23
+## 4 Not known                                    6
+## 5 Other ethnic group                          15
+## 6 White                                       71</code></pre>
+<pre class="r"><code>adjudications %&gt;%
+filter(Establishment == &quot;Altcourse&quot;) %&gt;%
+      select(Ethnicity, Offence) %&gt;%
+  count(Ethnicity)</code></pre>
+<pre><code>## # A tibble: 5 × 2
+##   Ethnicity                                    n
+##   &lt;chr&gt;                                    &lt;int&gt;
+## 1 Asian or Asian British                       7
+## 2 Black/ African/ Caribbean/ Black British    22
+## 3 Mixed/ Multiple ethnic groups                3
+## 4 Other ethnic group                           2
+## 5 White                                      149</code></pre>
+<p><strong>Side note</strong>, Men have multiple different category
+prisons to be divided into depending on the severity of their offense
+whilst all women are put into a prison for females. Thus, we have
+decided to not analse the relavence between gender, offense and
+estbalishment as the ultimate result would turn out to be biase.</p>
 
 
 
