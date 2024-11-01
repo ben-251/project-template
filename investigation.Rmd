@@ -88,4 +88,4 @@ filter(Establishment == "Altcourse") %>%
 
 
 ```
-**Side note**, Men have multiple different category prisons to be divided into depending on the severity of their offense whilst all women are put into a prison for females. Thus, we have decided to not analse the relavence between gender, offense and estbalishment as the ultimate result would turn out to be biase.
+**Side note**, Men have multiple different category prisons to be divided into depending on the severity of their offense whilst all women are put into a prison for females. Thus, we have decided to not analyse the relevance between gender, offense and establishment as the ultimate result would turn out to be biased.
