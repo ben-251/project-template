@@ -17,12 +17,14 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r load-lib, message = FALSE}
 library(tidyverse)
 library(readxl)
+library(readODS)
 ```
 
 
 ```{r load-data}
 adjudications <- read_csv("data/AdjudicationsQ12023.csv")
 punishments <- read_excel("data/PunishmentsQ12023.csv")
+population <- read_ods("data/Population2023June.ods")
 ```
 
 ```{r clear-letters}
@@ -89,4 +91,4 @@ group_by("Establishment")
 
 
 ```
-**Side note**, Men have multiple different category prisons to be divided into depending on the severity of their offense whilst all women are put into a prison for females. Thus, we have decided to not analse the relavence between gender, offense and establishment as the ultimate result would turn out to be biase.
+**Side note**, Men have multiple different category prisons to be divided into depending on the severity of their offense whilst all women are put into a prison for females. Thus, we have decided to not analyse the relevance between gender, offense and establishment as the ultimate result would turn out to be biased.
