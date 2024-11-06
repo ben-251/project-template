@@ -1,5 +1,5 @@
 ---
-title: "IDS investigation worksheet"
+title: "IDS investigation worksheet - PULL BEFORE EDITING GUYS!!!"
 author: "by The Code Crunchers: Gigi, Ben, Jamie & Adam"
 date: "`r Sys.Date()`"
 output: html_document
@@ -83,6 +83,9 @@ adjudications %>%
 filter(Establishment == "Altcourse") %>%
       select(Ethnicity, Offence) %>%
   count(Ethnicity)
+
+group_by("Establishment")
+
 
 
 ```
