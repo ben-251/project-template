@@ -111,8 +111,18 @@ laptop_data_untidy <- laptop_data_untidy%>%
   mutate(Ram = parse_number(Ram))
 laptop_data_filtered <- laptop_data_untidy [-1192, ]
 
+<<<<<<< HEAD
 ##check
 first_diff <- which(!(laptop_data$Company == laptop_data_filtered$Company & laptop_data$TypeName == laptop_data_filtered$TypeName & laptop_data$Ram == laptop_data_filtered$Ram))
 
 print(first_diff)
+=======
+```
+
+
+```{r creating storage_capacity column - Jamie}
+
+
+
+>>>>>>> 47c86a26b080e573a299fb9a50752895648d6aaf
 ```
