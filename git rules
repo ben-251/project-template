@@ -1,0 +1,4 @@
+1. As far as possible, only push code
+  that can be knitted 
+  (so other people aren't affected)
+2. Pull before making new changes
