@@ -24,6 +24,17 @@ library(tidymodels)
 laptop_data <- read_csv("data/laptop_data_cleaned.csv")
 ```
 
+```{r creating storage_type column - Jamie}
+laptop_data%>% 
+  mutate(, case_when(
+    HDD = 0 ~ storage_type = "ssd",
+    SDD = 0 ~ storage_type = "hss",
+    .default = "both"
+  ))
+
+
+```
+
 ```{r test-scatter-plot}
 laptop_data %>%
   ggplot(mapping = aes(x=Weight,y=Price)) +
