@@ -24,6 +24,12 @@ library(tidymodels)
 laptop_data <- read_csv("data/laptop_data_cleaned.csv")
 ```
 
+```{r exploratory data analysis}
+laptop_data %>%
+  summarise(across(everything(), ~sum(is.na(.))))
+
+```
+
 ```{r test-scatter-plot}
 laptop_data %>%
   ggplot(mapping = aes(x=Weight,y=Price)) +
