@@ -478,7 +478,7 @@ larger HDD storage may result in slightly lower prices.</p></li>
 this looks promising for looking at models/best fits</p>
 <pre class="r"><code>price_fit &lt;- linear_reg() %&gt;%
   set_engine(&quot;lm&quot;) %&gt;%
-  fit(Price ~ Weight + SSD, data=laptop_data)
+  fit(Price ~ Weight + SSD, data=laptop_data) # add the other numeric values
 tidy(price_fit)</code></pre>
 <pre><code>## # A tibble: 3 × 5
 ##   term        estimate std.error statistic   p.value

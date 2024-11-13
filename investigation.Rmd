@@ -98,7 +98,7 @@ this looks promising for looking at models/best fits
 ```{r best-fit}
 price_fit <- linear_reg() %>%
   set_engine("lm") %>%
-  fit(Price ~ Weight + SSD, data=laptop_data)
+  fit(Price ~ Weight + SSD, data=laptop_data) # add the other numeric values
 tidy(price_fit)
 ```
 
