@@ -27,6 +27,30 @@ laptop_data <- read_csv("data/laptop_data_cleaned.csv")
 ```{r exploratory data analysis}
 laptop_data %>%
   summarise(across(everything(), ~sum(is.na(.))))
+#there are no NA values
+
+laptop_data %>%
+  select(Ram, Weight, Price, Ppi, HDD, SSD) %>%
+  summarise(
+    across(
+      .cols = everything(),  # Apply to all columns
+      .fns = list(
+        min = ~min(. , na.rm = TRUE),
+        mean = ~mean(. , na.rm = TRUE),
+        median = ~median(. , na.rm = TRUE),
+        max = ~max(. , na.rm = TRUE)
+      )
+    )
+  ) %>%
+  pivot_longer(
+    cols = everything(),
+    names_to = c("Statistic", "Variable"),
+    names_pattern = "(.*)_(.*)",
+    values_to = "Value"
+  ) %>%
+  pivot_wider(names_from = Variable, values_from = Value)
+
+
 
 ```
 
