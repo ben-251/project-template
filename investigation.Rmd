@@ -29,10 +29,11 @@ laptop_data <- read_csv("data/laptop_data_cleaned.csv")
 laptop_data <- laptop_data%>% 
   mutate(, 
 storage_type = case_when(
-    HDD = 0 ~ storage_type == "ssd",
-    SDD = 0 ~ storage_type == "hss",
+    HDD == 0 ~ "ssd",
+    SSD == 0 ~ "hss",
     .default = "both"
   ))
+
 ```
 
 =======
