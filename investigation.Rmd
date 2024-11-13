@@ -61,10 +61,22 @@ laptop_data %>%
   ) %>%
   pivot_wider(names_from = Variable, values_from = Value)
 
+correlation_matrix <- laptop_data %>%
+  select_if(is.numeric) %>%
+  cor(use = "complete.obs")
 
+correlation_matrix
 
+#closer to 1 = greater the correlation
 
 ```
+**Notes:**
+- There are no NA values
+- RAM and Price have a strong positive correlation, meaning that higher RAM is - associated with higher prices.
+- Weight has a weak positive correlation with Price, indicating that heavier laptops may have slightly higher prices.
+- TouchScreen, IPS, and PPI have positive correlations with Price, suggesting that better display features are associated with higher prices.
+- SSD has a strong positive correlation with Price, indicating that larger SSD storage is linked to higher prices.
+- HDD has a weak negative correlation with Price, implying that larger HDD storage may result in slightly lower prices.
 
 ```{r test-scatter-plot}
 laptop_data %>%
