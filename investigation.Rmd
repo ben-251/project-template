@@ -24,6 +24,17 @@ library(tidymodels)
 laptop_data <- read_csv("data/laptop_data_cleaned.csv")
 ```
 
+
+```{r creating storage_type column - Jamie}
+laptop_data%>% 
+  mutate(, case_when(
+    HDD = 0 ~ storage_type = "ssd",
+    SDD = 0 ~ storage_type = "hss",
+    .default = "both"
+  ))
+```
+
+=======
 ```{r exploratory data analysis}
 laptop_data %>%
   summarise(across(everything(), ~sum(is.na(.))))
@@ -52,12 +63,14 @@ laptop_data %>%
 
 
 
+
 ```
 
 ```{r test-scatter-plot}
 laptop_data %>%
-  ggplot(mapping = aes(x=Weight,y=Price)) +
-  geom_point()
+  ggplot(mapping = aes(x=Weight,y=Price, color=factor(TypeName))) +
+  geom_point() +
+  geom_smooth(aes(group = 1), method = "lm")
 
 ```
 this looks promising for looking at models/best fits
