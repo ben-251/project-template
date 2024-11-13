@@ -106,5 +106,13 @@ So P = 10.1 + 0.175W+0.00222S
 
 
 ```{r adam}
+laptop_data_untidy <- read.csv("data/laptop_data.csv")
+laptop_data_untidy <- laptop_data_untidy%>%
+  mutate(Ram = parse_number(Ram))
+laptop_data_filtered <- laptop_data_untidy [-1192, ]
 
+##check
+first_diff <- which(!(laptop_data$Company == laptop_data_filtered$Company & laptop_data$TypeName == laptop_data_filtered$TypeName & laptop_data$Ram == laptop_data_filtered$Ram))
+
+print(first_diff)
 ```
