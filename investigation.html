@@ -389,6 +389,21 @@ library(tidymodels)</code></pre>
 ## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<pre class="r"><code>laptop_data &lt;- laptop_data%&gt;% 
+  mutate(, 
+storage_type = case_when(
+    HDD == 0 ~ &quot;ssd&quot;,
+    SSD == 0 ~ &quot;hss&quot;,
+    .default = &quot;both&quot;
+  ))</code></pre>
+<p>=======</p>
+<pre class="r"><code>laptop_data %&gt;%
+  summarise(across(everything(), ~sum(is.na(.))))</code></pre>
+<pre><code>## # A tibble: 1 × 14
+##   Company TypeName   Ram Weight Price TouchScreen   Ips   Ppi Cpu_brand   HDD
+##     &lt;int&gt;    &lt;int&gt; &lt;int&gt;  &lt;int&gt; &lt;int&gt;       &lt;int&gt; &lt;int&gt; &lt;int&gt;     &lt;int&gt; &lt;int&gt;
+## 1       0        0     0      0     0           0     0     0         0     0
+## # ℹ 4 more variables: SSD &lt;int&gt;, Gpu_brand &lt;int&gt;, Os &lt;int&gt;, storage_type &lt;int&gt;</code></pre>
 <pre class="r"><code>laptop_data %&gt;%
 <<<<<<< HEAD
   summarise(across(everything(), ~sum(is.na(.))))</code></pre>
