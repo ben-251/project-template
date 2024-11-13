@@ -65,3 +65,10 @@ So P = 10.1 + 0.175W+0.00222S
 ```{r adam}
 
 ```
+
+
+```{r creating storage_capacity column - Jamie}
+
+
+
+```
