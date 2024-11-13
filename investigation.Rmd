@@ -16,11 +16,26 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r load-lib, message = FALSE}
 library(tidyverse)
-library(readxl)
-library(readODS)
+library(tidymodels)
 ```
 
 
 ```{r load-data}
-adjudications <- read_csv("data/laptop_data_cleaned.csv")
+laptop_data <- read_csv("data/laptop_data_cleaned.csv")
 ```
+
+```{r test-scatter-plot}
+laptop_data %>%
+  ggplot(mapping = aes(x=Weight,y=Price)) +
+  geom_point()
+
+```
+this looks promising for looking at models/best fits
+```{r best-fit}
+price_fit <- linear_reg() %>%
+  set_engine("lm") %>%
+  fit(Price ~ Weight + SSD, data=laptop_data)
+tidy(price_fit)
+```
+
+So P = 10.1 + 0.175W+0.00222S
