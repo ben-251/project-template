@@ -490,19 +490,23 @@ tidy(price_fit)</code></pre>
 <pre class="r"><code>laptop_data_untidy &lt;- read.csv(&quot;data/laptop_data.csv&quot;)
 laptop_data_untidy &lt;- laptop_data_untidy%&gt;%
   mutate(Ram = parse_number(Ram))
+laptop_data_untidy &lt;- laptop_data_untidy%&gt;%
+  mutate(Weight = parse_number(Weight))
+laptop_data_untidy &lt;- laptop_data_untidy%&gt;%
+  mutate(Second_Price = Price)
 laptop_data_filtered &lt;- laptop_data_untidy [-1192, ]
+laptop_data_filtered &lt;- laptop_data_filtered[1:1273, ]
 
-##check
-first_diff &lt;- which(!(laptop_data$Company == laptop_data_filtered$Company &amp; laptop_data$TypeName == laptop_data_filtered$TypeName &amp; laptop_data$Ram == laptop_data_filtered$Ram))</code></pre>
-<pre><code>## Warning in laptop_data$Company == laptop_data_filtered$Company: longer object
-## length is not a multiple of shorter object length</code></pre>
-<pre><code>## Warning in laptop_data$TypeName == laptop_data_filtered$TypeName: longer object
-## length is not a multiple of shorter object length</code></pre>
-<pre><code>## Warning in laptop_data$Ram == laptop_data_filtered$Ram: longer object length is
-## not a multiple of shorter object length</code></pre>
-<pre class="r"><code>print(first_diff)</code></pre>
-<pre><code>##  [1] 1274 1275 1276 1277 1278 1279 1280 1281 1282 1283 1284 1285 1286 1287 1288
-## [16] 1289 1290 1291 1292 1293 1294 1295 1296 1297 1298 1299 1300 1301 1302</code></pre>
+#check
+first_diff &lt;- which(!(laptop_data$Company == laptop_data_filtered$Company &amp; laptop_data$TypeName == laptop_data_filtered$TypeName &amp; laptop_data$Ram == laptop_data_filtered$Ram ))
+second_diff &lt;- all(abs(laptop_data$Weight - laptop_data_filtered$Weight) &lt; .Machine$double.eps^0.5)
+
+##view(select(laptop_data_filtered, Ram, Weight, Company, TypeName))
+##view(select(laptop_data, Ram, Weight, Company, TypeName))
+##print(first_diff)
+##print(second_diff)
+
+laptop_data_merged &lt;- cbind(laptop_data, select(laptop_data_filtered, Second_Price, Inches, ScreenResolution, Cpu, Gpu, Memory)) </code></pre>
 
 
 

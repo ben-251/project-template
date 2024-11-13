@@ -109,14 +109,24 @@ So P = 10.1 + 0.175W+0.00222S
 laptop_data_untidy <- read.csv("data/laptop_data.csv")
 laptop_data_untidy <- laptop_data_untidy%>%
   mutate(Ram = parse_number(Ram))
+laptop_data_untidy <- laptop_data_untidy%>%
+  mutate(Weight = parse_number(Weight))
+laptop_data_untidy <- laptop_data_untidy%>%
+  mutate(Second_Price = Price)
 laptop_data_filtered <- laptop_data_untidy [-1192, ]
+laptop_data_filtered <- laptop_data_filtered[1:1273, ]
 
-<<<<<<< HEAD
-##check
-first_diff <- which(!(laptop_data$Company == laptop_data_filtered$Company & laptop_data$TypeName == laptop_data_filtered$TypeName & laptop_data$Ram == laptop_data_filtered$Ram))
+#check
+first_diff <- which(!(laptop_data$Company == laptop_data_filtered$Company & laptop_data$TypeName == laptop_data_filtered$TypeName & laptop_data$Ram == laptop_data_filtered$Ram ))
+second_diff <- all(abs(laptop_data$Weight - laptop_data_filtered$Weight) < .Machine$double.eps^0.5)
 
-print(first_diff)
-=======
+##view(select(laptop_data_filtered, Ram, Weight, Company, TypeName))
+##view(select(laptop_data, Ram, Weight, Company, TypeName))
+##print(first_diff)
+##print(second_diff)
+
+laptop_data_merged <- cbind(laptop_data, select(laptop_data_filtered, Second_Price, Inches, ScreenResolution, Cpu, Gpu, Memory)) 
+
 ```
 
 
@@ -124,5 +134,5 @@ print(first_diff)
 
 
 
->>>>>>> 47c86a26b080e573a299fb9a50752895648d6aaf
+
 ```
