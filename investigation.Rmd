@@ -132,7 +132,50 @@ laptop_data_merged <- cbind(laptop_data, select(laptop_data_filtered, Second_Pri
 
 ```{r creating storage_capacity column - Jamie}
 
+laptop_data_tidy <- laptop_data_merged %>%
+  mutate(,
+         storage_capacity = HDD + SSD
+         )
+```
 
+```{r filtering out laptops with 0 storage - Jamie}
+
+laptop_data_tidy <- laptop_data_tidy%>%
+  filter(,storage_capacity != 0)
+#From the work Adams done, it looks like when storage_capacity = 0 that often that these laptops do have storage but its just like flash storage and I don't know if we should just get rid or them or not but thought I'd at least say x.
+```
+
+```{r renaming price to logprice  - Jamie}
+
+#laptop_data_tidy <-laptop_data_tidy %>%
+  #rename(,log_price_rupees = log_price_rupees)
+
+#only needs ran once as i overwrite the old file 
 
 
 ```
+
+```{r calculating price in pounds  - Jamie}
+
+#laptop_data_tidy <-laptop_data_tidy %>%
+ # mutate(
+        #log_price_gbp = log(round(exp(log_price_rupees) * 0.0094 , digits =2)),
+        #price = round(exp(log_price_gbp),digits = 2)
+        
+        # )
+
+#calculating log price in gbp and price in gbp,
+  
+#laptop_data_tidy <-laptop_data_tidy%>%
+  #select(-log_price_rupees)
+
+#getting rid of log price rupees cos we aint using it
+
+
+#chunk only needs to be ran once as it overwrites the old file 
+
+
+```
+
+
+

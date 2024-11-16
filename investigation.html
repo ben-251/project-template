@@ -11,7 +11,7 @@
 
 <meta name="author" content="by The Code Crunchers: Gigi, Ben, Jamie &amp; Adam" />
 
-<meta name="date" content="2024-11-13" />
+<meta name="date" content="2024-11-16" />
 
 <title>IDS investigation worksheet - PULL BEFORE EDITING GUYS!!!</title>
 
@@ -354,7 +354,7 @@ display: none;
 EDITING GUYS!!!</h1>
 <h4 class="author">by The Code Crunchers: Gigi, Ben, Jamie &amp;
 Adam</h4>
-<h4 class="date">2024-11-13</h4>
+<h4 class="date">2024-11-16</h4>
 
 </div>
 
@@ -507,6 +507,33 @@ second_diff &lt;- all(abs(laptop_data$Weight - laptop_data_filtered$Weight) &lt;
 ##print(second_diff)
 
 laptop_data_merged &lt;- cbind(laptop_data, select(laptop_data_filtered, Second_Price, Inches, ScreenResolution, Cpu, Gpu, Memory)) </code></pre>
+<pre class="r"><code>laptop_data_tidy &lt;- laptop_data_merged %&gt;%
+  mutate(,
+         storage_capacity = HDD + SSD
+         )</code></pre>
+<pre class="r"><code>laptop_data_tidy &lt;- laptop_data_tidy%&gt;%
+  filter(,storage_capacity != 0)
+#From the work Adams done, it looks like when storage_capacity = 0 that often that these laptops do have storage but its just like flash storage and I don&#39;t know if we should just get rid or them or not but thought I&#39;d at least say x.</code></pre>
+<pre class="r"><code>#laptop_data_tidy &lt;-laptop_data_tidy %&gt;%
+  #rename(,log_price_rupees = log_price_rupees)
+
+#only needs ran once as i overwrite the old file </code></pre>
+<pre class="r"><code>#laptop_data_tidy &lt;-laptop_data_tidy %&gt;%
+ # mutate(
+        #log_price_gbp = log(round(exp(log_price_rupees) * 0.0094 , digits =2)),
+        #price = round(exp(log_price_gbp),digits = 2)
+        
+        # )
+
+#calculating log price in gbp and price in gbp,
+  
+#laptop_data_tidy &lt;-laptop_data_tidy%&gt;%
+  #select(-log_price_rupees)
+
+#getting rid of log price rupees cos we aint using it
+
+
+#chunk only needs to be ran once as it overwrites the old file </code></pre>
 
 
 
