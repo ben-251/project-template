@@ -76,34 +76,17 @@ laptop_data_tidy <- laptop_data_tidy%>%
 #From the work Adams done, it looks like when storage_capacity = 0 that often that these laptops do have storage but its just like flash storage and I don't know if we should just get rid or them or not but thought I'd at least say x.
 ```
 
-```{r renaming price to logprice  - Jamie}
 
-laptop_data_tidy <-laptop_data_tidy %>%
-  rename(,log_price_rupees = Price)
-
-#only needs ran once as i overwrite the old file 
-
-
-```
 
 ```{r calculating price in pounds  - Jamie}
 
 laptop_data_tidy <-laptop_data_tidy %>%
-  mutate(
-        log_price = log(round(exp(log_price_rupees) * 0.0094 , digits =2)),
+ mutate(
+        log_price = log(round(exp(Price) * 0.0094 , digits =2)),
         Price = round(exp(log_price),digits = 2)
         
          )
 
-#calculating log price in gbp and price in gbp,
-  
-laptop_data_tidy <-laptop_data_tidy%>%
-  select(-log_price_rupees)
-
-#getting rid of log price rupees cos we aint using it
-
-
-#chunk only needs to be ran once as it overwrites the old file 
 
 laptop_data_final <- laptop_data_tidy
 
@@ -118,8 +101,8 @@ laptop_data_final %>%
   summarise(across(everything(), ~sum(is.na(.))))
 #there are no NA values
 
-laptop_data %>%
-  select(Ram, Weight, Price, Ppi, HDD, SSD) %>%
+laptop_data_final %>%
+  select(Ram, Weight, Price, Ppi, HDD, SSD,storage_capacity,Inches,log_price) %>%
   summarise(
     across(
       .cols = everything(),  
@@ -140,7 +123,7 @@ laptop_data %>%
   pivot_wider(names_from = Variable, values_from = Value)
 
 # Calculating correlations
-correlation_matrix <- laptop_data %>%
+correlation_matrix <- laptop_data_final %>%
   select_if(is.numeric) %>%
   cor(use = "complete.obs")
 
@@ -167,11 +150,11 @@ correlation_matrix
 
 #in this chunk I want to gain more insight on the characteristics of the different laptop types to indicate if the existence of certain variables increase the likelihood of what laptop type the device is
 
-laptop_data %>%
+laptop_data_final %>%
   count(TypeName)
 
 #Calculating the average values for each laptop type
-avg_stats <- laptop_data %>%
+avg_stats <- laptop_data_final %>%
   group_by(TypeName) %>%
   summarise(
     Avg_Ram = mean(Ram, na.rm = TRUE),
@@ -179,7 +162,10 @@ avg_stats <- laptop_data %>%
     Avg_Price = mean(Price, na.rm = TRUE),
     Avg_Ppi = mean(Ppi, na.rm = TRUE),
     Avg_HDD = mean(HDD, na.rm = TRUE),
-    Avg_SSD = mean(SSD, na.rm = TRUE)
+    Avg_SSD = mean(SSD, na.rm = TRUE),
+    Avg_log_price = mean(log_price, na.rm = TRUE),
+    Avg_Inches = mean(Inches, na.rm = TRUE),
+    Avg_Storage_Capacity = mean(storage_capacity, na.rm = TRUE),
   )
 print(avg_stats)
 
@@ -200,12 +186,12 @@ ggplot(avg_stats_long, aes(x = TypeName, y = Value, fill = TypeName)) +
 
 
 #on to box plots now
-variables <- c("Ram", "Weight", "Price", "Ppi", "HDD", "SSD")
+variables <- c("Ram", "Weight", "Price", "Ppi", "HDD", "SSD","Log Price","Storage Capacity","Inches")
 
-avg_stats_long <- laptop_data %>%
-  select(TypeName, Ram, Weight, Price, Ppi, HDD, SSD) %>% 
+avg_stats_long <- laptop_data_final %>%
+  select(TypeName, Ram, Weight, Price, Ppi, HDD, SSD, log_price, storage_capacity, Inches) %>% 
   pivot_longer(
-    cols = Ram:SSD,          
+    cols = Ram:Inches,          
     names_to = "Variable",   
     values_to = "Value"      
   )
