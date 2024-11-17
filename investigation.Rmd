@@ -46,7 +46,7 @@ laptop_data %>%
   select(Ram, Weight, Price, Ppi, HDD, SSD) %>%
   summarise(
     across(
-      .cols = everything(),  # Apply to all columns
+      .cols = everything(),  
       .fns = list(
         min = ~min(. , na.rm = TRUE),
         mean = ~mean(. , na.rm = TRUE),
