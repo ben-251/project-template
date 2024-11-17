@@ -63,6 +63,15 @@ laptop_data %>%
   ) %>%
   pivot_wider(names_from = Variable, values_from = Value)
 
+# Calculating correlations
+correlation_matrix <- laptop_data %>%
+  select_if(is.numeric) %>%
+  cor(use = "complete.obs")
+
+correlation_matrix
+
+#closer to 1 = greater the correlation
+
 ```
 **Notes:**
 
@@ -80,7 +89,7 @@ laptop_data %>%
 
 ```{r investigating laptop types}
 
-#in this chunk I aim to gain more insight on the characteristics of the different laptop types to indicate if the existence of certain variables increase the likelihood of what laptop type the device is
+#in this chunk I want to gain more insight on the characteristics of the different laptop types to indicate if the existence of certain variables increase the likelihood of what laptop type the device is
 
 laptop_data %>%
   count(TypeName)
@@ -96,16 +105,15 @@ avg_stats <- laptop_data %>%
     Avg_HDD = mean(HDD, na.rm = TRUE),
     Avg_SSD = mean(SSD, na.rm = TRUE)
   )
-
 print(avg_stats)
 
 avg_stats_long <- avg_stats %>%
   pivot_longer(cols = starts_with("Avg_"), names_to = "Variable", values_to = "Value")
 
-#Creating a grouped bar chart
-ggplot(avg_stats_long, aes(x = TypeName, y = Value, fill = Variable)) +
+#Creating a bunch of bar charts
+ggplot(avg_stats_long, aes(x = TypeName, y = Value, fill = TypeName)) +
   geom_bar(stat = "identity", position = position_dodge()) +
-  theme_minimal() +
+  facet_wrap(~Variable, scales = "free_y") +
   labs(
     title = "Average Specifications by Laptop Type",
     x = "Laptop Type",
@@ -114,17 +122,95 @@ ggplot(avg_stats_long, aes(x = TypeName, y = Value, fill = Variable)) +
   ) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
-# Calculating correlations
-correlation_matrix <- laptop_data %>%
-  select_if(is.numeric) %>%
-  cor(use = "complete.obs")
 
-correlation_matrix
+#on to box plots now
+variables <- c("Ram", "Weight", "Price", "Ppi", "HDD", "SSD")
 
-#closer to 1 = greater the correlation
+avg_stats_long <- laptop_data %>%
+  select(TypeName, Ram, Weight, Price, Ppi, HDD, SSD) %>% 
+  pivot_longer(
+    cols = Ram:SSD,          
+    names_to = "Variable",   
+    values_to = "Value"      
+  )
 
+# visualising the box plots
+ggplot(avg_stats_long, aes(x = TypeName, y = Value, fill = Variable)) +
+  geom_boxplot() +
+  facet_wrap(~Variable, scales = "free_y") +
+  theme_minimal() +
+  labs(
+    title = "Specifications by Laptop Type",
+    x = "Laptop Type",
+    y = "Value",
+    fill = "Specification"
+  ) +
+  theme(axis.text.x = element_text(angle = 90)) 
 
 ```
+<h3>Discoveries:</h3>
+
+**2-in-1 Convertible**
+
+•	<u>Specifications:</u> Moderate specifications across all categories.
+
+•	<u>HDD & SSD: </u> Limited HDD capacity, but average SSD storage.
+
+•	<u>Weight:</u> Lightweight, making it portable.
+
+•	<u>Price:</u> Mid-range pricing compared to other categories.
+
+•	<u>Usage: </u> Suitable for users prioritizing portability and versatility without requiring high-end performance.
+
+**Gaming**
+
+•	<u>Specifications:</u> High RAM and large HDD capacity.
+
+•	<u>Price:</u> On the higher end.
+
+•	<u>Weight: </u> Among the heaviest laptops due to extensive components.
+
+•	<u>Usage: </u>Ideal for gamers or users needing high processing power for tasks eg 3D modeling or video editing.
+
+**Netbook**
+
+•	<u>Specifications: </u> Minimal specifications, including very small SSDs, RAM, and display resolution (PPI).
+
+•	<u>Price: </u> Budget-friendly, making it the cheapest among categories.
+
+•	<u>Weight: </u> Very lightweight and portable.
+
+•	<u>Usage: </u> Suitable for basic tasks such as web browsing and document editing.
+
+**Notebook**
+
+•	<u>Specifications:</u> Balanced features, with moderate HDD, SSD, and RAM capacity.
+
+•	<u>Price:</u> Mid-range, providing value for general-purpose users.
+
+•	<u>Weight:</u> Medium weight.
+
+•	<u>Usage:</u> Designed for students and professionals seeking an all-purpose laptop.
+
+**Ultrabook**
+
+•	<u>Specifications: </u>Higher SSD storage, average PPI, and lightweight build.
+
+•	<u>Price: </u>Premium-priced due to sleek design and portability.
+
+•	<u>Weight: </u>One of the lightest laptop types.
+
+•	<u>Usage: </u>Best for business professionals who value portability and premium build quality.
+
+**Workstation**
+
+•	<u>Specifications:</u> High performance, featuring maximum SSD storage and high RAM.
+
+•	<u>Price:</u> The most expensive category due to professional-grade hardware.
+
+•	<u>Weight:</u> Heavy, reflecting the high-end components.
+
+•	<u>Usage:</u> Suitable for heavy workloads, such as software development, simulations, and engineering tasks.
 
 
 ```{r test-scatter-plot}
