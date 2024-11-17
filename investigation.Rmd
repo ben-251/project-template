@@ -24,6 +24,7 @@ library(tidymodels)
 laptop_data <- read_csv("data/laptop_data_cleaned.csv")
 ```
 
+<h3> Data Cleaning and that </h3> 
 
 ```{r creating storage_type column - Jamie}
 laptop_data <- laptop_data%>% 
@@ -36,9 +37,84 @@ storage_type = case_when(
 
 ```
 
+```{r adam}
+laptop_data_untidy <- read.csv("data/laptop_data.csv")
+laptop_data_untidy <- laptop_data_untidy%>%
+  mutate(Ram = parse_number(Ram))
+laptop_data_untidy <- laptop_data_untidy%>%
+  mutate(Weight = parse_number(Weight))
+laptop_data_untidy <- laptop_data_untidy%>%
+  mutate(Second_Price = Price)
+laptop_data_filtered <- laptop_data_untidy [-1192, ]
+laptop_data_filtered <- laptop_data_filtered[1:1273, ]
+
+#check
+first_diff <- which(!(laptop_data$Company == laptop_data_filtered$Company & laptop_data$TypeName == laptop_data_filtered$TypeName & laptop_data$Ram == laptop_data_filtered$Ram ))
+second_diff <- all(abs(laptop_data$Weight - laptop_data_filtered$Weight) < .Machine$double.eps^0.5)
+
+##view(select(laptop_data_filtered, Ram, Weight, Company, TypeName))
+##view(select(laptop_data, Ram, Weight, Company, TypeName))
+##print(first_diff)
+##print(second_diff)
+
+laptop_data_merged <- cbind(laptop_data, select(laptop_data_filtered, Second_Price, Inches, ScreenResolution, Cpu, Gpu, Memory)) 
+
+```
+
+```{r creating storage_capacity column - Jamie}
+
+laptop_data_tidy <- laptop_data_merged %>%
+  mutate(,
+         storage_capacity = HDD + SSD
+         )
+```
+
+```{r filtering out laptops with 0 storage - Jamie}
+
+laptop_data_tidy <- laptop_data_tidy%>%
+  filter(,storage_capacity != 0)
+#From the work Adams done, it looks like when storage_capacity = 0 that often that these laptops do have storage but its just like flash storage and I don't know if we should just get rid or them or not but thought I'd at least say x.
+```
+
+```{r renaming price to logprice  - Jamie}
+
+laptop_data_tidy <-laptop_data_tidy %>%
+  rename(,log_price_rupees = Price)
+
+#only needs ran once as i overwrite the old file 
+
+
+```
+
+```{r calculating price in pounds  - Jamie}
+
+laptop_data_tidy <-laptop_data_tidy %>%
+  mutate(
+        log_price = log(round(exp(log_price_rupees) * 0.0094 , digits =2)),
+        Price = round(exp(log_price),digits = 2)
+        
+         )
+
+#calculating log price in gbp and price in gbp,
+  
+laptop_data_tidy <-laptop_data_tidy%>%
+  select(-log_price_rupees)
+
+#getting rid of log price rupees cos we aint using it
+
+
+#chunk only needs to be ran once as it overwrites the old file 
+
+laptop_data_final <- laptop_data_tidy
+
+
+```
+
+<h3> Data Visualisation and exploring  </h3> 
+
 =======
 ```{r exploratory data analysis}
-laptop_data %>%
+laptop_data_final %>%
   summarise(across(everything(), ~sum(is.na(.))))
 #there are no NA values
 
@@ -221,6 +297,10 @@ laptop_data %>%
 
 ```
 this looks promising for looking at models/best fits
+==================
+
+<h3> Modelling </h3> 
+
 ```{r best-fit}
 price_fit <- linear_reg() %>%
   set_engine("lm") %>%
@@ -230,78 +310,6 @@ tidy(price_fit)
 
 So P = 10.1 + 0.175W+0.00222S
 
-
-```{r adam}
-laptop_data_untidy <- read.csv("data/laptop_data.csv")
-laptop_data_untidy <- laptop_data_untidy%>%
-  mutate(Ram = parse_number(Ram))
-laptop_data_untidy <- laptop_data_untidy%>%
-  mutate(Weight = parse_number(Weight))
-laptop_data_untidy <- laptop_data_untidy%>%
-  mutate(Second_Price = Price)
-laptop_data_filtered <- laptop_data_untidy [-1192, ]
-laptop_data_filtered <- laptop_data_filtered[1:1273, ]
-
-#check
-first_diff <- which(!(laptop_data$Company == laptop_data_filtered$Company & laptop_data$TypeName == laptop_data_filtered$TypeName & laptop_data$Ram == laptop_data_filtered$Ram ))
-second_diff <- all(abs(laptop_data$Weight - laptop_data_filtered$Weight) < .Machine$double.eps^0.5)
-
-##view(select(laptop_data_filtered, Ram, Weight, Company, TypeName))
-##view(select(laptop_data, Ram, Weight, Company, TypeName))
-##print(first_diff)
-##print(second_diff)
-
-laptop_data_merged <- cbind(laptop_data, select(laptop_data_filtered, Second_Price, Inches, ScreenResolution, Cpu, Gpu, Memory)) 
-
-```
-
-
-```{r creating storage_capacity column - Jamie}
-
-laptop_data_tidy <- laptop_data_merged %>%
-  mutate(,
-         storage_capacity = HDD + SSD
-         )
-```
-
-```{r filtering out laptops with 0 storage - Jamie}
-
-laptop_data_tidy <- laptop_data_tidy%>%
-  filter(,storage_capacity != 0)
-#From the work Adams done, it looks like when storage_capacity = 0 that often that these laptops do have storage but its just like flash storage and I don't know if we should just get rid or them or not but thought I'd at least say x.
-```
-
-```{r renaming price to logprice  - Jamie}
-
-#laptop_data_tidy <-laptop_data_tidy %>%
-  #rename(,log_price_rupees = log_price_rupees)
-
-#only needs ran once as i overwrite the old file 
-
-
-```
-
-```{r calculating price in pounds  - Jamie}
-
-#laptop_data_tidy <-laptop_data_tidy %>%
- # mutate(
-        #log_price_gbp = log(round(exp(log_price_rupees) * 0.0094 , digits =2)),
-        #price = round(exp(log_price_gbp),digits = 2)
-        
-        # )
-
-#calculating log price in gbp and price in gbp,
-  
-#laptop_data_tidy <-laptop_data_tidy%>%
-  #select(-log_price_rupees)
-
-#getting rid of log price rupees cos we aint using it
-
-
-#chunk only needs to be ran once as it overwrites the old file 
-
-
-```
 
 
 
