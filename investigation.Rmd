@@ -276,12 +276,14 @@ ggplot(avg_stats_long, aes(x = TypeName, y = Value, fill = Variable)) +
 
 
 ```{r test-scatter-plot}
-laptop_data %>%
+laptop_data_final %>%
   ggplot(mapping = aes(x=Weight,y=Price, color=factor(TypeName))) +
   geom_point() +
   geom_smooth(aes(group = 1), method = "lm")
 
 ```
+
+
 this looks promising for looking at models/best fits
 ==================
 
