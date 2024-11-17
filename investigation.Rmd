@@ -63,14 +63,6 @@ laptop_data %>%
   ) %>%
   pivot_wider(names_from = Variable, values_from = Value)
 
-correlation_matrix <- laptop_data %>%
-  select_if(is.numeric) %>%
-  cor(use = "complete.obs")
-
-correlation_matrix
-
-#closer to 1 = greater the correlation
-
 ```
 **Notes:**
 
@@ -85,6 +77,54 @@ correlation_matrix
 - SSD has a strong positive correlation with Price, indicating that larger SSD storage is linked to higher prices.
 
 - HDD has a weak negative correlation with Price, implying that larger HDD storage may result in slightly lower prices.
+
+```{r investigating laptop types}
+
+#in this chunk I aim to gain more insight on the characteristics of the different laptop types to indicate if the existence of certain variables increase the likelihood of what laptop type the device is
+
+laptop_data %>%
+  count(TypeName)
+
+#Calculating the average values for each laptop type
+avg_stats <- laptop_data %>%
+  group_by(TypeName) %>%
+  summarise(
+    Avg_Ram = mean(Ram, na.rm = TRUE),
+    Avg_Weight = mean(Weight, na.rm = TRUE),
+    Avg_Price = mean(Price, na.rm = TRUE),
+    Avg_Ppi = mean(Ppi, na.rm = TRUE),
+    Avg_HDD = mean(HDD, na.rm = TRUE),
+    Avg_SSD = mean(SSD, na.rm = TRUE)
+  )
+
+print(avg_stats)
+
+avg_stats_long <- avg_stats %>%
+  pivot_longer(cols = starts_with("Avg_"), names_to = "Variable", values_to = "Value")
+
+#Creating a grouped bar chart
+ggplot(avg_stats_long, aes(x = TypeName, y = Value, fill = Variable)) +
+  geom_bar(stat = "identity", position = position_dodge()) +
+  theme_minimal() +
+  labs(
+    title = "Average Specifications by Laptop Type",
+    x = "Laptop Type",
+    y = "Average Value",
+    fill = "Variable"
+  ) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+# Calculating correlations
+correlation_matrix <- laptop_data %>%
+  select_if(is.numeric) %>%
+  cor(use = "complete.obs")
+
+correlation_matrix
+
+#closer to 1 = greater the correlation
+
+
+```
 
 
 ```{r test-scatter-plot}
