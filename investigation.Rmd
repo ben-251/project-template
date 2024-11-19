@@ -93,6 +93,11 @@ laptop_data_final <- laptop_data_tidy
 
 ```
 
+```{r write-data}
+
+write_csv(laptop_data_final, "data/laptop_data_final.csv")
+```
+
 <h3> Data Visualisation and exploring  </h3> 
 
 =======
