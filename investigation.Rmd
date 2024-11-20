@@ -446,6 +446,71 @@ price_fit <- linear_reg() %>%
 tidy(price_fit)
 ```
 
+```{r model-with-all-variables}
+
+#On the lecture slides it says you really only wanna use 2 predictors per model 
+#I'm gonna go for Ram first as it has the highest correlation.
+
+set.seed(26)
+laptop_split <- initial_split(laptop_data_final)
+train_data <- training(laptop_split)
+test_data  <- testing(laptop_split)
+
+price_mod_1 <- linear_reg() %>%
+  set_engine("lm")
+
+price_rec_1 <- recipe(Price ~ Ram, data = train_data)%>%
+  step_dummy(all_nominal(), -all_outcomes())%>%
+  step_zv(all_predictors())
+
+  
+price_wflow_1 <- workflow() %>%
+  add_recipe(price_rec_1)%>%
+  add_model(price_mod_1)
+
+price_fit_1 <- price_wflow_1 %>% 
+  fit(data = train_data)
+
+tidy(price_fit_1)
+
+laptop_test_pred_1 <- predict(price_fit_1,test_data) %>%
+  bind_cols(test_data %>% select(Price))
+
+rsq(laptop_test_pred_1, truth = Price, estimate = .pred, adj = TRUE)
+rmse(laptop_test_pred_1, truth = Price, estimate = .pred)
+
+
+#First Model is pretty terrible lol, I'm gonna add SSD
+
+price_mod_2 <- linear_reg() %>%
+  set_engine("lm")
+
+price_rec_2 <- recipe(Price ~ Ram + SSD , data = train_data)%>%
+  step_dummy(all_nominal(), -all_outcomes())%>%
+  step_zv(all_predictors())
+
+  
+price_wflow_2 <- workflow() %>%
+  add_recipe(price_rec_2)%>%
+  add_model(price_mod_2)
+
+price_fit_2 <- price_wflow_2 %>% 
+  fit(data = train_data)
+
+tidy(price_fit_1)
+
+laptop_test_pred_2 <- predict(price_fit_2,test_data) %>%
+  bind_cols(test_data %>% select(Price))
+
+rsq(laptop_test_pred_2, truth = Price, estimate = .pred, adj = TRUE)
+rmse(laptop_test_pred_2, truth = Price, estimate = .pred)
+
+# A little bit better, predictions are off by like 200 pounds
+
+```
+
+
+
 So P = 10.1 + 0.175W+0.00222S
 
 
