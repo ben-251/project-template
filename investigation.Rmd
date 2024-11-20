@@ -320,7 +320,7 @@ laptop_data_final %>%
     title = "RAM against Price",
     x = "RAM",
     y = "Price",
-    color = "Company"
+    color = "GPU brand"
   )
 
 laptop_data_final %>%
