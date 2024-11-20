@@ -31,7 +31,7 @@ laptop_data <- laptop_data%>%
   mutate(, 
 storage_type = case_when(
     HDD == 0 ~ "ssd",
-    SSD == 0 ~ "hss",
+    SSD == 0 ~ "hdd",
     .default = "both"
   ))
 
@@ -374,6 +374,67 @@ Most of these have no linear relationship with price but in terms of numerical v
 
 
 this looks promising for looking at models/best fits
+```{r x v price by company}
+laptop_data_company <- laptop_data_final%>%
+  filter(Company == "Acer" | Company == "Asus" | Company == "Dell" | Company == "HP"| Company == "Lenovo")%>%
+  group_by(Company)
+
+laptop_data_final <- laptop_data_final%>%
+  mutate(GHz = str_extract(Cpu, "\\d+(\\.\\d+)?(?=GHz)"))
+
+laptop_data_final %>%
+  ggplot(mapping = aes(x=storage_capacity,y=Price,color = storage_type)) +
+  geom_point() +
+  geom_smooth(, method = "lm", )+
+  theme_minimal() +
+  labs(
+    title = "Storage against Price",
+    x = "Inches",
+    y = "Price",
+  )
+
+laptop_data_company %>%
+  ggplot(mapping = aes(x=Ram,y=Price, color=Company)) +
+  geom_smooth(se = FALSE, method = "lm")+
+  theme_minimal() +
+  labs(
+    title = "RAM against Price",
+    x = "RAM",
+    y = "Price",
+    color = "Company"
+  )
+
+laptop_data_company %>%
+  ggplot(mapping = aes(x=Weight,y=Price, color=Company)) +
+  geom_smooth(se = FALSE, method = "lm")+
+  theme_minimal() +
+  labs(
+    title = "Weight against Price",
+    x = "Weight",
+    y = "Price",
+  )
+
+laptop_data_company %>%
+  ggplot(mapping = aes(x=Ppi,y=Price, color=Company)) +
+  geom_smooth(se = FALSE, method = "lm")+
+  theme_minimal() +
+  labs(
+    title = "Pixels per Inches against Price",
+    x = "Pixels per Inches",
+    y = "SPrice",
+  )
+
+laptop_data_company %>%
+  ggplot(mapping = aes(x=Inches,y=Price, color=Company)) +
+  geom_smooth(se = FALSE, method = "lm")+
+  theme_minimal() +
+  labs(
+    title = "Inches against Price",
+    x = "Inches",
+    y = "Price",
+  )
+
+```
 ==================
 
 <h3> Modelling </h3> 
