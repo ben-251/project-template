@@ -89,7 +89,11 @@ laptop_data_tidy <-laptop_data_tidy %>%
 
 
 laptop_data_final <- laptop_data_tidy
+```
 
+```{r Adding GHz as a column}
+laptop_data_final <- laptop_data_final%>%
+  mutate(GHz = as.numeric(str_extract(Cpu, "\\d+(\\.\\d+)?(?=GHz)")))
 
 ```
 
@@ -107,7 +111,7 @@ laptop_data_final %>%
 #there are no NA values
 
 laptop_data_final %>%
-  select(Ram, Weight, Price, Ppi, HDD, SSD,storage_capacity,Inches,log_price) %>%
+  select(Ram, Weight, Price, Ppi, HDD, SSD,storage_capacity,Inches,log_price,GHz) %>%
   summarise(
     across(
       .cols = everything(),  
@@ -171,6 +175,7 @@ avg_stats <- laptop_data_final %>%
     Avg_log_price = mean(log_price, na.rm = TRUE),
     Avg_Inches = mean(Inches, na.rm = TRUE),
     Avg_Storage_Capacity = mean(storage_capacity, na.rm = TRUE),
+    Avg_GHz = mean(GHz, na.rm = TRUE),
   )
 print(avg_stats)
 
@@ -191,12 +196,12 @@ ggplot(avg_stats_long, aes(x = TypeName, y = Value, fill = TypeName)) +
 
 
 #on to box plots now
-variables <- c("Ram", "Weight", "Price", "Ppi", "HDD", "SSD","Log Price","Storage Capacity","Inches")
+variables <- c("Ram", "Weight", "Price", "Ppi", "HDD", "SSD","Log Price","Storage Capacity","Inches","GHz")
 
 avg_stats_long <- laptop_data_final %>%
-  select(TypeName, Ram, Weight, Price, Ppi, HDD, SSD, log_price, storage_capacity, Inches) %>% 
+  select(TypeName, Ram, Weight, Price, Ppi, HDD, SSD, log_price, storage_capacity, Inches,GHz) %>% 
   pivot_longer(
-    cols = Ram:Inches,          
+    cols = Ram:GHz,          
     names_to = "Variable",   
     values_to = "Value"      
   )
@@ -367,20 +372,46 @@ laptop_data_final %>%
     y = "Price",
   )
 
+laptop_data_final %>%
+  ggplot(mapping = aes(x=GHz,y=Price,)) +
+  geom_point() +
+  geom_smooth(, method = "lm", )+
+  theme_minimal() +
+  labs(
+    title = "Processor Speed  against Price",
+    x = "Processor Speed (GHz)",
+    y = "Price",
+  )
+
+
 ```
 
 Most of these have no linear relationship with price but in terms of numerical variables, RAM or Ppi is probably the best fit
 (I couldn't figure out how to get these into a single plot so I did them all individually-Jamie)
 
+```{r Bar-Charts}
+
+averages_TypeName <-laptop_data_final %>%
+  group_by(TypeName) %>%
+  summarise(across(where(is.numeric), ~ mean(.x, na.rm = TRUE)))
+
+        
+#averages_TypeName %>%
+  #ggplot(mapping = aes(x=TypeName,y=Price,)) +
+  #geom_bar(stat = identity) +
+  #theme_minimal() +
+  #labs(
+    #title = "The average price of each type of Laptop",
+    #x = "Type of Laptop",
+    #y = "Price",
+  #)
+```
 
 this looks promising for looking at models/best fits
 ```{r x v price by company}
 laptop_data_company <- laptop_data_final%>%
   filter(Company == "Acer" | Company == "Asus" | Company == "Dell" | Company == "HP"| Company == "Lenovo")%>%
   group_by(Company)
-
-laptop_data_final <- laptop_data_final%>%
-  mutate(GHz = str_extract(Cpu, "\\d+(\\.\\d+)?(?=GHz)"))
 
 laptop_data_final %>%
   ggplot(mapping = aes(x=storage_capacity,y=Price,color = storage_type)) +
@@ -424,17 +455,11 @@ laptop_data_company %>%
     y = "SPrice",
   )
 
-laptop_data_company %>%
-  ggplot(mapping = aes(x=Inches,y=Price, color=Company)) +
-  geom_smooth(se = FALSE, method = "lm")+
-  theme_minimal() +
-  labs(
-    title = "Inches against Price",
-    x = "Inches",
-    y = "Price",
-  )
+
 
 ```
+
+
 ==================
 
 <h3> Modelling </h3> 
@@ -448,8 +473,9 @@ tidy(price_fit)
 
 ```{r model-with-all-variables}
 
-#On the lecture slides it says you really only wanna use 2 predictors per model 
+#On the lecture slides it says you really only wanna use 2 numerical predictors per model 
 #I'm gonna go for Ram first as it has the highest correlation.
+# Also ur meant to save the testing data for one or two models at the end 
 
 set.seed(26)
 laptop_split <- initial_split(laptop_data_final)
@@ -473,14 +499,14 @@ price_fit_1 <- price_wflow_1 %>%
 
 tidy(price_fit_1)
 
-laptop_test_pred_1 <- predict(price_fit_1,test_data) %>%
-  bind_cols(test_data %>% select(Price))
+laptop_test_pred_1 <- predict(price_fit_1,train_data) %>%
+  bind_cols(train_data %>% select(Price))
 
 rsq(laptop_test_pred_1, truth = Price, estimate = .pred, adj = TRUE)
 rmse(laptop_test_pred_1, truth = Price, estimate = .pred)
 
 
-#First Model is pretty terrible lol, I'm gonna add SSD
+#First Model is pretty terrible lol, predictions are off by  238 pounds (RMSE) and adjR^2 is 0.534 I'm gonna add SSD
 
 price_mod_2 <- linear_reg() %>%
   set_engine("lm")
@@ -499,13 +525,14 @@ price_fit_2 <- price_wflow_2 %>%
 
 tidy(price_fit_1)
 
-laptop_test_pred_2 <- predict(price_fit_2,test_data) %>%
-  bind_cols(test_data %>% select(Price))
+laptop_test_pred_2 <- predict(price_fit_2,train_data) %>%
+  bind_cols(train_data %>% select(Price))
 
 rsq(laptop_test_pred_2, truth = Price, estimate = .pred, adj = TRUE)
 rmse(laptop_test_pred_2, truth = Price, estimate = .pred)
 
-# A little bit better, predictions are off by like 200 pounds
+# A little bit better, predictions are off by  216 pounds (RMSE) and adjR^2 is 0.616
+
 
 ```
 
