@@ -587,7 +587,7 @@ laptop_split <- initial_split(laptop_data_final)
 train_data <- training(laptop_split)
 test_data  <- testing(laptop_split)
 
-price_mod_1 <- linear_reg() %>%
+price_mod <- linear_reg() %>%
   set_engine("lm")
 
 price_rec_1 <- recipe(Price ~ Ram, data = train_data)%>%
@@ -597,12 +597,10 @@ price_rec_1 <- recipe(Price ~ Ram, data = train_data)%>%
   
 price_wflow_1 <- workflow() %>%
   add_recipe(price_rec_1)%>%
-  add_model(price_mod_1)
+  add_model(price_mod)
 
 price_fit_1 <- price_wflow_1 %>% 
   fit(data = train_data)
-
-tidy(price_fit_1)
 
 laptop_test_pred_1 <- predict(price_fit_1,train_data) %>%
   bind_cols(train_data %>% select(Price))
@@ -623,12 +621,10 @@ price_rec_2 <- recipe(Price ~ Ram + SSD , data = train_data)%>%
   
 price_wflow_2 <- workflow() %>%
   add_recipe(price_rec_2)%>%
-  add_model(price_mod_2)
+  add_model(price_mod)
 
 price_fit_2 <- price_wflow_2 %>% 
   fit(data = train_data)
-
-tidy(price_fit_1)
 
 laptop_test_pred_2 <- predict(price_fit_2,train_data) %>%
   bind_cols(train_data %>% select(Price))
@@ -638,12 +634,181 @@ rmse(laptop_test_pred_2, truth = Price, estimate = .pred)
 
 # A little bit better, predictions are off by  216 pounds (RMSE) and adjR^2 is 0.616
 
+#I'm going to try to add TypeName as  it seems that has an effect according to barplots
+
+
+price_rec_3 <- recipe(Price ~ Ram + SSD + TypeName , data = train_data)%>%
+  step_dummy(all_nominal(), -all_outcomes())%>%
+  step_zv(all_predictors())
+
+  
+price_wflow_3 <- workflow() %>%
+  add_recipe(price_rec_3)%>%
+  add_model(price_mod)
+
+price_fit_3 <- price_wflow_3 %>% 
+  fit(data = train_data)
+
+
+laptop_test_pred_3 <- predict(price_fit_3,train_data) %>%
+  bind_cols(train_data %>% select(Price))
+
+rsq(laptop_test_pred_3, truth = Price, estimate = .pred, adj = TRUE)
+rmse(laptop_test_pred_3, truth = Price, estimate = .pred)
+
+#Better, adjR^2 is now 0.696 and RMSE is down to 192
+
+#Adding Touch Screen
+
+price_rec_4 <- recipe(Price ~ Ram + SSD + TypeName + TouchScreen , data = train_data)%>%
+  step_dummy(all_nominal(), -all_outcomes())%>%
+  step_zv(all_predictors())
+
+  
+price_wflow_4 <- workflow() %>%
+  add_recipe(price_rec_4)%>%
+  add_model(price_mod)
+
+price_fit_4 <- price_wflow_4 %>% 
+  fit(data = train_data)
+
+laptop_test_pred_4 <- predict(price_fit_4,train_data) %>%
+  bind_cols(train_data %>% select(Price))
+
+rsq(laptop_test_pred_4, truth = Price, estimate = .pred, adj = TRUE)
+rmse(laptop_test_pred_4, truth = Price, estimate = .pred)
+
+#RMSE is 192 and rsq is 0.696, no effect, get rid
+
+price_rec_5 <- recipe(Price ~ Ram + SSD + TypeName + Os , data = train_data)%>%
+  step_dummy(all_nominal(), -all_outcomes())%>%
+  step_zv(all_predictors())
+
+  
+price_wflow_5 <- workflow() %>%
+  add_recipe(price_rec_5)%>%
+  add_model(price_mod)
+
+price_fit_5 <- price_wflow_5 %>% 
+  fit(data = train_data)
+
+laptop_test_pred_5 <- predict(price_fit_5,train_data) %>%
+  bind_cols(train_data %>% select(Price))
+
+rsq(laptop_test_pred_5, truth = Price, estimate = .pred, adj = TRUE)
+rmse(laptop_test_pred_5, truth = Price, estimate = .pred)
+
+
+#Increase to 0.706 and down to 189 pounds out, keep Os
+
+price_rec_6 <- recipe(Price ~ Ram + SSD + TypeName + Os + Ips , data = train_data)%>%
+  step_dummy(all_nominal(), -all_outcomes())%>%
+  step_zv(all_predictors())
+
+  
+price_wflow_6 <- workflow() %>%
+  add_recipe(price_rec_6)%>%
+  add_model(price_mod)
+
+price_fit_6 <- price_wflow_6 %>% 
+  fit(data = train_data)
+
+laptop_test_pred_6 <- predict(price_fit_6,train_data) %>%
+  bind_cols(train_data %>% select(Price))
+
+rsq(laptop_test_pred_6, truth = Price, estimate = .pred, adj = TRUE)
+rmse(laptop_test_pred_6, truth = Price, estimate = .pred)
+
+# Ips has no effect, get rid
+
+price_rec_7 <- recipe(Price ~ Ram + SSD + TypeName + Os + Cpu_brand , data = train_data)%>%
+  step_dummy(all_nominal(), -all_outcomes())%>%
+  step_zv(all_predictors())
+
+  
+price_wflow_7 <- workflow() %>%
+  add_recipe(price_rec_7)%>%
+  add_model(price_mod)
+
+price_fit_7 <- price_wflow_7 %>% 
+  fit(data = train_data)
+
+laptop_test_pred_7 <- predict(price_fit_7,train_data) %>%
+  bind_cols(train_data %>% select(Price))
+
+rsq(laptop_test_pred_7, truth = Price, estimate = .pred, adj = TRUE)
+rmse(laptop_test_pred_7, truth = Price, estimate = .pred)
+
+#CPU brand brings it up to 0.718 and brings rmse to 186
+
+
+price_rec_8 <- recipe(Price ~ Ram + SSD + TypeName + Os + Cpu_brand+ Gpu_brand , data = train_data)%>%
+  step_dummy(all_nominal(), -all_outcomes())%>%
+  step_zv(all_predictors())
+
+price_wflow_8 <- workflow() %>%
+  add_recipe(price_rec_8)%>%
+  add_model(price_mod)
+
+price_fit_8 <- price_wflow_8 %>% 
+  fit(data = train_data)
+
+laptop_test_pred_8 <- predict(price_fit_8,train_data) %>%
+  bind_cols(train_data %>% select(Price))
+
+rsq(laptop_test_pred_8, truth = Price, estimate = .pred, adj = TRUE)
+rmse(laptop_test_pred_8, truth = Price, estimate = .pred)
+
+#RMSE at 185 and RsqAdj at 0.72
+
+price_rec_9 <- recipe(Price ~ Ram + SSD + TypeName + Os + Cpu_brand+ Gpu_brand + storage_type , data = train_data)%>%
+  step_dummy(all_nominal(), -all_outcomes())%>%
+  step_zv(all_predictors())
+
+price_wflow_9 <- workflow() %>%
+  add_recipe(price_rec_8)%>%
+  add_model(price_mod)
+
+price_fit_9 <- price_wflow_9 %>% 
+  fit(data = train_data)
+
+laptop_test_pred_9 <- predict(price_fit_9,train_data) %>%
+  bind_cols(train_data %>% select(Price))
+
+rsq(laptop_test_pred_9, truth = Price, estimate = .pred, adj = TRUE)
+rmse(laptop_test_pred_9, truth = Price, estimate = .pred)
+
+# adjRsq and rmse no change, get rid
+
+price_rec_10 <- recipe(Price ~ Ram + SSD + TypeName + Os + Cpu_brand+ Gpu_brand + Company , data = train_data)%>%
+  step_dummy(all_nominal(), -all_outcomes())%>%
+  step_zv(all_predictors())
+
+price_wflow_10 <- workflow() %>%
+  add_recipe(price_rec_10)%>%
+  add_model(price_mod)
+
+price_fit_10 <- price_wflow_10 %>% 
+  fit(data = train_data)
+
+laptop_test_pred_10 <- predict(price_fit_10,train_data) %>%
+  bind_cols(train_data %>% select(Price))
+
+rsq(laptop_test_pred_10, truth = Price, estimate = .pred, adj = TRUE)
+rmse(laptop_test_pred_10, truth = Price, estimate = .pred)
+
+#increase to 0.747 and rmse of 176
+
+price_fit_10
+
 
 ```
 
+Model 10 and 8 are two best models according to RMSE and adjusted R squared values, lowkey company has loads of different possibilities so it might be difficult to interpret. 
 
 
-So P = 10.1 + 0.175W+0.00222S
+
+
 
 
 

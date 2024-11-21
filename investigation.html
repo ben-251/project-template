@@ -964,7 +964,7 @@ laptop_split &lt;- initial_split(laptop_data_final)
 train_data &lt;- training(laptop_split)
 test_data  &lt;- testing(laptop_split)
 
-price_mod_1 &lt;- linear_reg() %&gt;%
+price_mod &lt;- linear_reg() %&gt;%
   set_engine(&quot;lm&quot;)
 
 price_rec_1 &lt;- recipe(Price ~ Ram, data = train_data)%&gt;%
@@ -974,18 +974,12 @@ price_rec_1 &lt;- recipe(Price ~ Ram, data = train_data)%&gt;%
   
 price_wflow_1 &lt;- workflow() %&gt;%
   add_recipe(price_rec_1)%&gt;%
-  add_model(price_mod_1)
+  add_model(price_mod)
 
 price_fit_1 &lt;- price_wflow_1 %&gt;% 
   fit(data = train_data)
 
-tidy(price_fit_1)</code></pre>
-<pre><code>## # A tibble: 2 × 5
-##   term        estimate std.error statistic   p.value
-##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
-## 1 (Intercept)    158.      15.6       10.1 6.55e- 23
-## 2 Ram             48.9      1.53      32.0 1.13e-150</code></pre>
-<pre class="r"><code>laptop_test_pred_1 &lt;- predict(price_fit_1,train_data) %&gt;%
+laptop_test_pred_1 &lt;- predict(price_fit_1,train_data) %&gt;%
   bind_cols(train_data %&gt;% select(Price))
 
 rsq(laptop_test_pred_1, truth = Price, estimate = .pred, adj = TRUE)</code></pre>
@@ -1010,18 +1004,12 @@ price_rec_2 &lt;- recipe(Price ~ Ram + SSD , data = train_data)%&gt;%
   
 price_wflow_2 &lt;- workflow() %&gt;%
   add_recipe(price_rec_2)%&gt;%
-  add_model(price_mod_2)
+  add_model(price_mod)
 
 price_fit_2 &lt;- price_wflow_2 %&gt;% 
   fit(data = train_data)
 
-tidy(price_fit_1)</code></pre>
-<pre><code>## # A tibble: 2 × 5
-##   term        estimate std.error statistic   p.value
-##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
-## 1 (Intercept)    158.      15.6       10.1 6.55e- 23
-## 2 Ram             48.9      1.53      32.0 1.13e-150</code></pre>
-<pre class="r"><code>laptop_test_pred_2 &lt;- predict(price_fit_2,train_data) %&gt;%
+laptop_test_pred_2 &lt;- predict(price_fit_2,train_data) %&gt;%
   bind_cols(train_data %&gt;% select(Price))
 
 rsq(laptop_test_pred_2, truth = Price, estimate = .pred, adj = TRUE)</code></pre>
@@ -1034,8 +1022,282 @@ rsq(laptop_test_pred_2, truth = Price, estimate = .pred, adj = TRUE)</code></pre
 ##   .metric .estimator .estimate
 ##   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
 ## 1 rmse    standard        216.</code></pre>
-<pre class="r"><code># A little bit better, predictions are off by  216 pounds (RMSE) and adjR^2 is 0.616</code></pre>
-<p>So P = 10.1 + 0.175W+0.00222S</p>
+<pre class="r"><code># A little bit better, predictions are off by  216 pounds (RMSE) and adjR^2 is 0.616
+
+#I&#39;m going to try to add TypeName as  it seems that has an effect according to barplots
+
+
+price_rec_3 &lt;- recipe(Price ~ Ram + SSD + TypeName , data = train_data)%&gt;%
+  step_dummy(all_nominal(), -all_outcomes())%&gt;%
+  step_zv(all_predictors())
+
+  
+price_wflow_3 &lt;- workflow() %&gt;%
+  add_recipe(price_rec_3)%&gt;%
+  add_model(price_mod)
+
+price_fit_3 &lt;- price_wflow_3 %&gt;% 
+  fit(data = train_data)
+
+
+laptop_test_pred_3 &lt;- predict(price_fit_3,train_data) %&gt;%
+  bind_cols(train_data %&gt;% select(Price))
+
+rsq(laptop_test_pred_3, truth = Price, estimate = .pred, adj = TRUE)</code></pre>
+<pre><code>## # A tibble: 1 × 3
+##   .metric .estimator .estimate
+##   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+## 1 rsq     standard       0.696</code></pre>
+<pre class="r"><code>rmse(laptop_test_pred_3, truth = Price, estimate = .pred)</code></pre>
+<pre><code>## # A tibble: 1 × 3
+##   .metric .estimator .estimate
+##   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+## 1 rmse    standard        192.</code></pre>
+<pre class="r"><code>#Better, adjR^2 is now 0.696 and RMSE is down to 192
+
+#Adding Touch Screen
+
+price_rec_4 &lt;- recipe(Price ~ Ram + SSD + TypeName + TouchScreen , data = train_data)%&gt;%
+  step_dummy(all_nominal(), -all_outcomes())%&gt;%
+  step_zv(all_predictors())
+
+  
+price_wflow_4 &lt;- workflow() %&gt;%
+  add_recipe(price_rec_4)%&gt;%
+  add_model(price_mod)
+
+price_fit_4 &lt;- price_wflow_4 %&gt;% 
+  fit(data = train_data)
+
+laptop_test_pred_4 &lt;- predict(price_fit_4,train_data) %&gt;%
+  bind_cols(train_data %&gt;% select(Price))
+
+rsq(laptop_test_pred_4, truth = Price, estimate = .pred, adj = TRUE)</code></pre>
+<pre><code>## # A tibble: 1 × 3
+##   .metric .estimator .estimate
+##   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+## 1 rsq     standard       0.698</code></pre>
+<pre class="r"><code>rmse(laptop_test_pred_4, truth = Price, estimate = .pred)</code></pre>
+<pre><code>## # A tibble: 1 × 3
+##   .metric .estimator .estimate
+##   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+## 1 rmse    standard        192.</code></pre>
+<pre class="r"><code>#RMSE is 192 and rsq is 0.696, no effect, get rid
+
+price_rec_5 &lt;- recipe(Price ~ Ram + SSD + TypeName + Os , data = train_data)%&gt;%
+  step_dummy(all_nominal(), -all_outcomes())%&gt;%
+  step_zv(all_predictors())
+
+  
+price_wflow_5 &lt;- workflow() %&gt;%
+  add_recipe(price_rec_5)%&gt;%
+  add_model(price_mod)
+
+price_fit_5 &lt;- price_wflow_5 %&gt;% 
+  fit(data = train_data)
+
+laptop_test_pred_5 &lt;- predict(price_fit_5,train_data) %&gt;%
+  bind_cols(train_data %&gt;% select(Price))
+
+rsq(laptop_test_pred_5, truth = Price, estimate = .pred, adj = TRUE)</code></pre>
+<pre><code>## # A tibble: 1 × 3
+##   .metric .estimator .estimate
+##   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+## 1 rsq     standard       0.706</code></pre>
+<pre class="r"><code>rmse(laptop_test_pred_5, truth = Price, estimate = .pred)</code></pre>
+<pre><code>## # A tibble: 1 × 3
+##   .metric .estimator .estimate
+##   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+## 1 rmse    standard        189.</code></pre>
+<pre class="r"><code>#Increase to 0.706 and down to 189 pounds out, keep Os
+
+price_rec_6 &lt;- recipe(Price ~ Ram + SSD + TypeName + Os + Ips , data = train_data)%&gt;%
+  step_dummy(all_nominal(), -all_outcomes())%&gt;%
+  step_zv(all_predictors())
+
+  
+price_wflow_6 &lt;- workflow() %&gt;%
+  add_recipe(price_rec_6)%&gt;%
+  add_model(price_mod)
+
+price_fit_6 &lt;- price_wflow_6 %&gt;% 
+  fit(data = train_data)
+
+laptop_test_pred_6 &lt;- predict(price_fit_6,train_data) %&gt;%
+  bind_cols(train_data %&gt;% select(Price))
+
+rsq(laptop_test_pred_6, truth = Price, estimate = .pred, adj = TRUE)</code></pre>
+<pre><code>## # A tibble: 1 × 3
+##   .metric .estimator .estimate
+##   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+## 1 rsq     standard       0.706</code></pre>
+<pre class="r"><code>rmse(laptop_test_pred_6, truth = Price, estimate = .pred)</code></pre>
+<pre><code>## # A tibble: 1 × 3
+##   .metric .estimator .estimate
+##   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+## 1 rmse    standard        189.</code></pre>
+<pre class="r"><code># Ips has no effect, get rid
+
+price_rec_7 &lt;- recipe(Price ~ Ram + SSD + TypeName + Os + Cpu_brand , data = train_data)%&gt;%
+  step_dummy(all_nominal(), -all_outcomes())%&gt;%
+  step_zv(all_predictors())
+
+  
+price_wflow_7 &lt;- workflow() %&gt;%
+  add_recipe(price_rec_7)%&gt;%
+  add_model(price_mod)
+
+price_fit_7 &lt;- price_wflow_7 %&gt;% 
+  fit(data = train_data)
+
+laptop_test_pred_7 &lt;- predict(price_fit_7,train_data) %&gt;%
+  bind_cols(train_data %&gt;% select(Price))
+
+rsq(laptop_test_pred_7, truth = Price, estimate = .pred, adj = TRUE)</code></pre>
+<pre><code>## # A tibble: 1 × 3
+##   .metric .estimator .estimate
+##   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+## 1 rsq     standard       0.718</code></pre>
+<pre class="r"><code>rmse(laptop_test_pred_7, truth = Price, estimate = .pred)</code></pre>
+<pre><code>## # A tibble: 1 × 3
+##   .metric .estimator .estimate
+##   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+## 1 rmse    standard        186.</code></pre>
+<pre class="r"><code>#CPU brand brings it up to 0.718 and brings rmse to 186
+
+
+price_rec_8 &lt;- recipe(Price ~ Ram + SSD + TypeName + Os + Cpu_brand+ Gpu_brand , data = train_data)%&gt;%
+  step_dummy(all_nominal(), -all_outcomes())%&gt;%
+  step_zv(all_predictors())
+
+price_wflow_8 &lt;- workflow() %&gt;%
+  add_recipe(price_rec_8)%&gt;%
+  add_model(price_mod)
+
+price_fit_8 &lt;- price_wflow_8 %&gt;% 
+  fit(data = train_data)
+
+laptop_test_pred_8 &lt;- predict(price_fit_8,train_data) %&gt;%
+  bind_cols(train_data %&gt;% select(Price))
+
+rsq(laptop_test_pred_8, truth = Price, estimate = .pred, adj = TRUE)</code></pre>
+<pre><code>## # A tibble: 1 × 3
+##   .metric .estimator .estimate
+##   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+## 1 rsq     standard       0.720</code></pre>
+<pre class="r"><code>rmse(laptop_test_pred_8, truth = Price, estimate = .pred)</code></pre>
+<pre><code>## # A tibble: 1 × 3
+##   .metric .estimator .estimate
+##   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+## 1 rmse    standard        185.</code></pre>
+<pre class="r"><code>#RMSE at 185 and RsqAdj at 0.72
+
+price_rec_9 &lt;- recipe(Price ~ Ram + SSD + TypeName + Os + Cpu_brand+ Gpu_brand + storage_type , data = train_data)%&gt;%
+  step_dummy(all_nominal(), -all_outcomes())%&gt;%
+  step_zv(all_predictors())
+
+price_wflow_9 &lt;- workflow() %&gt;%
+  add_recipe(price_rec_8)%&gt;%
+  add_model(price_mod)
+
+price_fit_9 &lt;- price_wflow_9 %&gt;% 
+  fit(data = train_data)
+
+laptop_test_pred_9 &lt;- predict(price_fit_9,train_data) %&gt;%
+  bind_cols(train_data %&gt;% select(Price))
+
+rsq(laptop_test_pred_9, truth = Price, estimate = .pred, adj = TRUE)</code></pre>
+<pre><code>## # A tibble: 1 × 3
+##   .metric .estimator .estimate
+##   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+## 1 rsq     standard       0.720</code></pre>
+<pre class="r"><code>rmse(laptop_test_pred_9, truth = Price, estimate = .pred)</code></pre>
+<pre><code>## # A tibble: 1 × 3
+##   .metric .estimator .estimate
+##   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+## 1 rmse    standard        185.</code></pre>
+<pre class="r"><code># adjRsq and rmse no change, get rid
+
+price_rec_10 &lt;- recipe(Price ~ Ram + SSD + TypeName + Os + Cpu_brand+ Gpu_brand + Company , data = train_data)%&gt;%
+  step_dummy(all_nominal(), -all_outcomes())%&gt;%
+  step_zv(all_predictors())
+
+price_wflow_10 &lt;- workflow() %&gt;%
+  add_recipe(price_rec_10)%&gt;%
+  add_model(price_mod)
+
+price_fit_10 &lt;- price_wflow_10 %&gt;% 
+  fit(data = train_data)
+
+laptop_test_pred_10 &lt;- predict(price_fit_10,train_data) %&gt;%
+  bind_cols(train_data %&gt;% select(Price))</code></pre>
+<pre><code>## Warning in predict.lm(object = object$fit, newdata = new_data, type =
+## &quot;response&quot;, : prediction from rank-deficient fit; consider predict(.,
+## rankdeficient=&quot;NA&quot;)</code></pre>
+<pre class="r"><code>rsq(laptop_test_pred_10, truth = Price, estimate = .pred, adj = TRUE)</code></pre>
+<pre><code>## # A tibble: 1 × 3
+##   .metric .estimator .estimate
+##   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+## 1 rsq     standard       0.747</code></pre>
+<pre class="r"><code>rmse(laptop_test_pred_10, truth = Price, estimate = .pred)</code></pre>
+<pre><code>## # A tibble: 1 × 3
+##   .metric .estimator .estimate
+##   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+## 1 rmse    standard        176.</code></pre>
+<pre class="r"><code>#increase to 0.747 and rmse of 176
+
+price_fit_10</code></pre>
+<pre><code>## ══ Workflow [trained] ══════════════════════════════════════════════════════════
+## Preprocessor: Recipe
+## Model: linear_reg()
+## 
+## ── Preprocessor ────────────────────────────────────────────────────────────────
+## 2 Recipe Steps
+## 
+## • step_dummy()
+## • step_zv()
+## 
+## ── Model ───────────────────────────────────────────────────────────────────────
+## 
+## Call:
+## stats::lm(formula = ..y ~ ., data = data)
+## 
+## Coefficients:
+##                     (Intercept)                              Ram  
+##                        276.3961                          26.3567  
+##                             SSD                  TypeName_Gaming  
+##                          0.4779                          64.3429  
+##                TypeName_Netbook                TypeName_Notebook  
+##                         -6.9424                         -77.9709  
+##              TypeName_Ultrabook             TypeName_Workstation  
+##                         41.8173                         405.4879  
+##                       Os_Others                       Os_Windows  
+##                       -297.9163                        -190.4828  
+##         Cpu_brand_Intel.Core.i3          Cpu_brand_Intel.Core.i5  
+##                         17.6322                          79.3053  
+##         Cpu_brand_Intel.Core.i7  Cpu_brand_Other.Intel.Processor  
+##                        100.1069                          30.3014  
+##                 Gpu_brand_Intel                 Gpu_brand_Nvidia  
+##                         66.5377                          72.0682  
+##                   Company_Apple                     Company_Asus  
+##                              NA                          10.6054  
+##                    Company_Dell                  Company_Fujitsu  
+##                         72.6063                         -45.9595  
+##                  Company_Google                       Company_HP  
+##                        264.7201                          82.0060  
+##                  Company_Huawei                   Company_Lenovo  
+##                         34.8333                          53.9367  
+##                      Company_LG                 Company_Mediacom  
+##                        201.1530                         -90.6343  
+##               Company_Microsoft                      Company_MSI  
+##                        168.1174                          72.5511  
+##                   Company_Razer                  Company_Samsung  
+##                        678.4514                         114.9308  
+##                 Company_Toshiba                   Company_Xiaomi  
+##                        101.7941                          40.1533</code></pre>
+<p>Model 10 and 8 are two best models according to RMSE and adjusted R
+squared values, lowkey company has loads of different possibilities so
+it might be difficult to interpret.</p>
 
 
 
