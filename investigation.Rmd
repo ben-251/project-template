@@ -396,15 +396,90 @@ averages_TypeName <-laptop_data_final %>%
   summarise(across(where(is.numeric), ~ mean(.x, na.rm = TRUE)))
 
         
-#averages_TypeName %>%
-  #ggplot(mapping = aes(x=TypeName,y=Price,)) +
-  #geom_bar(stat = identity) +
-  #theme_minimal() +
-  #labs(
-    #title = "The average price of each type of Laptop",
-    #x = "Type of Laptop",
-    #y = "Price",
-  #)
+averages_TypeName %>%
+  ggplot(mapping = aes(x=reorder(TypeName,Price),y=Price,)) +
+  geom_bar(stat = "identity") +
+  theme_minimal() +
+  labs(
+    title = "The average price of each type of Laptop",
+    x = "Type of Laptop",
+    y = "Average Price",
+  )
+
+averages_Company <-laptop_data_final %>%
+  group_by(Company) %>%
+  summarise(across(where(is.numeric), ~ mean(.x, na.rm = TRUE)))
+
+        
+averages_Company %>%
+  ggplot(mapping = aes(x=reorder(Company,Price),y=Price,)) +
+  geom_bar(stat = "identity") +
+  theme_minimal() +
+  labs(
+    title = "The average price of each type of Laptop",
+    x = "Laptop Provider ",
+    y = "Average Price",
+  )
+
+average_TouchScreen <-laptop_data_final %>%
+  group_by(TouchScreen) %>%
+  summarise(across(where(is.numeric), ~ mean(.x, na.rm = TRUE)))
+
+        
+average_TouchScreen %>%
+  ggplot(mapping = aes(x=reorder(TouchScreen,Price),y=Price,)) +
+  geom_bar(stat = "identity") +
+  theme_minimal() +
+  labs(
+    title = "The average price of each type of Laptop",
+    x = "Touch Screen Status",
+    y = "Average Price",
+  )
+
+average_Ips <-laptop_data_final %>%
+  group_by(Ips) %>%
+  summarise(across(where(is.numeric), ~ mean(.x, na.rm = TRUE)))
+
+        
+average_Ips %>%
+  ggplot(mapping = aes(x=reorder(Ips,Price),y=Price,)) +
+  geom_bar(stat = "identity") +
+  theme_minimal() +
+  labs(
+    title = "The average price of each type of Laptop",
+    x = "Ips Status",
+    y = "Average Price",
+  )
+
+average_CPU_Brand <-laptop_data_final %>%
+  group_by(Cpu_brand) %>%
+  summarise(across(where(is.numeric), ~ mean(.x, na.rm = TRUE)))
+
+        
+average_CPU_Brand %>%
+  ggplot(mapping = aes(x=reorder(Cpu_brand,Price),y=Price,)) +
+  geom_bar(stat = "identity") +
+  theme_minimal() +
+  labs(
+    title = "The average price of a laptop based on CPU brand",
+    x = "Cpu Brand",
+    y = "Average Price",
+  )
+
+average_GPU_Brand <-laptop_data_final %>%
+  group_by(Gpu_brand) %>%
+  summarise(across(where(is.numeric), ~ mean(.x, na.rm = TRUE)))
+
+        
+average_GPU_Brand %>%
+  ggplot(mapping = aes(x=reorder(Gpu_brand,Price),y=Price,)) +
+  geom_bar(stat = "identity") +
+  theme_minimal() +
+  labs(
+    title = "The average of price of a laptop based on GPU brand",
+    x = "Gpu Brand",
+    y = "Average Price",
+  )
 ```
 
 this looks promising for looking at models/best fits
@@ -452,7 +527,7 @@ laptop_data_company %>%
   labs(
     title = "Pixels per Inches against Price",
     x = "Pixels per Inches",
-    y = "SPrice",
+    y = "Price",
   )
 
 
