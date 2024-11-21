@@ -1,5 +1,5 @@
 Start writing "data" in report
-
+Predict test data with models
 
 Key IDS sills to demonstrate in the final project: (use as an outline for the report)
 - Loading, processing and cleaning of data
