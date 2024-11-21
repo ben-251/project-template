@@ -480,6 +480,36 @@ average_GPU_Brand %>%
     x = "Gpu Brand",
     y = "Average Price",
   )
+
+average_Os <-laptop_data_final %>%
+  group_by(Os) %>%
+  summarise(across(where(is.numeric), ~ mean(.x, na.rm = TRUE)))
+
+        
+average_Os %>%
+  ggplot(mapping = aes(x=reorder(Os,Price),y=Price,)) +
+  geom_bar(stat = "identity") +
+  theme_minimal() +
+  labs(
+    title = "The average of price of a laptop based on Operating System ",
+    x = "Type of Operating System",
+    y = "Average Price",
+  )
+
+average_storage_type <-laptop_data_final %>%
+  group_by(storage_type) %>%
+  summarise(across(where(is.numeric), ~ mean(.x, na.rm = TRUE)))
+
+        
+average_storage_type %>%
+  ggplot(mapping = aes(x=reorder(storage_type,Price),y=Price,)) +
+  geom_bar(stat = "identity") +
+  theme_minimal() +
+  labs(
+    title = "The average of price of a laptop based on Operating System ",
+    x = "Type of Storage",
+    y = "Average Price",
+  )
 ```
 
 this looks promising for looking at models/best fits
