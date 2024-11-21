@@ -1,6 +1,5 @@
 Start writing "data" in report
-Start bar plot visualisations for price against categorical variables
-Start Modelling
+
 
 Key IDS sills to demonstrate in the final project: (use as an outline for the report)
 - Loading, processing and cleaning of data
