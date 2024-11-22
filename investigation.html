@@ -11,7 +11,7 @@
 
 <meta name="author" content="by The Code Crunchers: Gigi, Ben, Jamie &amp; Adam" />
 
-<meta name="date" content="2024-11-21" />
+<meta name="date" content="2024-11-22" />
 
 <title>IDS investigation worksheet - PULL BEFORE EDITING GUYS!!!</title>
 
@@ -354,7 +354,7 @@ display: none;
 EDITING GUYS!!!</h1>
 <h4 class="author">by The Code Crunchers: Gigi, Ben, Jamie &amp;
 Adam</h4>
-<h4 class="date">2024-11-21</h4>
+<h4 class="date">2024-11-22</h4>
 
 </div>
 
@@ -982,12 +982,8 @@ price_fit_1 &lt;- price_wflow_1 %&gt;%
 laptop_test_pred_1 &lt;- predict(price_fit_1,train_data) %&gt;%
   bind_cols(train_data %&gt;% select(Price))
 
-rsq(laptop_test_pred_1, truth = Price, estimate = .pred, adj = TRUE)</code></pre>
-<pre><code>## # A tibble: 1 × 3
-##   .metric .estimator .estimate
-##   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
-## 1 rsq     standard       0.534</code></pre>
-<pre class="r"><code>rmse(laptop_test_pred_1, truth = Price, estimate = .pred)</code></pre>
+
+rmse(laptop_test_pred_1, truth = Price, estimate = .pred)</code></pre>
 <pre><code>## # A tibble: 1 × 3
 ##   .metric .estimator .estimate
 ##   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
@@ -1012,12 +1008,8 @@ price_fit_2 &lt;- price_wflow_2 %&gt;%
 laptop_test_pred_2 &lt;- predict(price_fit_2,train_data) %&gt;%
   bind_cols(train_data %&gt;% select(Price))
 
-rsq(laptop_test_pred_2, truth = Price, estimate = .pred, adj = TRUE)</code></pre>
-<pre><code>## # A tibble: 1 × 3
-##   .metric .estimator .estimate
-##   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
-## 1 rsq     standard       0.616</code></pre>
-<pre class="r"><code>rmse(laptop_test_pred_2, truth = Price, estimate = .pred)</code></pre>
+
+rmse(laptop_test_pred_2, truth = Price, estimate = .pred)</code></pre>
 <pre><code>## # A tibble: 1 × 3
 ##   .metric .estimator .estimate
 ##   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
@@ -1043,12 +1035,8 @@ price_fit_3 &lt;- price_wflow_3 %&gt;%
 laptop_test_pred_3 &lt;- predict(price_fit_3,train_data) %&gt;%
   bind_cols(train_data %&gt;% select(Price))
 
-rsq(laptop_test_pred_3, truth = Price, estimate = .pred, adj = TRUE)</code></pre>
-<pre><code>## # A tibble: 1 × 3
-##   .metric .estimator .estimate
-##   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
-## 1 rsq     standard       0.696</code></pre>
-<pre class="r"><code>rmse(laptop_test_pred_3, truth = Price, estimate = .pred)</code></pre>
+
+rmse(laptop_test_pred_3, truth = Price, estimate = .pred)</code></pre>
 <pre><code>## # A tibble: 1 × 3
 ##   .metric .estimator .estimate
 ##   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
@@ -1072,12 +1060,8 @@ price_fit_4 &lt;- price_wflow_4 %&gt;%
 laptop_test_pred_4 &lt;- predict(price_fit_4,train_data) %&gt;%
   bind_cols(train_data %&gt;% select(Price))
 
-rsq(laptop_test_pred_4, truth = Price, estimate = .pred, adj = TRUE)</code></pre>
-<pre><code>## # A tibble: 1 × 3
-##   .metric .estimator .estimate
-##   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
-## 1 rsq     standard       0.698</code></pre>
-<pre class="r"><code>rmse(laptop_test_pred_4, truth = Price, estimate = .pred)</code></pre>
+
+rmse(laptop_test_pred_4, truth = Price, estimate = .pred)</code></pre>
 <pre><code>## # A tibble: 1 × 3
 ##   .metric .estimator .estimate
 ##   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
@@ -1099,12 +1083,8 @@ price_fit_5 &lt;- price_wflow_5 %&gt;%
 laptop_test_pred_5 &lt;- predict(price_fit_5,train_data) %&gt;%
   bind_cols(train_data %&gt;% select(Price))
 
-rsq(laptop_test_pred_5, truth = Price, estimate = .pred, adj = TRUE)</code></pre>
-<pre><code>## # A tibble: 1 × 3
-##   .metric .estimator .estimate
-##   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
-## 1 rsq     standard       0.706</code></pre>
-<pre class="r"><code>rmse(laptop_test_pred_5, truth = Price, estimate = .pred)</code></pre>
+
+rmse(laptop_test_pred_5, truth = Price, estimate = .pred)</code></pre>
 <pre><code>## # A tibble: 1 × 3
 ##   .metric .estimator .estimate
 ##   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
@@ -1126,12 +1106,8 @@ price_fit_6 &lt;- price_wflow_6 %&gt;%
 laptop_test_pred_6 &lt;- predict(price_fit_6,train_data) %&gt;%
   bind_cols(train_data %&gt;% select(Price))
 
-rsq(laptop_test_pred_6, truth = Price, estimate = .pred, adj = TRUE)</code></pre>
-<pre><code>## # A tibble: 1 × 3
-##   .metric .estimator .estimate
-##   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
-## 1 rsq     standard       0.706</code></pre>
-<pre class="r"><code>rmse(laptop_test_pred_6, truth = Price, estimate = .pred)</code></pre>
+
+rmse(laptop_test_pred_6, truth = Price, estimate = .pred)</code></pre>
 <pre><code>## # A tibble: 1 × 3
 ##   .metric .estimator .estimate
 ##   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
@@ -1153,12 +1129,8 @@ price_fit_7 &lt;- price_wflow_7 %&gt;%
 laptop_test_pred_7 &lt;- predict(price_fit_7,train_data) %&gt;%
   bind_cols(train_data %&gt;% select(Price))
 
-rsq(laptop_test_pred_7, truth = Price, estimate = .pred, adj = TRUE)</code></pre>
-<pre><code>## # A tibble: 1 × 3
-##   .metric .estimator .estimate
-##   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
-## 1 rsq     standard       0.718</code></pre>
-<pre class="r"><code>rmse(laptop_test_pred_7, truth = Price, estimate = .pred)</code></pre>
+
+rmse(laptop_test_pred_7, truth = Price, estimate = .pred)</code></pre>
 <pre><code>## # A tibble: 1 × 3
 ##   .metric .estimator .estimate
 ##   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
@@ -1180,12 +1152,8 @@ price_fit_8 &lt;- price_wflow_8 %&gt;%
 laptop_test_pred_8 &lt;- predict(price_fit_8,train_data) %&gt;%
   bind_cols(train_data %&gt;% select(Price))
 
-rsq(laptop_test_pred_8, truth = Price, estimate = .pred, adj = TRUE)</code></pre>
-<pre><code>## # A tibble: 1 × 3
-##   .metric .estimator .estimate
-##   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
-## 1 rsq     standard       0.720</code></pre>
-<pre class="r"><code>rmse(laptop_test_pred_8, truth = Price, estimate = .pred)</code></pre>
+
+rmse(laptop_test_pred_8, truth = Price, estimate = .pred)</code></pre>
 <pre><code>## # A tibble: 1 × 3
 ##   .metric .estimator .estimate
 ##   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
@@ -1206,12 +1174,8 @@ price_fit_9 &lt;- price_wflow_9 %&gt;%
 laptop_test_pred_9 &lt;- predict(price_fit_9,train_data) %&gt;%
   bind_cols(train_data %&gt;% select(Price))
 
-rsq(laptop_test_pred_9, truth = Price, estimate = .pred, adj = TRUE)</code></pre>
-<pre><code>## # A tibble: 1 × 3
-##   .metric .estimator .estimate
-##   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
-## 1 rsq     standard       0.720</code></pre>
-<pre class="r"><code>rmse(laptop_test_pred_9, truth = Price, estimate = .pred)</code></pre>
+
+rmse(laptop_test_pred_9, truth = Price, estimate = .pred)</code></pre>
 <pre><code>## # A tibble: 1 × 3
 ##   .metric .estimator .estimate
 ##   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
@@ -1234,11 +1198,6 @@ laptop_test_pred_10 &lt;- predict(price_fit_10,train_data) %&gt;%
 <pre><code>## Warning in predict.lm(object = object$fit, newdata = new_data, type =
 ## &quot;response&quot;, : prediction from rank-deficient fit; consider predict(.,
 ## rankdeficient=&quot;NA&quot;)</code></pre>
-<pre class="r"><code>rsq(laptop_test_pred_10, truth = Price, estimate = .pred, adj = TRUE)</code></pre>
-<pre><code>## # A tibble: 1 × 3
-##   .metric .estimator .estimate
-##   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
-## 1 rsq     standard       0.747</code></pre>
 <pre class="r"><code>rmse(laptop_test_pred_10, truth = Price, estimate = .pred)</code></pre>
 <pre><code>## # A tibble: 1 × 3
 ##   .metric .estimator .estimate
@@ -1246,55 +1205,97 @@ laptop_test_pred_10 &lt;- predict(price_fit_10,train_data) %&gt;%
 ## 1 rmse    standard        176.</code></pre>
 <pre class="r"><code>#increase to 0.747 and rmse of 176
 
-price_fit_10</code></pre>
-<pre><code>## ══ Workflow [trained] ══════════════════════════════════════════════════════════
-## Preprocessor: Recipe
-## Model: linear_reg()
-## 
-## ── Preprocessor ────────────────────────────────────────────────────────────────
-## 2 Recipe Steps
-## 
-## • step_dummy()
-## • step_zv()
-## 
-## ── Model ───────────────────────────────────────────────────────────────────────
-## 
-## Call:
-## stats::lm(formula = ..y ~ ., data = data)
-## 
-## Coefficients:
-##                     (Intercept)                              Ram  
-##                        276.3961                          26.3567  
-##                             SSD                  TypeName_Gaming  
-##                          0.4779                          64.3429  
-##                TypeName_Netbook                TypeName_Notebook  
-##                         -6.9424                         -77.9709  
-##              TypeName_Ultrabook             TypeName_Workstation  
-##                         41.8173                         405.4879  
-##                       Os_Others                       Os_Windows  
-##                       -297.9163                        -190.4828  
-##         Cpu_brand_Intel.Core.i3          Cpu_brand_Intel.Core.i5  
-##                         17.6322                          79.3053  
-##         Cpu_brand_Intel.Core.i7  Cpu_brand_Other.Intel.Processor  
-##                        100.1069                          30.3014  
-##                 Gpu_brand_Intel                 Gpu_brand_Nvidia  
-##                         66.5377                          72.0682  
-##                   Company_Apple                     Company_Asus  
-##                              NA                          10.6054  
-##                    Company_Dell                  Company_Fujitsu  
-##                         72.6063                         -45.9595  
-##                  Company_Google                       Company_HP  
-##                        264.7201                          82.0060  
-##                  Company_Huawei                   Company_Lenovo  
-##                         34.8333                          53.9367  
-##                      Company_LG                 Company_Mediacom  
-##                        201.1530                         -90.6343  
-##               Company_Microsoft                      Company_MSI  
-##                        168.1174                          72.5511  
-##                   Company_Razer                  Company_Samsung  
-##                        678.4514                         114.9308  
-##                 Company_Toshiba                   Company_Xiaomi  
-##                        101.7941                          40.1533</code></pre>
+price_rec_11 &lt;- recipe(Price ~ Ram + SSD + Os + Cpu_brand+ Gpu_brand + Company , data = train_data)%&gt;%
+  step_dummy(all_nominal(), -all_outcomes())%&gt;%
+  step_zv(all_predictors())
+
+price_wflow_11 &lt;- workflow() %&gt;%
+  add_recipe(price_rec_11)%&gt;%
+  add_model(price_mod)
+
+price_fit_11 &lt;- price_wflow_11 %&gt;% 
+  fit(data = train_data)
+
+laptop_test_pred_11 &lt;- predict(price_fit_11,train_data) %&gt;%
+  bind_cols(train_data %&gt;% select(Price))</code></pre>
+<pre><code>## Warning in predict.lm(object = object$fit, newdata = new_data, type =
+## &quot;response&quot;, : prediction from rank-deficient fit; consider predict(.,
+## rankdeficient=&quot;NA&quot;)</code></pre>
+<pre class="r"><code>rmse(laptop_test_pred_11, truth = Price, estimate = .pred)</code></pre>
+<pre><code>## # A tibble: 1 × 3
+##   .metric .estimator .estimate
+##   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+## 1 rmse    standard        191.</code></pre>
+<pre class="r"><code>glance(price_fit_1)$adj.r.squared</code></pre>
+<pre><code>## [1] 0.533745</code></pre>
+<pre class="r"><code>glance(price_fit_2)$adj.r.squared</code></pre>
+<pre><code>## [1] 0.6150675</code></pre>
+<pre class="r"><code>glance(price_fit_3)$adj.r.squared</code></pre>
+<pre><code>## [1] 0.6936755</code></pre>
+<pre class="r"><code>glance(price_fit_4)$adj.r.squared</code></pre>
+<pre><code>## [1] 0.6952045</code></pre>
+<pre class="r"><code>glance(price_fit_5)$adj.r.squared</code></pre>
+<pre><code>## [1] 0.7029567</code></pre>
+<pre class="r"><code>glance(price_fit_6)$adj.r.squared</code></pre>
+<pre><code>## [1] 0.7026877</code></pre>
+<pre class="r"><code>glance(price_fit_7)$adj.r.squared</code></pre>
+<pre><code>## [1] 0.7135373</code></pre>
+<pre class="r"><code>glance(price_fit_8)$adj.r.squared</code></pre>
+<pre><code>## [1] 0.7149143</code></pre>
+<pre class="r"><code>glance(price_fit_9)$adj.r.squared</code></pre>
+<pre><code>## [1] 0.7149143</code></pre>
+<pre class="r"><code>glance(price_fit_10)$adj.r.squared</code></pre>
+<pre><code>## [1] 0.7384801</code></pre>
+<pre class="r"><code>glance(price_fit_11)$adj.r.squared</code></pre>
+<pre><code>## [1] 0.6907472</code></pre>
+<pre class="r"><code>8/9</code></pre>
+<pre><code>## [1] 0.8888889</code></pre>
+<pre class="r"><code>price_rec_10 &lt;- recipe(Price ~ Ram + SSD + TypeName + Os + Cpu_brand+ Gpu_brand  + Company  , data = train_data)%&gt;%
+  step_dummy(all_nominal(), -all_outcomes())%&gt;%
+  step_zv(all_predictors())
+
+price_wflow_10 &lt;- workflow() %&gt;%
+  add_recipe(price_rec_10)%&gt;%
+  add_model(price_mod)
+
+price_fit_10 &lt;- price_wflow_10 %&gt;% 
+  fit(data = train_data)
+
+laptop_test_pred_10 &lt;- predict(price_fit_10,test_data) %&gt;%
+  bind_cols(test_data %&gt;% select(Price))</code></pre>
+<pre><code>## Warning in predict.lm(object = object$fit, newdata = new_data, type =
+## &quot;response&quot;, : prediction from rank-deficient fit; consider predict(.,
+## rankdeficient=&quot;NA&quot;)</code></pre>
+<pre class="r"><code>rmse(laptop_test_pred_10, truth = Price, estimate = .pred)</code></pre>
+<pre><code>## # A tibble: 1 × 3
+##   .metric .estimator .estimate
+##   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+## 1 rmse    standard        182.</code></pre>
+<pre class="r"><code>glance(price_fit_10)$adj.r.squared</code></pre>
+<pre><code>## [1] 0.7384801</code></pre>
+<pre class="r"><code>price_rec_12 &lt;- recipe(Price ~ Ram + SSD + Os + Cpu_brand+ Gpu_brand  + Company  , data = train_data)%&gt;%
+  step_dummy(all_nominal(), -all_outcomes())%&gt;%
+  step_zv(all_predictors())
+
+price_wflow_12 &lt;- workflow() %&gt;%
+  add_recipe(price_rec_12)%&gt;%
+  add_model(price_mod)
+
+price_fit_12 &lt;- price_wflow_12 %&gt;% 
+  fit(data = train_data)
+
+laptop_test_pred_12 &lt;- predict(price_fit_12,test_data) %&gt;%
+  bind_cols(test_data %&gt;% select(Price))</code></pre>
+<pre><code>## Warning in predict.lm(object = object$fit, newdata = new_data, type =
+## &quot;response&quot;, : prediction from rank-deficient fit; consider predict(.,
+## rankdeficient=&quot;NA&quot;)</code></pre>
+<pre class="r"><code>rmse(laptop_test_pred_12, truth = Price, estimate = .pred)</code></pre>
+<pre><code>## # A tibble: 1 × 3
+##   .metric .estimator .estimate
+##   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+## 1 rmse    standard        198.</code></pre>
+<pre class="r"><code>glance(price_fit_12)$adj.r.squared</code></pre>
+<pre><code>## [1] 0.6907472</code></pre>
 <p>Model 10 and 8 are two best models according to RMSE and adjusted R
 squared values, lowkey company has loads of different possibilities so
 it might be difficult to interpret.</p>
