@@ -76,7 +76,19 @@ laptop_data_tidy <- laptop_data_tidy%>%
 #From the work Adams done, it looks like when storage_capacity = 0 that often that these laptops do have storage but its just like flash storage and I don't know if we should just get rid or them or not but thought I'd at least say x.
 ```
 
-
+```{r clean company}
+laptop_data_tidy <- laptop_data_tidy %>%
+  mutate(,
+    Company = case_when(
+      Company == "Acer" ~ "Acer",
+      Company == "Asus" ~ "Asus",
+      Company == "Dell" ~ "Dell",
+      Company == "HP" ~ "HP",
+      Company == "Lenovo" ~ "Lenovo",
+      TRUE ~ "Other"
+    )    
+  )
+```
 
 ```{r calculating price in pounds  - Jamie}
 
@@ -525,7 +537,7 @@ laptop_data_final %>%
   theme_minimal() +
   labs(
     title = "Storage against Price",
-    x = "Inches",
+    x = "Storage.",
     y = "Price",
   )
 
@@ -760,8 +772,7 @@ rsq(laptop_test_pred_8, truth = Price, estimate = .pred, adj = TRUE)
 rmse(laptop_test_pred_8, truth = Price, estimate = .pred)
 
 #RMSE at 185 and RsqAdj at 0.72
-
-price_rec_9 <- recipe(Price ~ Ram + SSD + TypeName + Os + Cpu_brand+ Gpu_brand + storage_type , data = train_data)%>%
+price_rec_9 <- recipe(Price ~ Ram + SSD + TypeName + Os + Cpu_brand+ Gpu_brand + storage_type, data = train_data)%>%
   step_dummy(all_nominal(), -all_outcomes())%>%
   step_zv(all_predictors())
 
@@ -799,14 +810,21 @@ rmse(laptop_test_pred_10, truth = Price, estimate = .pred)
 
 #increase to 0.747 and rmse of 176
 
-price_fit_10
+tidy(price_fit_10)
 
 
 ```
 
 Model 10 and 8 are two best models according to RMSE and adjusted R squared values, lowkey company has loads of different possibilities so it might be difficult to interpret. 
 
+```{r log-residual-comparison-b, eval=FALSE}
 
+price_fit_10_aug <- augment(price_fit_10$fit)
+ggplot(price_fit_10_aug, mapping = aes(x = .fitted, y = .resid)) +
+  geom_point(alpha = 0.5) +
+  geom_hline(yintercept = 0, color = "gray", lty = "dashed") +
+  labs(x = "Predicted height", y = "Residuals")
+```
 
 
 
