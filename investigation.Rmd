@@ -883,7 +883,7 @@ glance(price_fit_12)$adj.r.squared
 
 Model 10 and 8 are two best models according to RMSE and adjusted R squared values, lowkey company has loads of different possibilities so it might be difficult to interpret. 
 
-```{r log-residual-comparison-b, eval=FALSE}
+```{r log-residual-comparison-b,}
 
 price_fit_10_aug <- augment(price_fit_10$fit)
 ggplot(price_fit_10_aug, mapping = aes(x = .fitted, y = .resid)) +

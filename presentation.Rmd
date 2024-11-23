@@ -1,7 +1,7 @@
 ---
-title: "Presentation title"
-subtitle: "Presentation subtitle (if any)"
-author: "Code Crunchin <br> Names of team members"
+title: "Prediting laptop prices"
+subtitle: ""
+author: "Code Crunchin <br> Ben, Adam, Gandom, Jamie"
 institute: "University of Edinburgh"
 date: "`r Sys.Date()`"
 output:
@@ -39,7 +39,9 @@ knitr::opts_chunk$set(fig.retina = 3, dpi = 300, fig.width = 6, fig.asp = 0.618,
 ```
 
 ```{r load-data, include=FALSE}
-# Load your data here
+
+laptop_data <- read_csv("data/laptop_data_cleaned.csv")
+laptop_data_final <- read_csv("data/laptop_data_final.csv")
 
 ```
 
@@ -47,45 +49,52 @@ knitr::opts_chunk$set(fig.retina = 3, dpi = 300, fig.width = 6, fig.asp = 0.618,
 
 #Background image
 style_xaringan(
-  title_slide_background_image = "img/confetti.jpg"
+  title_slide_background_image = "img/laptop_background.jfif"
 )
 ```
 
 class: center, middle
 
-## A statement of the overall goal / research question
+## To try and predict the price of a laptop based on its features and specifications.
 
 ---
 
 class: inverse, center, middle
 
-# Section title
+# Background Information
 
 ---
 
-# Hello World
+# The What?
 
-- Click the `Knit` button to compile your presentation
-
-- Make sure to commit and push all resulting files to your GitHub repo
-
----
-
-class: inverse, middle, center
-
-# Using xaringan
-
----
-
-# xaringan
-
-- The presentation is created using the `xaringan` package
-
-- Use `---` to separate slides and `--` for incremental builds
+- The dataset we are analysing is comprised of the specifications of various laptops, obtained from kaggle, updated most recently a year ago.
 
 --
 
-- Like this
+# Glossary 
+
+- Hard Disk Drive and Solid State Drive: A both types of long term storage for computers, Hard disk drives are generally slower and less reliable and Solid state drives are newer, faster and common place is newer computers
+
+- RAM: Random access memory: Short term memory, where your computer stores your project or homework in R before you save it.
+
+- CPU and GPU- Both processors, generally decides how fast your computer can load things, cpus are more general with gpus being specialized for graphics 
+
+
+---
+class: inverse, middle, center
+
+# Data Cleaning and Wrangling
+
+---
+
+# Data Cleaning 
+
+- Luckily the data was in a generally cleaned state already, we merged the data with a previous uncleaned form and extracted processor speed and also found that the price variable was not only in rupees but in natural log form.
+
+- The data had no missing values however we removed laptops with 0 storage, as this is not possible.
+
+- We also removed columns such as ... because ...
+
 
 ---
 
