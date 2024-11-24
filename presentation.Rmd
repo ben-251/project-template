@@ -89,13 +89,13 @@ class: inverse, middle, center
 
 # Data Cleaning 
 
-- Luckily the data was in a generally cleaned state already, we merged the data with a previous uncleaned form and extracted processor speed and also found that the price variable was not only in rupees but in natural log form.
+- Luckily the data was in a generally cleaned state already, we merged the data with a previous uncleaned form and extracted the variable processor speed.
 
-- The data had no missing values however we removed laptops with 0 storage, as this is not possible.
+-and also found that the price variable was not only in rupees but in natural log form.
 
-- We also removed columns such as ... because ...
+- Fortunately,The data had no missing values however we removed laptops with 0 storage, as this is not possible.
 
-
+- We also decided to only consider laptops from the top 5 companies, otherwise the model would be very difficult to interpret in any meaningful way.
 ---
 
 # Layouts
