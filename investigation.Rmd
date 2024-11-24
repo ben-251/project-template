@@ -101,6 +101,8 @@ laptop_data_tidy <-laptop_data_tidy %>%
 
 
 laptop_data_final <- laptop_data_tidy
+
+laptop_data_final<-select(laptop_data_final,-Second_Price,)
 ```
 
 ```{r Adding GHz as a column}
@@ -148,7 +150,9 @@ correlation_matrix <- laptop_data_final %>%
   select_if(is.numeric) %>%
   cor(use = "complete.obs")
 
-correlation_matrix
+
+
+
 
 #closer to 1 = greater the correlation
 

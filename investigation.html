@@ -434,7 +434,9 @@ laptop_data_merged &lt;- cbind(laptop_data, select(laptop_data_filtered, Second_
          )
 
 
-laptop_data_final &lt;- laptop_data_tidy</code></pre>
+laptop_data_final &lt;- laptop_data_tidy
+
+laptop_data_final&lt;-select(laptop_data_final,-Second_Price,)</code></pre>
 <pre class="r"><code>laptop_data_final &lt;- laptop_data_final%&gt;%
   mutate(GHz = as.numeric(str_extract(Cpu, &quot;\\d+(\\.\\d+)?(?=GHz)&quot;)))</code></pre>
 <pre class="r"><code>write_csv(laptop_data_final, &quot;data/laptop_data_final.csv&quot;)</code></pre>
@@ -446,8 +448,8 @@ Data Visualisation and exploring
   summarise(across(everything(), ~sum(is.na(.))))</code></pre>
 <pre><code>##   Company TypeName Ram Weight Price TouchScreen Ips Ppi Cpu_brand HDD SSD
 ## 1       0        0   0      0     0           0   0   0         0   0   0
-##   Gpu_brand Os storage_type Second_Price Inches ScreenResolution Cpu Gpu Memory
-## 1         0  0            0            0      0                0   0   0      0
+##   Gpu_brand Os storage_type Inches ScreenResolution Cpu Gpu Memory
+## 1         0  0            0      0                0   0   0      0
 ##   storage_capacity log_price GHz
 ## 1                0         0   0</code></pre>
 <pre class="r"><code>#there are no NA values
@@ -490,50 +492,11 @@ correlation_matrix &lt;- laptop_data_final %&gt;%
   select_if(is.numeric) %&gt;%
   cor(use = &quot;complete.obs&quot;)
 
-correlation_matrix</code></pre>
-<pre><code>##                         Ram      Weight       Price TouchScreen         Ips
-## Ram              1.00000000  0.36453241  0.72914765  0.12508095  0.20451315
-## Weight           0.36453241  1.00000000  0.17438312 -0.29812903  0.03794889
-## Price            0.72914765  0.17438312  1.00000000  0.20901480  0.25269527
-## TouchScreen      0.12508095 -0.29812903  0.20901480  1.00000000  0.12546309
-## Ips              0.20451315  0.03794889  0.25269527  0.12546309  1.00000000
-## Ppi              0.30200596 -0.32594176  0.48931038  0.46333677  0.26949380
-## HDD              0.06397113  0.49345607 -0.14885038 -0.21507072 -0.09752176
-## SSD              0.58737787 -0.12402390  0.65998775  0.27108740  0.22615117
-## Second_Price     0.72914747  0.17438310  1.00000000  0.20901455  0.25269537
-## Inches           0.19426890  0.82289675 -0.01163052 -0.36667747 -0.10246652
-## storage_capacity 0.30760228  0.50649005  0.09682505 -0.13373764 -0.01925477
-## log_price        0.67022011  0.08667987  0.93344906  0.22125904  0.28935370
-## GHz              0.32610524  0.24655221  0.38401032 -0.08975533  0.06871865
-##                          Ppi         HDD        SSD Second_Price      Inches
-## Ram               0.30200596  0.06397113  0.5873779   0.72914747  0.19426890
-## Weight           -0.32594176  0.49345607 -0.1240239   0.17438310  0.82289675
-## Price             0.48931038 -0.14885038  0.6599878   1.00000000 -0.01163052
-## TouchScreen       0.46333677 -0.21507072  0.2710874   0.20901455 -0.36667747
-## Ips               0.26949380 -0.09752176  0.2261512   0.25269537 -0.10246652
-## Ppi               1.00000000 -0.30326822  0.5324322   0.48931033 -0.44194084
-## HDD              -0.30326822  1.00000000 -0.4771673  -0.14885015  0.51946540
-## SSD               0.53243223 -0.47716731  1.0000000   0.65998751 -0.21671048
-## Second_Price      0.48931033 -0.14885015  0.6599875   1.00000000 -0.01163040
-## Inches           -0.44194084  0.51946540 -0.2167105  -0.01163040  1.00000000
-## storage_capacity -0.12837221  0.93587244 -0.1369278   0.09682521  0.49864678
-## log_price         0.51533835 -0.17762018  0.6541725   0.93344926 -0.08571568
-## GHz               0.05340566  0.05612380  0.1941801   0.38401034  0.18710911
-##                  storage_capacity   log_price         GHz
-## Ram                    0.30760228  0.67022011  0.32610524
-## Weight                 0.50649005  0.08667987  0.24655221
-## Price                  0.09682505  0.93344906  0.38401032
-## TouchScreen           -0.13373764  0.22125904 -0.08975533
-## Ips                   -0.01925477  0.28935370  0.06871865
-## Ppi                   -0.12837221  0.51533835  0.05340566
-## HDD                    0.93587244 -0.17762018  0.05612380
-## SSD                   -0.13692783  0.65417248  0.19418007
-## Second_Price           0.09682521  0.93344926  0.38401034
-## Inches                 0.49864678 -0.08571568  0.18710911
-## storage_capacity       1.00000000  0.06206477  0.14111360
-## log_price              0.06206477  1.00000000  0.43503075
-## GHz                    0.14111360  0.43503075  1.00000000</code></pre>
-<pre class="r"><code>#closer to 1 = greater the correlation</code></pre>
+
+
+
+
+#closer to 1 = greater the correlation</code></pre>
 <p><strong>Notes:</strong></p>
 <ul>
 <li><p>There are no NA values</p></li>
@@ -952,20 +915,20 @@ Modelling
   set_engine(&quot;lm&quot;) %&gt;%
   fit(Price ~ ., data=laptop_data_final) 
 tidy(price_fit)</code></pre>
-<pre><code>## # A tibble: 303 × 5
-##    term               estimate std.error statistic p.value
-##    &lt;chr&gt;                 &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;
-##  1 (Intercept)       -0.0125    0.0209      -0.598  0.550 
-##  2 CompanyAsus        0.000277  0.000516     0.537  0.591 
-##  3 CompanyDell        0.000211  0.000472     0.446  0.656 
-##  4 CompanyHP          0.000523  0.000465     1.12   0.261 
-##  5 CompanyLenovo      0.000734  0.000453     1.62   0.106 
-##  6 CompanyOther       0.000174  0.000552     0.315  0.753 
-##  7 TypeNameGaming     0.00183   0.000997     1.84   0.0662
-##  8 TypeNameNetbook    0.000424  0.00118      0.358  0.720 
-##  9 TypeNameNotebook   0.000804  0.000643     1.25   0.211 
-## 10 TypeNameUltrabook  0.00104   0.000621     1.68   0.0929
-## # ℹ 293 more rows</code></pre>
+<pre><code>## # A tibble: 302 × 5
+##    term              estimate std.error statistic      p.value
+##    &lt;chr&gt;                &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;        &lt;dbl&gt;
+##  1 (Intercept)       -2109.      374.      -5.63  0.0000000232
+##  2 CompanyAsus         -37.8       9.29    -4.07  0.0000503   
+##  3 CompanyDell         -40.3       8.47    -4.77  0.00000218  
+##  4 CompanyHP           -23.8       8.41    -2.83  0.00474     
+##  5 CompanyLenovo       -11.0       8.22    -1.34  0.181       
+##  6 CompanyOther        -14.3      10.0     -1.43  0.154       
+##  7 TypeNameGaming       23.9      18.1      1.32  0.187       
+##  8 TypeNameNetbook     -21.6      21.5     -1.00  0.315       
+##  9 TypeNameNotebook     -1.49     11.7     -0.127 0.899       
+## 10 TypeNameUltrabook    18.9      11.3      1.67  0.0946      
+## # ℹ 292 more rows</code></pre>
 <pre class="r"><code>#On the lecture slides it says you really only wanna use 2 numerical predictors per model 
 #I&#39;m gonna go for Ram first as it has the highest correlation.
 # Also ur meant to save the testing data for one or two models at the end 

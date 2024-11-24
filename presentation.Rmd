@@ -91,12 +91,64 @@ class: inverse, middle, center
 
 - Luckily the data was in a generally cleaned state already, we merged the data with a previous uncleaned form and extracted the variable processor speed.
 
--and also found that the price variable was not only in rupees but in natural log form.
+-We also found that the price variable was not only in rupees but in natural log form.
 
 - Fortunately,The data had no missing values however we removed laptops with 0 storage, as this is not possible.
 
 - We also decided to only consider laptops from the top 5 companies, otherwise the model would be very difficult to interpret in any meaningful way.
 ---
+class: inverse, center, middle
+
+# Data Visualising
+---
+```{r Price Histogram, echo=FALSE}
+
+laptop_data_final %>%
+  ggplot(mapping = aes(x=Price)) +
+  geom_histogram(bins = 25,fill = "orange",color="navyblue")+
+  theme_light()+
+  labs(
+    title = "Spread of laptop prices",
+    x = "Price",
+    y = "Number of Laptops"
+  )
+  
+```
+---
+```{r log_Price Histogram, echo=FALSE}
+
+laptop_data_final %>%
+  ggplot(mapping = aes(x=log_price)) +
+  geom_histogram(bins = 25,fill = "orange",color="navyblue")+
+  theme_light()+
+  labs(
+    title = "Spread of laptop prices",
+    x = "Natural Log of Price",
+    y = "Number of Laptops"
+  )
+  
+```
+---
+```{r correlation matrix plot, echo=FALSE}
+correlation_matrix <- laptop_data_final %>%
+  select_if(is.numeric) %>%
+  cor(use = "complete.obs")
+
+
+cor_tidy <- as.data.frame(as.table(correlation_matrix)) %>%
+  rename(Var1 = Var1, Var2 = Var2, correlation = Freq)
+
+ggplot(cor_tidy, aes(x = Var1, y = Var2, fill = correlation)) +
+  geom_tile(color = "white") +
+  scale_fill_gradient2(low = "navy", mid = "white", high = "red", midpoint = 0) +
+  labs(title = "Correlation Matrix", x = "", y = "") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+```
+---
+
+
 
 # Layouts
 
