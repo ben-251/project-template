@@ -138,12 +138,19 @@ correlation_matrix <- laptop_data_final %>%
 cor_tidy <- as.data.frame(as.table(correlation_matrix)) %>%
   rename(Var1 = Var1, Var2 = Var2, correlation = Freq)
 
-ggplot(cor_tidy, aes(x = Var1, y = Var2, fill = correlation)) +
+cor_tidier<-cor_tidy%>%
+  arrange(,correlation)
+
+cor_tidier%>%
+  filter(Var2=="log_price",Var1!="Price",Var1!="log_price")%>%
+ggplot( aes(x = Var1, y = Var2, fill = correlation)) +
   geom_tile(color = "white") +
+  geom_text(aes(label = round(correlation, digits = 2)))+
   scale_fill_gradient2(low = "navy", mid = "white", high = "red", midpoint = 0) +
-  labs(title = "Correlation Matrix", x = "", y = "") +
+  labs(title = "Correlation Matrix", x = "Natural log of Price", y = "") +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
 
 ```
 ---
