@@ -791,28 +791,6 @@ rmse(laptop_test_pred_9, truth = Price, estimate = .pred)
 
 # adjRsq and rmse no change, get rid
 
-price_rec_10 <- recipe(Price ~ Ram + SSD + TypeName + Os + Cpu_brand+ Gpu_brand + Company , data = train_data)%>%
-  step_dummy(all_nominal(), -all_outcomes())%>%
-  step_zv(all_predictors())
-
-price_wflow_10 <- workflow() %>%
-  add_recipe(price_rec_10)%>%
-  add_model(price_mod)
-
-price_fit_10 <- price_wflow_10 %>% 
-  fit(data = train_data)
-
-laptop_test_pred_10 <- predict(price_fit_10,train_data) %>%
-  bind_cols(train_data %>% select(Price))
-
-rmse(laptop_test_pred_10, truth = Price, estimate = .pred)
-
-
-#increase to 0.747 and rmse of 176
-
-tidy(price_fit_10)
-
-
 price_rec_11 <- recipe(Price ~ Ram + SSD + Os + Cpu_brand+ Gpu_brand + Company , data = train_data)%>%
   step_dummy(all_nominal(), -all_outcomes())%>%
   step_zv(all_predictors())
@@ -838,7 +816,6 @@ glance(price_fit_6)$adj.r.squared
 glance(price_fit_7)$adj.r.squared
 glance(price_fit_8)$adj.r.squared
 glance(price_fit_9)$adj.r.squared
-glance(price_fit_10)$adj.r.squared
 glance(price_fit_11)$adj.r.squared
 8/9
 ```
@@ -863,6 +840,8 @@ laptop_test_pred_10 <- predict(price_fit_10,test_data) %>%
 rmse(laptop_test_pred_10, truth = Price, estimate = .pred)
 glance(price_fit_10)$adj.r.squared
 
+
+
 price_rec_12 <- recipe(Price ~ Ram + SSD + Os + Cpu_brand+ Gpu_brand  + Company  , data = train_data)%>%
   step_dummy(all_nominal(), -all_outcomes())%>%
   step_zv(all_predictors())
@@ -879,14 +858,44 @@ laptop_test_pred_12 <- predict(price_fit_12,test_data) %>%
 
 rmse(laptop_test_pred_12, truth = Price, estimate = .pred)
 glance(price_fit_12)$adj.r.squared
+
+
+
+
+price_rec_log10 <- recipe(log_price ~ Ram + SSD + TypeName + Os + Cpu_brand+ Gpu_brand  + Company  , data = train_data)%>%
+  step_dummy(all_nominal(), -all_outcomes())%>%
+  step_zv(all_predictors())
+
+price_wflow_log10 <- workflow() %>%
+  add_recipe(price_rec_10)%>%
+  add_model(price_mod)
+
+price_fit_log10 <- price_wflow_10 %>% 
+  fit(data = train_data)
+
+laptop_test_pred_log10 <- predict(price_fit_log10,test_data) %>%
+  bind_cols(test_data %>% select(Price))
+
+rmse(laptop_test_pred_log10, truth = Price, estimate = .pred)
+glance(price_fit_10)$adj.r.squared
 ```
 
 Model 10 and 8 are two best models according to RMSE and adjusted R squared values, lowkey company has loads of different possibilities so it might be difficult to interpret. 
 
-```{r log-residual-comparison-b,}
+```{r log-residual-comparison-b,echo=FALSE}
 
-price_fit_10_aug <- augment(price_fit_10$fit)
+model_object_1 <- extract_fit_parsnip(price_fit_10)
+
+price_fit_10_aug <- augment(model_object_1$fit)
 ggplot(price_fit_10_aug, mapping = aes(x = .fitted, y = .resid)) +
+  geom_point(alpha = 0.5) +
+  geom_hline(yintercept = 0, color = "gray", lty = "dashed") +
+  labs(x = "Predicted height", y = "Residuals")
+
+model_object_2 <- extract_fit_parsnip(price_fit_log10)
+
+price_fit_log10_aug <- augment(model_object_2$fit)
+ggplot(price_fit_log10_aug, mapping = aes(x = .fitted, y = .resid)) +
   geom_point(alpha = 0.5) +
   geom_hline(yintercept = 0, color = "gray", lty = "dashed") +
   labs(x = "Predicted height", y = "Residuals")
