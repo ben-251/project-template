@@ -1,4 +1,3 @@
-Start writing "data" in report
 Predict test data with models
 Prices in the country of the dataset might not match the prices they would be here
 Get rid of the variables we don't need
