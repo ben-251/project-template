@@ -76,7 +76,19 @@ laptop_data_tidy <- laptop_data_tidy%>%
 #From the work Adams done, it looks like when storage_capacity = 0 that often that these laptops do have storage but its just like flash storage and I don't know if we should just get rid or them or not but thought I'd at least say x.
 ```
 
-
+```{r clean company}
+laptop_data_tidy <- laptop_data_tidy %>%
+  mutate(,
+    Company = case_when(
+      Company == "Acer" ~ "Acer",
+      Company == "Asus" ~ "Asus",
+      Company == "Dell" ~ "Dell",
+      Company == "HP" ~ "HP",
+      Company == "Lenovo" ~ "Lenovo",
+      TRUE ~ "Other"
+    )    
+  )
+```
 
 ```{r calculating price in pounds  - Jamie}
 
@@ -525,7 +537,7 @@ laptop_data_final %>%
   theme_minimal() +
   labs(
     title = "Storage against Price",
-    x = "Inches",
+    x = "Storage.",
     y = "Price",
   )
 
@@ -605,7 +617,7 @@ price_fit_1 <- price_wflow_1 %>%
 laptop_test_pred_1 <- predict(price_fit_1,train_data) %>%
   bind_cols(train_data %>% select(Price))
 
-rsq(laptop_test_pred_1, truth = Price, estimate = .pred, adj = TRUE)
+
 rmse(laptop_test_pred_1, truth = Price, estimate = .pred)
 
 
@@ -629,7 +641,7 @@ price_fit_2 <- price_wflow_2 %>%
 laptop_test_pred_2 <- predict(price_fit_2,train_data) %>%
   bind_cols(train_data %>% select(Price))
 
-rsq(laptop_test_pred_2, truth = Price, estimate = .pred, adj = TRUE)
+
 rmse(laptop_test_pred_2, truth = Price, estimate = .pred)
 
 # A little bit better, predictions are off by  216 pounds (RMSE) and adjR^2 is 0.616
@@ -653,7 +665,7 @@ price_fit_3 <- price_wflow_3 %>%
 laptop_test_pred_3 <- predict(price_fit_3,train_data) %>%
   bind_cols(train_data %>% select(Price))
 
-rsq(laptop_test_pred_3, truth = Price, estimate = .pred, adj = TRUE)
+
 rmse(laptop_test_pred_3, truth = Price, estimate = .pred)
 
 #Better, adjR^2 is now 0.696 and RMSE is down to 192
@@ -675,7 +687,7 @@ price_fit_4 <- price_wflow_4 %>%
 laptop_test_pred_4 <- predict(price_fit_4,train_data) %>%
   bind_cols(train_data %>% select(Price))
 
-rsq(laptop_test_pred_4, truth = Price, estimate = .pred, adj = TRUE)
+
 rmse(laptop_test_pred_4, truth = Price, estimate = .pred)
 
 #RMSE is 192 and rsq is 0.696, no effect, get rid
@@ -695,7 +707,7 @@ price_fit_5 <- price_wflow_5 %>%
 laptop_test_pred_5 <- predict(price_fit_5,train_data) %>%
   bind_cols(train_data %>% select(Price))
 
-rsq(laptop_test_pred_5, truth = Price, estimate = .pred, adj = TRUE)
+
 rmse(laptop_test_pred_5, truth = Price, estimate = .pred)
 
 
@@ -716,7 +728,7 @@ price_fit_6 <- price_wflow_6 %>%
 laptop_test_pred_6 <- predict(price_fit_6,train_data) %>%
   bind_cols(train_data %>% select(Price))
 
-rsq(laptop_test_pred_6, truth = Price, estimate = .pred, adj = TRUE)
+
 rmse(laptop_test_pred_6, truth = Price, estimate = .pred)
 
 # Ips has no effect, get rid
@@ -736,7 +748,7 @@ price_fit_7 <- price_wflow_7 %>%
 laptop_test_pred_7 <- predict(price_fit_7,train_data) %>%
   bind_cols(train_data %>% select(Price))
 
-rsq(laptop_test_pred_7, truth = Price, estimate = .pred, adj = TRUE)
+
 rmse(laptop_test_pred_7, truth = Price, estimate = .pred)
 
 #CPU brand brings it up to 0.718 and brings rmse to 186
@@ -756,12 +768,11 @@ price_fit_8 <- price_wflow_8 %>%
 laptop_test_pred_8 <- predict(price_fit_8,train_data) %>%
   bind_cols(train_data %>% select(Price))
 
-rsq(laptop_test_pred_8, truth = Price, estimate = .pred, adj = TRUE)
+
 rmse(laptop_test_pred_8, truth = Price, estimate = .pred)
 
 #RMSE at 185 and RsqAdj at 0.72
-
-price_rec_9 <- recipe(Price ~ Ram + SSD + TypeName + Os + Cpu_brand+ Gpu_brand + storage_type , data = train_data)%>%
+price_rec_9 <- recipe(Price ~ Ram + SSD + TypeName + Os + Cpu_brand+ Gpu_brand + storage_type, data = train_data)%>%
   step_dummy(all_nominal(), -all_outcomes())%>%
   step_zv(all_predictors())
 
@@ -775,7 +786,7 @@ price_fit_9 <- price_wflow_9 %>%
 laptop_test_pred_9 <- predict(price_fit_9,train_data) %>%
   bind_cols(train_data %>% select(Price))
 
-rsq(laptop_test_pred_9, truth = Price, estimate = .pred, adj = TRUE)
+
 rmse(laptop_test_pred_9, truth = Price, estimate = .pred)
 
 # adjRsq and rmse no change, get rid
@@ -794,19 +805,92 @@ price_fit_10 <- price_wflow_10 %>%
 laptop_test_pred_10 <- predict(price_fit_10,train_data) %>%
   bind_cols(train_data %>% select(Price))
 
-rsq(laptop_test_pred_10, truth = Price, estimate = .pred, adj = TRUE)
 rmse(laptop_test_pred_10, truth = Price, estimate = .pred)
+
 
 #increase to 0.747 and rmse of 176
 
-price_fit_10
+tidy(price_fit_10)
 
 
+price_rec_11 <- recipe(Price ~ Ram + SSD + Os + Cpu_brand+ Gpu_brand + Company , data = train_data)%>%
+  step_dummy(all_nominal(), -all_outcomes())%>%
+  step_zv(all_predictors())
+
+price_wflow_11 <- workflow() %>%
+  add_recipe(price_rec_11)%>%
+  add_model(price_mod)
+
+price_fit_11 <- price_wflow_11 %>% 
+  fit(data = train_data)
+
+laptop_test_pred_11 <- predict(price_fit_11,train_data) %>%
+  bind_cols(train_data %>% select(Price))
+
+rmse(laptop_test_pred_11, truth = Price, estimate = .pred)
+
+glance(price_fit_1)$adj.r.squared
+glance(price_fit_2)$adj.r.squared
+glance(price_fit_3)$adj.r.squared
+glance(price_fit_4)$adj.r.squared
+glance(price_fit_5)$adj.r.squared
+glance(price_fit_6)$adj.r.squared
+glance(price_fit_7)$adj.r.squared
+glance(price_fit_8)$adj.r.squared
+glance(price_fit_9)$adj.r.squared
+glance(price_fit_10)$adj.r.squared
+glance(price_fit_11)$adj.r.squared
+8/9
+```
+
+
+```{r model 10}
+
+price_rec_10 <- recipe(Price ~ Ram + SSD + TypeName + Os + Cpu_brand+ Gpu_brand  + Company  , data = train_data)%>%
+  step_dummy(all_nominal(), -all_outcomes())%>%
+  step_zv(all_predictors())
+
+price_wflow_10 <- workflow() %>%
+  add_recipe(price_rec_10)%>%
+  add_model(price_mod)
+
+price_fit_10 <- price_wflow_10 %>% 
+  fit(data = train_data)
+
+laptop_test_pred_10 <- predict(price_fit_10,test_data) %>%
+  bind_cols(test_data %>% select(Price))
+
+rmse(laptop_test_pred_10, truth = Price, estimate = .pred)
+glance(price_fit_10)$adj.r.squared
+
+price_rec_12 <- recipe(Price ~ Ram + SSD + Os + Cpu_brand+ Gpu_brand  + Company  , data = train_data)%>%
+  step_dummy(all_nominal(), -all_outcomes())%>%
+  step_zv(all_predictors())
+
+price_wflow_12 <- workflow() %>%
+  add_recipe(price_rec_12)%>%
+  add_model(price_mod)
+
+price_fit_12 <- price_wflow_12 %>% 
+  fit(data = train_data)
+
+laptop_test_pred_12 <- predict(price_fit_12,test_data) %>%
+  bind_cols(test_data %>% select(Price))
+
+rmse(laptop_test_pred_12, truth = Price, estimate = .pred)
+glance(price_fit_12)$adj.r.squared
 ```
 
 Model 10 and 8 are two best models according to RMSE and adjusted R squared values, lowkey company has loads of different possibilities so it might be difficult to interpret. 
 
+```{r log-residual-comparison-b,}
 
+price_fit_10_aug <- augment(price_fit_10$fit)
+ggplot(price_fit_10_aug, mapping = aes(x = .fitted, y = .resid)) +
+  geom_point(alpha = 0.5) +
+  geom_hline(yintercept = 0, color = "gray", lty = "dashed") +
+  labs(x = "Predicted height", y = "Residuals")
+```
 
 
 
