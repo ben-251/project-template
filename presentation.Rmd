@@ -49,7 +49,7 @@ laptop_data_final <- read_csv("data/laptop_data_final.csv")
 
 #Background image
 style_xaringan(
-  title_slide_background_image = "img/laptop_background.jfif"
+  title_slide_background_image = ""
 )
 ```
 
@@ -91,9 +91,9 @@ class: inverse, middle, center
 
 - Luckily the data was in a generally cleaned state already, we merged the data with a previous uncleaned form and extracted the variable processor speed.
 
--We also found that the price variable was not only in rupees but in natural log form.
+- We also found that the price variable was not only in rupees but in natural log form.
 
-- Fortunately,The data had no missing values however we removed laptops with 0 storage, as this is not possible.
+- Fortunately, The data had no missing values however we removed laptops with 0 storage, as this is not possible.
 
 - We also decided to only consider laptops from the top 5 companies, otherwise the model would be very difficult to interpret in any meaningful way.
 ---
@@ -152,6 +152,47 @@ ggplot( aes(x = Var1, y = Var2, fill = correlation)) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
 
+```
+---
+
+```{r log2Ram vs log_price, echo=FALSE}
+
+laptop_data_final %>%
+  ggplot(mapping = aes(x=log(Ram, base =2),y=log_price,)) +
+  geom_point(color="navy") +
+  geom_smooth(, method = "lm", color="orange" )+
+  labs(
+    title = "RAM against ln(Price)",
+    x = "log2(RAM)",
+    y = "ln(Price)",
+  )
+
+```
+---
+```{r Ram vs log_price, echo=FALSE}
+
+laptop_data_final %>%
+  ggplot(mapping = aes(x=Ram,y=log_price,)) +
+  geom_point(color="navy") +
+  geom_smooth(, method = "lm", color="orange" )+
+  labs(
+    title = "RAM against ln(Price)",
+    x = "Ram",
+    y = "ln(Price)",
+  )
+
+```
+---
+```{r log_price vs SSD, echo=FALSE}
+laptop_data_final %>%
+  ggplot(mapping = aes(x=SSD,y=log_price))+
+  geom_point(color="navy") +
+  geom_smooth(, method = "lm", color="orange" )+
+  labs(
+    title = "SSD against ln(Price)",
+    x = "SSD(GB)",
+    y = "ln(Price)",
+  )
 ```
 ---
 

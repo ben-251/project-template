@@ -4,7 +4,7 @@
     <title>Prediting laptop prices</title>
     <meta charset="utf-8" />
     <meta name="author" content="Code Crunchin   Ben, Adam, Gandom, Jamie" />
-    <meta name="date" content="2024-11-24" />
+    <meta name="date" content="2024-11-25" />
     <script src="libs/header-attrs-2.28/header-attrs.js"></script>
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
   </head>
@@ -22,7 +22,7 @@ class: center, middle, inverse, title-slide
 ### University of Edinburgh
 ]
 .date[
-### 2024-11-24
+### 2024-11-25
 ]
 
 ---
@@ -77,7 +77,7 @@ class: inverse, middle, center
 
 - Luckily the data was in a generally cleaned state already, we merged the data with a previous uncleaned form and extracted the variable processor speed.
 
--We also found that the price variable was not only in rupees but in natural log form.
+- We also found that the price variable was not only in rupees but in natural log form.
 
 - Fortunately,The data had no missing values however we removed laptops with 0 storage, as this is not possible.
 
@@ -92,6 +92,28 @@ class: inverse, center, middle
 &lt;img src="presentation_files/figure-html/log_Price Histogram-1.png" width="80%" /&gt;
 ---
 &lt;img src="presentation_files/figure-html/correlation matrix plot-1.png" width="80%" /&gt;
+---
+
+
+```
+## `geom_smooth()` using formula = 'y ~ x'
+```
+
+&lt;img src="presentation_files/figure-html/log2Ram vs log_price-1.png" width="80%" /&gt;
+---
+
+```
+## `geom_smooth()` using formula = 'y ~ x'
+```
+
+&lt;img src="presentation_files/figure-html/Ram vs log_price-1.png" width="80%" /&gt;
+---
+
+```
+## `geom_smooth()` using formula = 'y ~ x'
+```
+
+&lt;img src="presentation_files/figure-html/log_price vs SSD-1.png" width="80%" /&gt;
 ---
 
 
