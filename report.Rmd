@@ -104,7 +104,28 @@ Our selected data sets contain information on 1,196 laptops with 23 variables. �
 
 ## Findings
 
+<h3><center>*An analysis of the price of a laptop based on its features and specifications*</center></h3>
 
+<h4>Introduction:</h4>
+This report presents findings from the analysis of two laptop datasets - available on Kaggle - to identify patterns and factors affecting price. The dataset contains the information of 1,196 laptops with 23 specifications, such as Company, RAM, Weight and Storage type. Initially, the objective of this analysis was to create a model to aid people in identifying the laptop type and company they should likely purchase from, based on a series of specifications they would like. The research then progressed into an analysis of how price is influenced by the presence of such specifications and by the end of the exploratory data analysis, we found ourselves researching <u>*(WHAT ARE WE RESEARCHING??)*</u>. The following sections outline our methods, results and evaluation of findings as well as some issues we faced and how they were overcome.
+
+It must first be acknowledged that this analysis is subject to certain limitations and should be interpreted with caution. The scope of the laptop statistics was constrained to the companies of Acer, Asus, Dell, HP, Lenovo and Other; categorised into one of the following categories: 2 in 1 Convertible, Netbook, Workstation, Ultrabook, Notebook and Gaming. Thus, while the analysis provides valuable insights, it is not exhaustive and may not capture all potential variables or nuances relevant to the study. Any assumptions made have been mentioned in the ‘data cleaning and wrangling’ and ‘exploratory data analysis’ sections.
+
+
+<h4>Data cleaning and wrangling:</h4>
+*(summarise cleaning and pre-processing done to the data. Brief description of data science techniques used in the investigation)*
+
+
+<h4>(Exploratory data analysis: </h4>
+*(research, understanding, calculating summary stats, narrowing observations of interest, create new variables, visualisations) A brief explanation of what the results mean in the given context of the data*
+
+
+<h4>Modelling:</h4>
+*(answers our question)*
+
+
+<h4>Conclusion: </h4>
+*(what are the advantages/ limitations of the investigation. If we had more time what more would we have done) = evaluation*
 
 
 
