@@ -78,16 +78,14 @@ laptop_data_tidy <- laptop_data_tidy%>%
 
 ```{r clean company}
 laptop_data_tidy <- laptop_data_tidy %>%
-  mutate(,
-    Company = case_when(
-      Company == "Acer" ~ "Acer",
-      Company == "Asus" ~ "Asus",
-      Company == "Dell" ~ "Dell",
-      Company == "HP" ~ "HP",
-      Company == "Lenovo" ~ "Lenovo",
-      TRUE ~ "Other"
-    )    
-  )
+  group_by(Company) %>%
+    mutate(
+      Company = case_when(
+        n() > 100 ~ Company,
+        TRUE ~ "Other"
+      )
+    ) %>%
+  ungroup()
 ```
 
 ```{r calculating price in pounds  - Jamie}
@@ -96,7 +94,6 @@ laptop_data_tidy <-laptop_data_tidy %>%
  mutate(
         log_price = log(round(exp(Price) * 0.0094 , digits =2)),
         Price = round(exp(log_price),digits = 2)
-        
          )
 
 
@@ -524,10 +521,8 @@ average_storage_type %>%
   )
 ```
 
-this looks promising for looking at models/best fits
 ```{r x v price by company}
-laptop_data_company <- laptop_data_final%>%
-  filter(Company == "Acer" | Company == "Asus" | Company == "Dell" | Company == "HP"| Company == "Lenovo")%>%
+laptop_data_company <- laptop_data_final %>%
   group_by(Company)
 
 laptop_data_final %>%
