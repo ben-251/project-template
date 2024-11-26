@@ -101,6 +101,38 @@ Our selected data sets contain information on 1,196 laptops with 23 variables. â
 (done on the google docs, I'll paste it in when we finalise the variables we plan on analysing- g)
 
 
+(In the monday lecture they used an example saying: using log something instead of the normal variable was something that really should be in the report and not the presentation so I put it here-J)
+```{r Price Histogram, echo=FALSE}
+
+laptop_data_final %>%
+  ggplot(mapping = aes(x=Price)) +
+  geom_histogram(bins = 25,fill = "orange",color="navyblue")+
+  theme_light()+
+  labs(
+    title = "Spread of laptop prices",
+    x = "Price",
+    y = "Number of Laptops"
+  )
+  
+```
+
+
+```{r log_Price Histogram, echo=FALSE}
+
+laptop_data_final %>%
+  ggplot(mapping = aes(x=log_price)) +
+  geom_histogram(bins = 25,fill = "orange",color="navyblue")+
+  theme_light()+
+  labs(
+    title = "Spread of laptop prices",
+    x = "Natural Log of Price",
+    y = "Number of Laptops"
+  )
+  
+```
+
+
+
 
 ## Findings
 

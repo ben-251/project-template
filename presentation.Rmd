@@ -21,6 +21,7 @@ output:
 # the `xaringan` package that contains all of the code which allows you 
 # to create presentation slides in Rmarkdown
 install.packages('xaringan')
+install.packages("plotly")
 ```
 
 
@@ -31,6 +32,7 @@ library(tidymodels)
 library(palmerpenguins)
 library(knitr)
 library(xaringanthemer)
+library(plotly)
 ```
 
 ```{r setup, include=FALSE}
@@ -101,34 +103,6 @@ class: inverse, center, middle
 
 # Data Visualising
 ---
-```{r Price Histogram, echo=FALSE}
-
-laptop_data_final %>%
-  ggplot(mapping = aes(x=Price)) +
-  geom_histogram(bins = 25,fill = "orange",color="navyblue")+
-  theme_light()+
-  labs(
-    title = "Spread of laptop prices",
-    x = "Price",
-    y = "Number of Laptops"
-  )
-  
-```
----
-```{r log_Price Histogram, echo=FALSE}
-
-laptop_data_final %>%
-  ggplot(mapping = aes(x=log_price)) +
-  geom_histogram(bins = 25,fill = "orange",color="navyblue")+
-  theme_light()+
-  labs(
-    title = "Spread of laptop prices",
-    x = "Natural Log of Price",
-    y = "Number of Laptops"
-  )
-  
-```
----
 ```{r correlation matrix plot, echo=FALSE}
 correlation_matrix <- laptop_data_final %>%
   select_if(is.numeric) %>%
@@ -151,21 +125,6 @@ ggplot( aes(x = Var1, y = Var2, fill = correlation)) +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
-
-```
----
-
-```{r log2Ram vs log_price, echo=FALSE}
-
-laptop_data_final %>%
-  ggplot(mapping = aes(x=log(Ram, base =2),y=log_price,)) +
-  geom_point(color="navy") +
-  geom_smooth(, method = "lm", color="orange" )+
-  labs(
-    title = "RAM against ln(Price)",
-    x = "log2(RAM)",
-    y = "ln(Price)",
-  )
 
 ```
 ---
@@ -195,8 +154,39 @@ laptop_data_final %>%
   )
 ```
 ---
+```{r log_price vs SSD vs Ram, echo=FALSE}
+p <- plot_ly(laptop_data_final,
+  x = ~Ram, y = ~SSD, z = ~log_price,
+  marker = list(size = 3, color = "orange", alpha = 0.5, 
+                line = list(color = "blue", width = 2))) %>%
+  add_markers() %>%
+  plotly::layout(scene = list(
+    xaxis = list(title = "Ram"),
+    yaxis = list(title = "SSD "),
+    zaxis = list(title = "log_price"),
+    camera = list(eye = list(x = 2, y = 2, z = 2))
+  ))
 
+p
+```
+---
+```{r silly faceting, echo =FALSE}
 
+laptop_data_long <- laptop_data_final %>%
+  mutate(Ips = as.character(Ips), 
+         TouchScreen = as.character(TouchScreen))%>%
+  pivot_longer(cols = c(Company, TypeName,TouchScreen,Ips,Cpu_brand,Gpu_brand,Os,storage_type), names_to = "x_var", values_to = "x")
+
+ggplot(laptop_data_long, aes(x = x, y = log_price))+
+  geom_bar(stat = "identity", position = "dodge")+
+  facet_wrap(~x_var, scales = "free_x")+
+  theme_minimal()+
+  labs(x = "X Variables",
+       y = "Log Price"
+       )
+
+```
+---
 
 # Layouts
 
