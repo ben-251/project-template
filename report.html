@@ -11,7 +11,7 @@
 
 <meta name="author" content="by Team-Name: Jamie, Gandom, Adam, Ben" />
 
-<meta name="date" content="2024-11-22" />
+<meta name="date" content="2024-11-25" />
 
 <title>Laptop Price Prediction</title>
 
@@ -352,57 +352,95 @@ display: none;
 
 <h1 class="title toc-ignore">Laptop Price Prediction</h1>
 <h4 class="author">by Team-Name: Jamie, Gandom, Adam, Ben</h4>
-<h4 class="date">2024-11-22</h4>
+<h4 class="date">2024-11-25</h4>
 
 </div>
 
 
 <div id="research-question" class="section level2">
 <h2>Research Question</h2>
-<p>Describe your research question here. Include why this question might
-be of interest</p>
-<p>Investigating what and to what degree different factors affect</p>
+<p>“To what extent can the price of a laptop be predicted based on some
+of its specifications and does the price level vary based upon its
+company”</p>
+<p>We can use this model as a way for people to identify what laptop
+type and from what company to make their purchase based on a series of
+specifications they want. Our initial questions to investigate included:
+‘To what degree does the existence of various specifications influence
+price’ and ‘to what degree will companies vary their price for the same
+laptop type’.</p>
 </div>
 <div id="data" class="section level2">
 <h2>Data</h2>
-<p>Briefly describe your dataset here - include a description of the key
-variables you will be investigating. Include a citation for your data.
-See <a href="http://libraryguides.vu.edu.au/c.php?g=386501&amp;p=4347840" class="uri">http://libraryguides.vu.edu.au/c.php?g=386501&amp;p=4347840</a>
-for guidance on proper citation for datasets. If you got your data off
-the web, make sure to state the retrieval date.</p>
+<p>Our selected data sets contain information on 1,196 laptops with 23
+variables. “Laptop_data_final” is a merged dataset of two separate
+collections, cleaned to limit the laptops to the following
+specifications which we deemed as relevant in our research:</p>
+<p>(done on the google docs, I’ll paste it in when we finalise the
+variables we plan on analysing- g)</p>
 </div>
 <div id="findings" class="section level2">
 <h2>Findings</h2>
-<p>The write-up of your project and findings go here.</p>
-<p>Think of this as the text of your presentation with some extra detail
-to cover what there was not time to discuss in the presentation. This
-might include any assumptions you made when doing your analysis, any
-limitations of the work you have done or any ideas you have for future
-work. Feel free to split this section into subsections to make it easier
-to read.</p>
-<p>The length should be roughly 1,500 words. If you want to use a word
-count addin, you can install this by copying and pasting the following
-into RStudio:</p>
-<p><code>devtools::install_github(&quot;benmarwick/wordcountaddin&quot;, type = &quot;source&quot;, dependencies = TRUE)</code></p>
-<p>You will then need to restart RStudio. Once you have done that,
-select the text you want to count the words of, go to Addins, and select
-the <code>Word count</code> addin. This addin counts words using two
-different algorithms, but the results should be similar and as long as
-you’re in the ballpark of 1,500 words, you’re good! The addin will
-ignore code chunks and only count the words in prose. If you don’t want
-to use the addin you can always copy and paste the text into Microsoft
-Word to do a Word Count!</p>
-<p>You can also load your data here and present any analysis results /
-plots. Make sure to hide your code with <code>echo = FALSE</code> unless
-the point you are trying to make is about the code itself, in which case
-you should show your code.</p>
+<h3>
+<center>
+<em>An analysis of the price of a laptop based on its features and
+specifications</em>
+</center>
+</h3>
+<h4>
+Introduction:
+</h4>
+<p>This report presents findings from the analysis of two laptop
+datasets - available on Kaggle - to identify patterns and factors
+affecting price. The dataset contains the information of 1,196 laptops
+with 23 specifications, such as Company, RAM, Weight and Storage type.
+Initially, the objective of this analysis was to create a model to aid
+people in identifying the laptop type and company they should likely
+purchase from, based on a series of specifications they would like. The
+research then progressed into an analysis of how price is influenced by
+the presence of such specifications and by the end of the exploratory
+data analysis, we found ourselves researching <u><em>(WHAT ARE WE
+RESEARCHING??)</em></u>. The following sections outline our methods,
+results and evaluation of findings as well as some issues we faced and
+how they were overcome.</p>
+<p>It must first be acknowledged that this analysis is subject to
+certain limitations and should be interpreted with caution. The scope of
+the laptop statistics was constrained to the companies of Acer, Asus,
+Dell, HP, Lenovo and Other; categorised into one of the following
+categories: 2 in 1 Convertible, Netbook, Workstation, Ultrabook,
+Notebook and Gaming. Thus, while the analysis provides valuable
+insights, it is not exhaustive and may not capture all potential
+variables or nuances relevant to the study. Any assumptions made have
+been mentioned in the ‘data cleaning and wrangling’ and ‘exploratory
+data analysis’ sections.</p>
+<h4>
+Data cleaning and wrangling:
+</h4>
+<p><em>(summarise cleaning and pre-processing done to the data. Brief
+description of data science techniques used in the
+investigation)</em></p>
+<h4>
+(Exploratory data analysis:
+</h4>
+<p><em>(research, understanding, calculating summary stats, narrowing
+observations of interest, create new variables, visualisations) A brief
+explanation of what the results mean in the given context of the
+data</em></p>
+<h4>
+Modelling:
+</h4>
+<p><em>(answers our question)</em></p>
+<h4>
+Conclusion:
+</h4>
+<p><em>(what are the advantages/ limitations of the investigation. If we
+had more time what more would we have done) = evaluation</em></p>
 </div>
 <div id="references" class="section level2">
 <h2>References</h2>
-<ul>
-<li><a href="https://www.kaggle.com/datasets/gyanprakashkushwaha/laptop-price-prediction-cleaned-dataset">Laptop
-Data</a></li>
-</ul>
+<p>Kushwaha, G. P. (2023, June 15). Laptop price prediction cleaned
+dataset. 2024 November 13, Kaggle. <a href="https://www.kaggle.com/datasets/gyanprakashkushwaha/laptop-price-prediction-cleaned-dataset" class="uri">https://www.kaggle.com/datasets/gyanprakashkushwaha/laptop-price-prediction-cleaned-dataset</a></p>
+<p>R, J. D. (2023, November 30). Laptop price prediction dataset. 2024
+November 13, Kaggle. <a href="https://www.kaggle.com/datasets/jacksondivakarr/laptop-price-prediction-dataset" class="uri">https://www.kaggle.com/datasets/jacksondivakarr/laptop-price-prediction-dataset</a></p>
 </div>
 
 

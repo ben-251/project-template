@@ -1,7 +1,7 @@
 ---
-title: "Presentation title"
-subtitle: "Presentation subtitle (if any)"
-author: "Code Crunchin <br> Names of team members"
+title: "Prediting laptop prices"
+subtitle: ""
+author: "Code Crunchin <br> Ben, Adam, Gandom, Jamie"
 institute: "University of Edinburgh"
 date: "`r Sys.Date()`"
 output:
@@ -21,6 +21,7 @@ output:
 # the `xaringan` package that contains all of the code which allows you 
 # to create presentation slides in Rmarkdown
 install.packages('xaringan')
+install.packages("plotly")
 ```
 
 
@@ -31,6 +32,7 @@ library(tidymodels)
 library(palmerpenguins)
 library(knitr)
 library(xaringanthemer)
+library(plotly)
 ```
 
 ```{r setup, include=FALSE}
@@ -39,7 +41,9 @@ knitr::opts_chunk$set(fig.retina = 3, dpi = 300, fig.width = 6, fig.asp = 0.618,
 ```
 
 ```{r load-data, include=FALSE}
-# Load your data here
+
+laptop_data <- read_csv("data/laptop_data_cleaned.csv")
+laptop_data_final <- read_csv("data/laptop_data_final.csv")
 
 ```
 
@@ -47,46 +51,141 @@ knitr::opts_chunk$set(fig.retina = 3, dpi = 300, fig.width = 6, fig.asp = 0.618,
 
 #Background image
 style_xaringan(
-  title_slide_background_image = "img/confetti.jpg"
+  title_slide_background_image = ""
 )
 ```
 
 class: center, middle
 
-## A statement of the overall goal / research question
+## To try and predict the price of a laptop based on its features and specifications.
 
 ---
 
 class: inverse, center, middle
 
-# Section title
+# Background Information
 
 ---
 
-# Hello World
+# The What?
 
-- Click the `Knit` button to compile your presentation
-
-- Make sure to commit and push all resulting files to your GitHub repo
-
----
-
-class: inverse, middle, center
-
-# Using xaringan
-
----
-
-# xaringan
-
-- The presentation is created using the `xaringan` package
-
-- Use `---` to separate slides and `--` for incremental builds
+- The dataset we are analysing is comprised of the specifications of various laptops, obtained from kaggle, updated most recently a year ago.
 
 --
 
-- Like this
+# Glossary 
 
+- Hard Disk Drive and Solid State Drive: A both types of long term storage for computers, Hard disk drives are generally slower and less reliable and Solid state drives are newer, faster and common place is newer computers
+
+- RAM: Random access memory: Short term memory, where your computer stores your project or homework in R before you save it.
+
+- CPU and GPU- Both processors, generally decides how fast your computer can load things, cpus are more general with gpus being specialized for graphics 
+
+
+---
+class: inverse, middle, center
+
+# Data Cleaning and Wrangling
+
+---
+
+# Data Cleaning 
+
+- Luckily the data was in a generally cleaned state already, we merged the data with a previous uncleaned form and extracted the variable processor speed.
+
+- We also found that the price variable was not only in rupees but in natural log form.
+
+- Fortunately, The data had no missing values however we removed laptops with 0 storage, as this is not possible.
+
+- We also decided to only consider laptops from the top 5 companies, otherwise the model would be very difficult to interpret in any meaningful way.
+---
+class: inverse, center, middle
+
+# Data Visualising
+---
+```{r correlation matrix plot, echo=FALSE}
+correlation_matrix <- laptop_data_final %>%
+  select_if(is.numeric) %>%
+  cor(use = "complete.obs")
+
+
+cor_tidy <- as.data.frame(as.table(correlation_matrix)) %>%
+  rename(Var1 = Var1, Var2 = Var2, correlation = Freq)
+
+cor_tidier<-cor_tidy%>%
+  arrange(,correlation)
+
+cor_tidier%>%
+  filter(Var2=="log_price",Var1!="Price",Var1!="log_price")%>%
+ggplot( aes(x = Var1, y = Var2, fill = correlation)) +
+  geom_tile(color = "white") +
+  geom_text(aes(label = round(correlation, digits = 2)))+
+  scale_fill_gradient2(low = "navy", mid = "white", high = "red", midpoint = 0) +
+  labs(title = "Correlation Matrix", x = "Natural log of Price", y = "") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+
+```
+---
+```{r Ram vs log_price, echo=FALSE}
+
+laptop_data_final %>%
+  ggplot(mapping = aes(x=Ram,y=log_price,)) +
+  geom_point(color="navy") +
+  geom_smooth(, method = "lm", color="orange" )+
+  labs(
+    title = "RAM against ln(Price)",
+    x = "Ram",
+    y = "ln(Price)",
+  )
+
+```
+---
+```{r log_price vs SSD, echo=FALSE}
+laptop_data_final %>%
+  ggplot(mapping = aes(x=SSD,y=log_price))+
+  geom_point(color="navy") +
+  geom_smooth(, method = "lm", color="orange" )+
+  labs(
+    title = "SSD against ln(Price)",
+    x = "SSD(GB)",
+    y = "ln(Price)",
+  )
+```
+---
+```{r log_price vs SSD vs Ram, echo=FALSE}
+p <- plot_ly(laptop_data_final,
+  x = ~Ram, y = ~SSD, z = ~log_price,
+  marker = list(size = 3, color = "orange", alpha = 0.5, 
+                line = list(color = "blue", width = 2))) %>%
+  add_markers() %>%
+  plotly::layout(scene = list(
+    xaxis = list(title = "Ram"),
+    yaxis = list(title = "SSD "),
+    zaxis = list(title = "log_price"),
+    camera = list(eye = list(x = 2, y = 2, z = 2))
+  ))
+
+p
+```
+---
+```{r silly faceting, echo =FALSE}
+
+laptop_data_long <- laptop_data_final %>%
+  mutate(Ips = as.character(Ips), 
+         TouchScreen = as.character(TouchScreen))%>%
+  pivot_longer(cols = c(Company, TypeName,TouchScreen,Ips,Cpu_brand,Gpu_brand,Os,storage_type), names_to = "x_var", values_to = "x")
+
+ggplot(laptop_data_long, aes(x = x, y = log_price))+
+  geom_bar(stat = "identity", position = "dodge")+
+  facet_wrap(~x_var, scales = "free_x")+
+  theme_minimal()+
+  labs(x = "X Variables",
+       y = "Log Price"
+       )
+
+```
 ---
 
 # Layouts

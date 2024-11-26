@@ -18,53 +18,146 @@ library(tidymodels)
 
 
 ```{r load-data, include=FALSE}
-# load your data here and any pre-processing/cleaning 
-#  that you need for your report.
+laptop_data <- read_csv("data/laptop_data_cleaned.csv")
+
+laptop_data <- laptop_data%>% 
+  mutate(, 
+storage_type = case_when(
+    HDD == 0 ~ "ssd",
+    SSD == 0 ~ "hdd",
+    .default = "both"
+  ))
+
+laptop_data_untidy <- read.csv("data/laptop_data.csv")
+laptop_data_untidy <- laptop_data_untidy%>%
+  mutate(Ram = parse_number(Ram))
+laptop_data_untidy <- laptop_data_untidy%>%
+  mutate(Weight = parse_number(Weight))
+laptop_data_untidy <- laptop_data_untidy%>%
+  mutate(Second_Price = Price)
+laptop_data_filtered <- laptop_data_untidy [-1192, ]
+laptop_data_filtered <- laptop_data_filtered[1:1273, ]
+
+first_diff <- which(!(laptop_data$Company == laptop_data_filtered$Company & laptop_data$TypeName == laptop_data_filtered$TypeName & laptop_data$Ram == laptop_data_filtered$Ram ))
+second_diff <- all(abs(laptop_data$Weight - laptop_data_filtered$Weight) < .Machine$double.eps^0.5)
+
+laptop_data_merged <- cbind(laptop_data, select(laptop_data_filtered, Second_Price, Inches, ScreenResolution, Cpu, Gpu, Memory)) 
+
+laptop_data_tidy <- laptop_data_merged %>%
+  mutate(,
+         storage_capacity = HDD + SSD
+         )
+
+laptop_data_tidy <- laptop_data_tidy%>%
+  filter(,storage_capacity != 0)
+
+laptop_data_tidy <- laptop_data_tidy %>%
+  mutate(,
+    Company = case_when(
+      Company == "Acer" ~ "Acer",
+      Company == "Asus" ~ "Asus",
+      Company == "Dell" ~ "Dell",
+      Company == "HP" ~ "HP",
+      Company == "Lenovo" ~ "Lenovo",
+      TRUE ~ "Other"
+    )    
+  )
+
+laptop_data_tidy <-laptop_data_tidy %>%
+ mutate(
+        log_price = log(round(exp(Price) * 0.0094 , digits =2)),
+        Price = round(exp(log_price),digits = 2)
+        
+         )
 
 
+laptop_data_final <- laptop_data_tidy
 
+laptop_data_final<-select(laptop_data_final,-Second_Price,)
+
+laptop_data_final <- laptop_data_final%>%
+  mutate(GHz = as.numeric(str_extract(Cpu, "\\d+(\\.\\d+)?(?=GHz)")))
+
+write_csv(laptop_data_final, "data/laptop_data_final.csv")
+
+# load your data here and any pre-processing/cleaning that you need for your report.
 
 ```
 
 
 ## Research Question
 
-Describe your research question here. Include why this question might be of interest
- 
-Investigating what and to what degree different factors affect 
 
+“To what extent can the price of a laptop be predicted based on some of its specifications and does the price level vary based upon its company”
+
+We can use this model as a way for people to identify what laptop type and from what company to make their purchase based on a series of specifications they want. Our initial questions to investigate included: 'To what degree does the existence of various specifications influence price' and 'to what degree will companies vary their price for the same laptop type'.
 
 
 
 ## Data
 
-Briefly describe your dataset here - include a description of the key variables you will be investigating. 
-Include a citation for your data. 
-See http://libraryguides.vu.edu.au/c.php?g=386501&p=4347840 for guidance on proper citation for datasets. 
-If you got your data off the web, make sure to state the retrieval date.
+Our selected data sets contain information on 1,196 laptops with 23 variables. “Laptop_data_final” is a merged dataset of two separate collections, cleaned to limit the laptops to the following specifications which we deemed as relevant in our research:
+
+(done on the google docs, I'll paste it in when we finalise the variables we plan on analysing- g)
 
 
+(In the monday lecture they used an example saying: using log something instead of the normal variable was something that really should be in the report and not the presentation so I put it here-J)
+```{r Price Histogram, echo=FALSE}
+
+laptop_data_final %>%
+  ggplot(mapping = aes(x=Price)) +
+  geom_histogram(bins = 25,fill = "orange",color="navyblue")+
+  theme_light()+
+  labs(
+    title = "Spread of laptop prices",
+    x = "Price",
+    y = "Number of Laptops"
+  )
+  
+```
+
+
+```{r log_Price Histogram, echo=FALSE}
+
+laptop_data_final %>%
+  ggplot(mapping = aes(x=log_price)) +
+  geom_histogram(bins = 25,fill = "orange",color="navyblue")+
+  theme_light()+
+  labs(
+    title = "Spread of laptop prices",
+    x = "Natural Log of Price",
+    y = "Number of Laptops"
+  )
+  
+```
 
 
 
 
 ## Findings
 
-The write-up of your project and findings go here. 
+<h3><center>*An analysis of the price of a laptop based on its features and specifications*</center></h3>
 
-Think of this as the text of your presentation with some extra detail to cover what there was not time to discuss in the presentation. This might include any assumptions you made when doing your analysis, any limitations of the work you have done or any ideas you have for future work. Feel free to split this section into subsections to make it easier to read. 
+<h4>Introduction:</h4>
+This report presents findings from the analysis of two laptop datasets - available on Kaggle - to identify patterns and factors affecting price. The dataset contains the information of 1,196 laptops with 23 specifications, such as Company, RAM, Weight and Storage type. Initially, the objective of this analysis was to create a model to aid people in identifying the laptop type and company they should likely purchase from, based on a series of specifications they would like. The research then progressed into an analysis of how price is influenced by the presence of such specifications and by the end of the exploratory data analysis, we found ourselves researching <u>*(WHAT ARE WE RESEARCHING??)*</u>. The following sections outline our methods, results and evaluation of findings as well as some issues we faced and how they were overcome.
 
-The length should be roughly 1,500 words. 
-If you want to use a word count addin, you can install this by copying and pasting the following into RStudio:
+It must first be acknowledged that this analysis is subject to certain limitations and should be interpreted with caution. The scope of the laptop statistics was constrained to the companies of Acer, Asus, Dell, HP, Lenovo and Other; categorised into one of the following categories: 2 in 1 Convertible, Netbook, Workstation, Ultrabook, Notebook and Gaming. Thus, while the analysis provides valuable insights, it is not exhaustive and may not capture all potential variables or nuances relevant to the study. Any assumptions made have been mentioned in the ‘data cleaning and wrangling’ and ‘exploratory data analysis’ sections.
 
-`devtools::install_github("benmarwick/wordcountaddin", type = "source", dependencies = TRUE)`
 
-You will then need to restart RStudio. Once you have done that, select the text you want to count the words of, go to Addins, and select the `Word count` addin.
-This addin counts words using two different algorithms, but the results should be similar and as long as you're in the ballpark of 1,500 words, you're good! 
-The addin will ignore code chunks and only count the words in prose. If you don't want to use the addin you can always copy and paste the text into Microsoft Word to do a Word Count!
+<h4>Data cleaning and wrangling:</h4>
+*(summarise cleaning and pre-processing done to the data. Brief description of data science techniques used in the investigation)*
 
-You can also load your data here and present any analysis results / plots.
-Make sure to hide your code with  `echo = FALSE` unless the point you are trying to make is about the code itself, in which case you should show your code.
+
+<h4>(Exploratory data analysis: </h4>
+*(research, understanding, calculating summary stats, narrowing observations of interest, create new variables, visualisations) A brief explanation of what the results mean in the given context of the data*
+
+
+<h4>Modelling:</h4>
+*(answers our question)*
+
+
+<h4>Conclusion: </h4>
+*(what are the advantages/ limitations of the investigation. If we had more time what more would we have done) = evaluation*
 
 
 
@@ -72,6 +165,11 @@ Make sure to hide your code with  `echo = FALSE` unless the point you are trying
 
 ## References
 
-List any references here. You should, at a minimum, list your data source.
+Kushwaha, G. P. (2023, June 15). Laptop price prediction cleaned dataset. 2024 November 13, Kaggle. 
+https://www.kaggle.com/datasets/gyanprakashkushwaha/laptop-price-prediction-cleaned-dataset 
+
+R, J. D. (2023, November 30). Laptop price prediction dataset. 2024 November 13, Kaggle. 
+https://www.kaggle.com/datasets/jacksondivakarr/laptop-price-prediction-dataset 
+
 
 
