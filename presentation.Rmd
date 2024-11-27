@@ -1,7 +1,7 @@
 ---
 title: "An analysis of the price of a laptop based on its features and specifications"
 subtitle: ""
-author: "The Code Crunchers <br> Ben, Adam, Gandom, Jamie"
+author: "By: The Code Crunchers <br> Ben, Adam, Gandom, Jamie"
 institute: "University of Edinburgh"
 date: "`r Sys.Date()`"
 output:
@@ -65,13 +65,15 @@ class: inverse, center, middle
 
 # Background Information
 
+
 ---
 
-# The What?
+class: inverse, center, middle
 
-- The dataset we are analysing is comprised of the specifications of various laptops, obtained from kaggle, updated most recently a year ago.
+# Glossary
 
---
+---
+
 
 # Glossary 
 
