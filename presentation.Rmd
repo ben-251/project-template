@@ -1,7 +1,7 @@
 ---
-title: "Prediting laptop prices"
+title: "Predicting laptop prices"
 subtitle: ""
-author: "Code Crunchin <br> Ben, Adam, Gandom, Jamie"
+author: "Code Crunchers <br> Ben, Adam, Gandom, Jamie"
 institute: "University of Edinburgh"
 date: "`r Sys.Date()`"
 output:
@@ -75,11 +75,11 @@ class: inverse, center, middle
 
 # Glossary 
 
-- Hard Disk Drive and Solid State Drive: A both types of long term storage for computers, Hard disk drives are generally slower and less reliable and Solid state drives are newer, faster and common place is newer computers
+- Hard Disk Drive and Solid State Drive: Both types of long term storage for computers, Hard disk drives are generally slower and less reliable and Solid state drives are newer, faster and common place is newer computers
 
 - RAM: Random access memory: Short term memory, where your computer stores your project or homework in R before you save it.
 
-- CPU and GPU- Both processors, generally decides how fast your computer can load things, cpus are more general with gpus being specialized for graphics 
+- CPU and GPU: Both processors, generally decides how fast your computer can load things, CPUs are more general with GGPUs being specialized for graphics. 
 
 
 ---
@@ -97,7 +97,7 @@ class: inverse, middle, center
 
 - Fortunately, The data had no missing values however we removed laptops with 0 storage, as this is not possible.
 
-- We also decided to only consider laptops from the top 5 companies, otherwise the model would be very difficult to interpret in any meaningful way.
+- We also decided to only consider laptops from the top 5 companies, collapsing the rest to 'Other', otherwise the model would be very difficult to interpret in any meaningful way.
 ---
 class: inverse, center, middle
 
@@ -181,6 +181,7 @@ ggplot(laptop_data_long, aes(x = x, y = log_price))+
   geom_bar(stat = "identity", position = "dodge")+
   facet_wrap(~x_var, scales = "free_x")+
   theme_minimal()+
+  # theme(axis.text.x = element_text(angle = 45, hjust = 1)) + was trying to prevent overlap but this squishes the bars for some reason
   labs(x = "X Variables",
        y = "Log Price"
        )
