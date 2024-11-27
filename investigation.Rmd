@@ -884,22 +884,26 @@ Model 10 and 8 are two best models according to RMSE and adjusted R squared valu
 ```{r log-residual-comparison-b,echo=FALSE}
 
 model_object_1 <- extract_fit_parsnip(price_fit_10)
+model_object_2 <- extract_fit_parsnip(price_fit_log10)
 
-price_fit_10_aug <- augment(model_object_1$fit)
-ggplot(price_fit_10_aug, mapping = aes(x = .fitted, y = .resid)) +
+## non-log
+price_10_fit2 <- linear_reg() %>%
+  set_engine("lm") %>%
+  fit(Price ~ Ram + SSD + TypeName + Os + Cpu_brand+ Gpu_brand  + Company, data=train_data)
+
+price_10_fit2_aug <- augment(price_10_fit2$fit)
+ggplot(price_10_fit2_aug, mapping = aes(x = .fitted, y = .resid)) +
   geom_point(alpha = 0.5) +
   geom_hline(yintercept = 0, color = "gray", lty = "dashed") +
   labs(x = "Predicted height", y = "Residuals")
 
-model_object_2 <- extract_fit_parsnip(price_fit_log10)
-
+## log
 price_log10_fit2 <- linear_reg() %>%
   set_engine("lm") %>%
-  fit(log_price ~ Ram + SSD + TypeName + Os + Cpu_brand+ Gpu_brand  + Company)
-price_log10_fit2_aug <- augment(price_log10_fit2$fit)
+  fit(log_price ~ Ram + SSD + TypeName + Os + Cpu_brand+ Gpu_brand  + Company, data=train_data)
 
-price_fit_log10_aug <- augment(model_object_2$fit)
-ggplot(price_fit_log10_aug, mapping = aes(x = .fitted, y = .resid)) +
+price_log10_fit2_aug <- augment(price_log10_fit2$fit)
+ggplot(price_log10_fit2_aug, mapping = aes(x = .fitted, y = .resid)) +
   geom_point(alpha = 0.5) +
   geom_hline(yintercept = 0, color = "gray", lty = "dashed") +
   labs(x = "Predicted height", y = "Residuals")
