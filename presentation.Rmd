@@ -1,7 +1,7 @@
 ---
-title: "Predicting laptop prices"
+title: "An analysis of the price of a laptop based on its features and specifications"
 subtitle: ""
-author: "Code Crunchers <br> Ben, Adam, Gandom, Jamie"
+author: "The Code Crunchers <br> Ben, Adam, Gandom, Jamie"
 institute: "University of Edinburgh"
 date: "`r Sys.Date()`"
 output:
@@ -57,7 +57,7 @@ style_xaringan(
 
 class: center, middle
 
-## To try and predict the price of a laptop based on its features and specifications.
+## “To what extent can the price of a laptop be predicted based on some of its specifications”
 
 ---
 
