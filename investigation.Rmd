@@ -893,6 +893,11 @@ ggplot(price_fit_10_aug, mapping = aes(x = .fitted, y = .resid)) +
 
 model_object_2 <- extract_fit_parsnip(price_fit_log10)
 
+price_log10_fit2 <- linear_reg() %>%
+  set_engine("lm") %>%
+  fit(log_price ~ Ram + SSD + TypeName + Os + Cpu_brand+ Gpu_brand  + Company)
+price_log10_fit2_aug <- augment(price_log10_fit2$fit)
+
 price_fit_log10_aug <- augment(model_object_2$fit)
 ggplot(price_fit_log10_aug, mapping = aes(x = .fitted, y = .resid)) +
   geom_point(alpha = 0.5) +
