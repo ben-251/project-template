@@ -74,17 +74,6 @@ class: inverse, center, middle
 
 ---
 
-
-# Glossary 
-
-- Hard Disk Drive and Solid State Drive: Both types of long term storage for computers, Hard disk drives are generally slower and less reliable and Solid state drives are newer, faster and common place is newer computers
-
-- RAM: Random access memory: Short term memory, where your computer stores your project or homework in R before you save it.
-
-- CPU and GPU: Both processors, generally decides how fast your computer can load things, CPUs are more general with GGPUs being specialized for graphics. 
-
-
----
 class: inverse, middle, center
 
 # Data Cleaning and Wrangling
