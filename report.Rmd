@@ -118,7 +118,6 @@ laptop_data_final %>%
 
 
 ```{r log_Price Histogram, echo=FALSE}
-
 laptop_data_final %>%
   ggplot(mapping = aes(x=log_price)) +
   geom_histogram(bins = 25,fill = "orange",color="navyblue")+
@@ -128,11 +127,7 @@ laptop_data_final %>%
     x = "Natural Log of Price",
     y = "Number of Laptops"
   )
-  
 ```
-
-
-
 
 ## Findings
 
