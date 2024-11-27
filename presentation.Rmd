@@ -209,14 +209,19 @@ ggplot(filter(laptop_data_long, !x_var %in% c("Company", "Cpu_brand", "TypeName"
 # Response variable is numeric
 
 ---
+class: center, middle
 # Linear regression graph better
 
-```{r Residuals plot, eval = FALSE}
-
-```
-
 ```{r Residuals plot 2}
+price_log10_fit2 <- linear_reg() %>%
+  set_engine("lm") %>%
+  fit(log_price ~ Ram + SSD + TypeName + Os + Cpu_brand+ Gpu_brand  + Company, data=train_data)
 
+price_log10_fit2_aug <- augment(price_log10_fit2$fit)
+ggplot(price_log10_fit2_aug, mapping = aes(x = .fitted, y = .resid)) +
+  geom_point(alpha = 0.5) +
+  geom_hline(yintercept = 0, color = "gray", lty = "dashed") +
+  labs(x = "Predicted natural logarithm of price", y = "Residuals")
 ```
 ---
 # Our final model
