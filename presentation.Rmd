@@ -206,11 +206,14 @@ ggplot(filter(laptop_data_long, !x_var %in% c("Company", "Cpu_brand", "TypeName"
 # Our chosen variables list
 
 ---
-# Response variable is numeric
+# Choosing the right fit
+- The response variable Price is numeric and continuous, making it unsuitable for logistic regression
 
+- Linear regression effectively captures the price trend in the data
+
+- Preferred over non-linear model to reduce the risk of overfitting
 ---
 class: center, middle
-# Linear regression graph better
 
 ```{r Residuals plot 2, echo = FALSE}
 set.seed(26)
@@ -226,7 +229,7 @@ price_log10_fit2_aug <- augment(price_log10_fit2$fit)
 ggplot(price_log10_fit2_aug, mapping = aes(x = .fitted, y = .resid)) +
   geom_point(alpha = 0.5) +
   geom_hline(yintercept = 0, color = "gray", lty = "dashed") +
-  labs(x = "Predicted natural logarithm of price", y = "Residuals")
+  labs(title = "Residuals of our linear regression model",x = "Predicted natural logarithm of price", y = "Residuals")
 ```
 ---
 # Our final model
