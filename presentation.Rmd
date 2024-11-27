@@ -211,6 +211,13 @@ ggplot(filter(laptop_data_long, !x_var %in% c("Company", "Cpu_brand", "TypeName"
 ---
 # Linear regression graph better
 
+```{r Residuals plot, eval = FALSE}
+
+```
+
+```{r Residuals plot 2}
+
+```
 ---
 # Our final model
 
