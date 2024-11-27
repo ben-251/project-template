@@ -212,7 +212,12 @@ ggplot(filter(laptop_data_long, !x_var %in% c("Company", "Cpu_brand", "TypeName"
 class: center, middle
 # Linear regression graph better
 
-```{r Residuals plot 2}
+```{r Residuals plot 2, echo = FALSE}
+set.seed(26)
+laptop_split <- initial_split(laptop_data_final)
+train_data <- training(laptop_split)
+test_data  <- testing(laptop_split)
+
 price_log10_fit2 <- linear_reg() %>%
   set_engine("lm") %>%
   fit(log_price ~ Ram + SSD + TypeName + Os + Cpu_brand+ Gpu_brand  + Company, data=train_data)
