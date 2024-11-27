@@ -103,6 +103,7 @@ class: inverse, center, middle
 
 # Data Visualising
 ---
+class: center, middle
 ```{r correlation matrix plot, echo=FALSE}
 correlation_matrix <- laptop_data_final %>%
   select_if(is.numeric) %>%
@@ -128,6 +129,7 @@ ggplot( aes(x = Var1, y = Var2, fill = correlation)) +
 
 ```
 ---
+class: center, middle
 ```{r Ram vs log_price, echo=FALSE}
 
 laptop_data_final %>%
@@ -142,6 +144,7 @@ laptop_data_final %>%
 
 ```
 ---
+class: center, middle
 ```{r log_price vs SSD, echo=FALSE}
 laptop_data_final %>%
   ggplot(mapping = aes(x=SSD,y=log_price))+
@@ -154,6 +157,7 @@ laptop_data_final %>%
   )
 ```
 ---
+class: center, middle
 ```{r log_price vs SSD vs Ram, echo=FALSE}
 p <- plot_ly(laptop_data_final,
   x = ~Ram, y = ~SSD, z = ~log_price,
@@ -170,21 +174,50 @@ p <- plot_ly(laptop_data_final,
 p
 ```
 ---
+class: center, middle
 ```{r silly faceting, echo =FALSE}
+
+laptop_data_long <- laptop_data_final %>%
+  mutate(Ips = as.character(Ips), 
+         TouchScreen = as.character(TouchScreen))%>%
+  pivot_longer(cols = c(Company, TypeName,TouchScreen,Ips,Cpu_brand,Gpu_brand,Os,storage_type), names_to = "x_var", values_to = "x",)
+r_colors <- sample(colors(), 40)
+ggplot(filter(laptop_data_long, x_var %in% c("Company", "Cpu_brand", "TypeName")), aes(x = x, y = log_price, fill = x))+
+  geom_bar(stat = "identity", position = "dodge")+
+  facet_wrap(~x_var, scales = "free_x")+
+  theme_minimal()+
+  labs(x = "X Variables",
+       y = "Log Price"
+       )+
+  theme(
+    legend.position = "none",
+    axis.text.x = element_text(
+      angle = 45, hjust = 1))+
+  scale_fill_manual(values = r_colors)
+
+```
+---
+class: center, middle
+```{r silly faceting 2, echo =FALSE}
 
 laptop_data_long <- laptop_data_final %>%
   mutate(Ips = as.character(Ips), 
          TouchScreen = as.character(TouchScreen))%>%
   pivot_longer(cols = c(Company, TypeName,TouchScreen,Ips,Cpu_brand,Gpu_brand,Os,storage_type), names_to = "x_var", values_to = "x")
 
-ggplot(laptop_data_long, aes(x = x, y = log_price))+
+ggplot(filter(laptop_data_long, !x_var %in% c("Company", "Cpu_brand", "TypeName")), aes(x = x, y = log_price, fill = x))+
   geom_bar(stat = "identity", position = "dodge")+
   facet_wrap(~x_var, scales = "free_x")+
   theme_minimal()+
   # theme(axis.text.x = element_text(angle = 45, hjust = 1)) + was trying to prevent overlap but this squishes the bars for some reason
   labs(x = "X Variables",
        y = "Log Price"
-       )
+       )+
+  theme(
+    legend.position = "none",
+    axis.text.x = element_text(
+      angle = 0, hjust = 1))+
+  scale_fill_brewer(palette = "Paired")
 
 ```
 ---
