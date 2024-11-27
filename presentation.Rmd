@@ -70,7 +70,10 @@ class: inverse, center, middle
 
 class: inverse, center, middle
 
-# Glossary
+## Glossary
+
+
+<div class="top-left-text">Hard Disk Drive and Solid State Drive</div>
 
 ---
 
@@ -78,21 +81,7 @@ class: inverse, middle, center
 
 # Data Cleaning and Wrangling
 
----
 
-# Data Cleaning 
-
-- Luckily the data was in a generally cleaned state already, we merged the data with a previous uncleaned form and extracted the variable processor speed.
-
-- We also found that the price variable was not only in rupees but in natural log form.
-
-- Fortunately, The data had no missing values however we removed laptops with 0 storage, as this is not possible.
-
-- We also decided to only consider laptops from the top 5 companies, collapsing the rest to 'Other', otherwise the model would be very difficult to interpret in any meaningful way.
----
-class: inverse, center, middle
-
-# Data Visualising
 ---
 class: center, middle
 ```{r correlation matrix plot, echo=FALSE}

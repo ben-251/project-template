@@ -270,16 +270,4 @@ table.dataTable.hover tbody tr:hover, table.dataTable.display tbody tr:hover {
   }
 }
 
----
-output: xaringan::moon_reader
---- 
-
-```{css, echo=FALSE}
-.top-left {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    font-size: 24px;
-    font-weight: bold;
-}
 
