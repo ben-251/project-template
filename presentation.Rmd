@@ -77,9 +77,12 @@ class: inverse, center, middle
 
 ---
 
-class: inverse, middle, center
+class: middle, center
 
-# Data Cleaning and Wrangling
+# Our initial variables
+
+---
+# Removed categorical variables
 
 
 ---
@@ -199,6 +202,28 @@ ggplot(filter(laptop_data_long, !x_var %in% c("Company", "Cpu_brand", "TypeName"
   scale_fill_brewer(palette = "Paired")
 
 ```
+---
+# Our chosen variables list
+
+---
+# Response variable is numeric
+
+---
+# Linear regression graph better
+
+---
+# Our final model
+
+---
+# what we found
+
+---
+#To conclude...
+
+---
+class: inverse, center, middle
+# Questions
+
 ---
 
 # Layouts
