@@ -233,6 +233,22 @@ ggplot(price_log10_fit2_aug, mapping = aes(x = .fitted, y = .resid)) +
 ```
 ---
 # Our final model
+The first few elements of the model:
+```{r model-equation, echo = FALSE}
+table <- tidy(price_log10_fit2$fit) %>%
+  slice_head(n = 6) %>%
+  select(term, estimate)
+kable(table, format = "html")
+```
+From this sample, we can interpret the numeric values:
+$$
+\widehat{Price} = 5.59 +  (0.0271 \times Ram) + (0.000857 \times SSD) + \dots
+$$
+For every additional GB of Ram, the estimated price increases on average by $e^{0.0271} \approx £1.03$ GBP
+
+Each category also has a baseline:
+(mention for example how notebooks are lower than baseline, but gaming is higher)
+
 
 ---
 # what we found
