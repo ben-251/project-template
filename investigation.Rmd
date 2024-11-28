@@ -866,16 +866,16 @@ price_rec_log10 <- recipe(log_price ~ Ram + SSD + TypeName + Os + Cpu_brand+ Gpu
   step_zv(all_predictors())
 
 price_wflow_log10 <- workflow() %>%
-  add_recipe(price_rec_10)%>%
+  add_recipe(price_rec_log10)%>%
   add_model(price_mod)
 
-price_fit_log10 <- price_wflow_10 %>% 
+price_fit_log10 <- price_wflow_log10 %>% 
   fit(data = train_data)
 
 laptop_test_pred_log10 <- predict(price_fit_log10,test_data) %>%
-  bind_cols(test_data %>% select(Price))
+  bind_cols(test_data %>% select(log_price))
 
-rmse(laptop_test_pred_log10, truth = Price, estimate = .pred)
+rmse(laptop_test_pred_log10, truth = log_price, estimate = .pred)
 glance(price_fit_10)$adj.r.squared
 ```
 
