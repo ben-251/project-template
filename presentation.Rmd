@@ -148,6 +148,11 @@ print("Ram")
 print("SSD")
 
 ```
+
+.footnote[
+[*] This was one of many visualisations we used to narrow down the variables we chose to focus on. Due to todays time restraint we've only chosen to show this one
+]
+
 ---
 class: center, middle
 ```{r Ram vs log_price, echo=FALSE}
@@ -164,12 +169,7 @@ laptop_data_final %>%
 
 ```
 
-.footnote[
 
-
-
-[*] This was one of many visualisations we used to narrow down the variables we chose to focus on
-]
 
 ---
 class: center, middle
