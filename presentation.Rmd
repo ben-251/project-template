@@ -1,7 +1,7 @@
 ---
 title: "An analysis of the price of a laptop based on its features and specifications"
 subtitle: ""
-author: "By: The Code Crunchers <br> Ben, Adam, Gandom, Jamie"
+author: "By The Code Crunchers <br> Ben, Adam, Gandom, Jamie"
 institute: "University of Edinburgh"
 date: "`r Sys.Date()`"
 output:
@@ -53,11 +53,13 @@ laptop_data_final <- read_csv("data/laptop_data_final.csv")
 style_xaringan(
   title_slide_background_image = ""
 )
-```
 
+style_duo_accent(primary_color = "#035AA6", secondary_color = "#23395b")
+
+```
 class: center, middle
 
-## “To what extent can the price of a laptop be predicted based on some of its specifications”
+## *“To what extent can the price of a laptop be predicted based on some of its specifications”*
 
 ---
 
@@ -68,22 +70,45 @@ class: inverse, center, middle
 
 ---
 
-class: inverse, center, middle
+class: center, middle
 
-## Glossary
+## <h2> Glossary </h2>
 
+.pull-left[
+- Hard Disk Drive (HDD) 
 
-<div class="top-left-text">Hard Disk Drive and Solid State Drive</div>
+- Solid State Drive (SSD)
+]
 
+.pull-right[
+RAM
+
+CPU and GPU
+]
+
+---
+
+class: inverse, middle, center
+
+# Our initial variables
+```{r initial variables, echo = FALSE}
+
+colnames(laptop_data_final)
+echo = FALSE
+
+```
 ---
 
 class: middle, center
 
-# Our initial variables
+# Removing categorical variables
+<h3> only numerical variables remain </h3>
+```{r numerical variables, echo = FALSE}
 
----
-# Removed categorical variables
+num_col_names <- colnames(laptop_data_final)[sapply(laptop_data_final, is.numeric)]
+print(num_col_names)
 
+```
 
 ---
 class: center, middle
@@ -104,11 +129,22 @@ cor_tidier%>%
 ggplot( aes(x = Var1, y = Var2, fill = correlation)) +
   geom_tile(color = "white") +
   geom_text(aes(label = round(correlation, digits = 2)))+
-  scale_fill_gradient2(low = "navy", mid = "white", high = "red", midpoint = 0) +
-  labs(title = "Correlation Matrix", x = "Natural log of Price", y = "") +
+  scale_fill_gradient2(low = "white", mid = "lightblue", high = "#23395b", midpoint = 0) +
+  labs(title = "The Correlation Matrix", x = "Natural log of Price", y = "") +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
+
+```
+---
+
+class: inverse, middle, center
+
+# Our chosen variables
+```{r chosen variables, echo = FALSE}
+
+print("Ram")
+print("SSD")
 
 ```
 ---
@@ -117,12 +153,12 @@ class: center, middle
 
 laptop_data_final %>%
   ggplot(mapping = aes(x=Ram,y=log_price,)) +
-  geom_point(color="navy") +
-  geom_smooth(, method = "lm", color="orange" )+
+  geom_point(color="cadetblue") +
+  geom_smooth(, method = "lm", color="darkblue" )+
   labs(
     title = "RAM against ln(Price)",
     x = "Ram",
-    y = "ln(Price)",
+    y = "ln(Price)"
   )
 
 ```
@@ -131,8 +167,8 @@ class: center, middle
 ```{r log_price vs SSD, echo=FALSE}
 laptop_data_final %>%
   ggplot(mapping = aes(x=SSD,y=log_price))+
-  geom_point(color="navy") +
-  geom_smooth(, method = "lm", color="orange" )+
+  geom_point(color="cadetblue") +
+  geom_smooth(, method = "lm", color="darkblue" )+
   labs(
     title = "SSD against ln(Price)",
     x = "SSD(GB)",
@@ -156,6 +192,17 @@ p <- plot_ly(laptop_data_final,
 
 p
 ```
+---
+
+class: inverse, center, middle
+
+# Choosing the right fit
+
+- The response variable Price is numeric and continuous, making it unsuitable for logistic regression
+
+- Linear regression effectively captures the price trend in the data
+
+- Preferred over non-linear model to reduce the risk of overfitting
 ---
 class: center, middle
 ```{r silly faceting, echo =FALSE}
@@ -202,17 +249,9 @@ ggplot(filter(laptop_data_long, !x_var %in% c("Company", "Cpu_brand", "TypeName"
   scale_fill_brewer(palette = "Paired")
 
 ```
----
-# Our chosen variables list
 
 ---
-# Choosing the right fit
-- The response variable Price is numeric and continuous, making it unsuitable for logistic regression
 
-- Linear regression effectively captures the price trend in the data
-
-- Preferred over non-linear model to reduce the risk of overfitting
----
 class: center, middle
 
 ```{r Residuals plot 2, echo = FALSE}
@@ -232,6 +271,9 @@ ggplot(price_log10_fit2_aug, mapping = aes(x = .fitted, y = .resid)) +
   labs(title = "Residuals of our linear regression model",x = "Predicted natural logarithm of price", y = "Residuals")
 ```
 ---
+
+class: middle
+
 # Our final model
 The first few elements of the model:
 ```{r model-equation, echo = FALSE}
@@ -251,14 +293,29 @@ Each category also has a baseline:
 
 
 ---
-# what we found
+
+class: inverse, middle, center
+
+# What we found
+
+- bullet
+- points
 
 ---
-#To conclude...
+
+class: middle, center
+
+#<h1> To conclude... </h1>
 
 ---
+
 class: inverse, center, middle
-# Questions
+
+# <h1> Questions? </h1>
+
+---
+
+#appendix in the case of extra questions?
 
 ---
 
