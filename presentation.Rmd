@@ -264,12 +264,16 @@ For:
 
 ---
 
-class: inverse, middle, center
+class: inverse, middle
 
 # What we found
 
-- bullet
-- points
+- The best model is linear regression
+- The variables with highest correlation are Ram and Ssd
+- The highest difference in intercept is 0.65 for computer type
+- Company has influence on the price but the highest difference is only 0.17
+- RMSE is 180.5603	
+- Adjusted R squared is 0.717544
 
 ---
 
