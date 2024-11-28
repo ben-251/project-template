@@ -57,6 +57,14 @@ style_xaringan(
 style_duo_accent(primary_color = "#035AA6", secondary_color = "#23395b")
 
 ```
+
+class: inverse, center, middle
+
+# Background Information
+
+
+---
+
 class: center, middle
 
 ## *“To what extent can the price of a laptop be predicted based on some of its specifications”*
@@ -68,6 +76,17 @@ class: inverse, center, middle
 # Background Information
 
 
+---
+
+class: inverse, middle, center
+
+# Our initial variables
+```{r initial variables, echo = FALSE}
+
+colnames(laptop_data_final)
+echo = FALSE
+
+```
 ---
 
 class: center, middle
@@ -86,17 +105,6 @@ RAM
 CPU and GPU
 ]
 
----
-
-class: inverse, middle, center
-
-# Our initial variables
-```{r initial variables, echo = FALSE}
-
-colnames(laptop_data_final)
-echo = FALSE
-
-```
 ---
 
 class: middle, center
