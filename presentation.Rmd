@@ -222,12 +222,12 @@ laptop_split <- initial_split(laptop_data_final)
 train_data <- training(laptop_split)
 test_data  <- testing(laptop_split)
 
-price_log10_fit2 <- linear_reg() %>%
+price_log_fit <- linear_reg() %>%
   set_engine("lm") %>%
   fit(log_price ~ Ram + SSD + TypeName + Os + Cpu_brand+ Gpu_brand  + Company, data=train_data)
 
-price_log10_fit2_aug <- augment(price_log10_fit2$fit)
-ggplot(price_log10_fit2_aug, mapping = aes(x = .fitted, y = .resid)) +
+price_log_fit_aug <- augment(price_log_fit$fit)
+ggplot(price_log_fit_aug, mapping = aes(x = .fitted, y = .resid)) +
   geom_point(alpha = 0.5) +
   geom_hline(yintercept = 0, color = "cadetblue", lty = "dashed") +
   labs(title = "Residuals of our linear regression model",x = "Predicted natural logarithm of price", y = "Residuals")
@@ -239,7 +239,7 @@ class: middle
 # Our final model
 The first few elements of the model:
 ```{r model-equation, echo = FALSE}
-table <- tidy(price_log10_fit2$fit) %>%
+table <- tidy(price_log_fit$fit) %>%
   slice_head(n = 6) %>%
   mutate(
     estimate = round(estimate, 4)
@@ -323,7 +323,6 @@ ggplot(filter(laptop_data_long, !x_var %in% c("Company", "Cpu_brand", "TypeName"
   geom_bar(stat = "identity", position = "dodge")+
   facet_wrap(~x_var, scales = "free_x")+
   theme_minimal()+
-  # theme(axis.text.x = element_text(angle = 45, hjust = 1)) + was trying to prevent overlap but this squishes the bars for some reason
   labs(x = "X Variables",
        y = "Log Price"
        )+
