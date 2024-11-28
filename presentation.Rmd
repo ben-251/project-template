@@ -241,18 +241,26 @@ The first few elements of the model:
 ```{r model-equation, echo = FALSE}
 table <- tidy(price_log10_fit2$fit) %>%
   slice_head(n = 6) %>%
+  mutate(
+    estimate = round(estimate, 4)
+  ) %>%
   select(term, estimate)
 kable(table, format = "html")
 ```
-From this sample, we can interpret the numeric values:
+
 $$
 \widehat{Price} = 5.59 +  (0.0271 \times Ram) + (0.000857 \times SSD) + \dots
 $$
-For every additional GB of Ram, the estimated price increases on average by $e^{0.0271} \approx £1.03$ GBP
+---
+## Numeric Variables
+For every additional GB of Ram, the estimated log price increases on average by 0.0271 log GBP
 
+## Categorical
 Each category also has a baseline:
-(mention for example how notebooks are lower than baseline, but gaming is higher)
 
+For:
+- The log price increases by 0.139 log pounds for Gaming Laptops relative to 2-in-1 convertibles
+- The log price decreases by 0.155 log pounds for Notebooks relative to 2-in-1 Convertibles
 
 ---
 
@@ -326,36 +334,3 @@ ggplot(filter(laptop_data_long, !x_var %in% c("Company", "Cpu_brand", "TypeName"
   scale_fill_brewer(palette = "Paired")
 
 ```
-
----
-
-# Math Expressions
-
-You can write LaTeX math expressions inside a pair of dollar signs, e.g. &#36;\alpha+\beta$ renders $\alpha+\beta$. You can use the display style with double dollar signs:
-
-```
-$$\bar{X}=\frac{1}{n}\sum_{i=1}^nX_i$$
-```
-
-$$\bar{X}=\frac{1}{n}\sum_{i=1}^nX_i$$
-
-Limitations:
-
-1. The source code of a LaTeX math expression must be in one line, unless it is inside a pair of double dollar signs, in which case the starting `$$` must appear in the very beginning of a line, followed immediately by a non-space character, and the ending `$$` must be at the end of a line, led by a non-space character;
-
-1. There should not be spaces after the opening `$` or before the closing `$`.
-
-1. Math does not work on the title slide (see [#61](https://github.com/yihui/xaringan/issues/61) for a workaround).
-
----
-
-# Feeling adventurous?
-
-- Want to find out more about `xaringan`? See https://slides.yihui.name/xaringan/#1.
-
-- You are welcome to use the default styling of the slides. In fact, that's what I expect majority of you will do. You will differentiate yourself with the content of your presentation.
-
-- But some of you might want to play around with slide styling. The 
-`xaringanthemer` provides some solutions for this that: https://pkg.garrickadenbuie.com/xaringanthemer.
-
-- And if you want more bells and whistles, there is also `xaringanExtra`: https://pkg.garrickadenbuie.com/xaringanExtra.
