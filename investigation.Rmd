@@ -909,6 +909,13 @@ ggplot(price_log10_fit2_aug, mapping = aes(x = .fitted, y = .resid)) +
   labs(x = "Predicted height", y = "Residuals")
 ```
 
+```{r residual-interpretation}
+tidy(price_log10_fit2$fit)
+
+```
+$$
+P = 0.02\times Ram + 0.0008573191 SSD + \dots
+$$
 
 
 
