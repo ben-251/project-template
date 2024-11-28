@@ -228,8 +228,8 @@ price_log10_fit2 <- linear_reg() %>%
 
 price_log10_fit2_aug <- augment(price_log10_fit2$fit)
 ggplot(price_log10_fit2_aug, mapping = aes(x = .fitted, y = .resid)) +
-  geom_point(alpha = 0.5) +
-  geom_hline(yintercept = 0, color = "cadetblue", lty = "dashed") +
+  geom_point(alpha = 0.5, colour = "#23395b") +
+  geom_hline(yintercept = 0, color = "black", lty = "dashed") +
   labs(title = "Residuals of our linear regression model",x = "Predicted natural logarithm of price", y = "Residuals")
 ```
 ---
