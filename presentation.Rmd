@@ -148,6 +148,11 @@ print("Ram")
 print("SSD")
 
 ```
+
+.footnote[
+[*] This was one of many visualisations we used to narrow down the variables we chose to focus on. Due to todays time restraint we've only chosen to show this one
+]
+
 ---
 class: center, middle
 ```{r Ram vs log_price, echo=FALSE}
@@ -164,12 +169,7 @@ laptop_data_final %>%
 
 ```
 
-.footnote[
 
-
-
-[*] This was one of many visualisations we used to narrow down the variables we chose to focus on
-]
 
 ---
 class: center, middle
@@ -228,8 +228,8 @@ price_log_fit <- linear_reg() %>%
 
 price_log_fit_aug <- augment(price_log_fit$fit)
 ggplot(price_log_fit_aug, mapping = aes(x = .fitted, y = .resid)) +
-  geom_point(alpha = 0.5) +
-  geom_hline(yintercept = 0, color = "cadetblue", lty = "dashed") +
+  geom_point(alpha = 0.5, colour = "#23395b") +
+  geom_hline(yintercept = 0, color = "black", lty = "dashed") +
   labs(title = "Residuals of our linear regression model",x = "Predicted natural logarithm of price", y = "Residuals")
 ```
 ---
