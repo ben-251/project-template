@@ -131,7 +131,7 @@ ggplot( aes(x = Var1, y = Var2, fill = correlation)) +
   geom_tile(color = "white") +
   geom_text(aes(label = round(correlation, digits = 2)))+
   scale_fill_gradient2(low = "white", mid = "lightblue", high = "#23395b", midpoint = 0) +
-  labs(title = "The Correlation Matrix", x = "Natural log of Price", y = "") +
+  labs(title = "The Correlation Matrix", x = "", y = "") +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
@@ -162,9 +162,9 @@ laptop_data_final %>%
   geom_point(color="cadetblue") +
   geom_smooth(, method = "lm", color="darkblue" )+
   labs(
-    title = "RAM against ln(Price)",
+    title = "RAM against Log Price",
     x = "RAM (GB)",
-    y = "ln(Price) (e^£)"
+    y = "Log Price"
   )
 
 ```
@@ -179,9 +179,9 @@ laptop_data_final %>%
   geom_point(color="cadetblue") +
   geom_smooth(, method = "lm", color="darkblue" )+
   labs(
-    title = "SSD against ln(Price)",
+    title = "SSD against Log Price",
     x = "SSD (GB)",
-    y = "ln(Price) (e^£)",
+    y = "Log Price",
   )
 ```
 ---
@@ -195,7 +195,7 @@ p <- plot_ly(laptop_data_final,
   plotly::layout(scene = list(
     xaxis = list(title = "Ram"),
     yaxis = list(title = "SSD "),
-    zaxis = list(title = "log_price"),
+    zaxis = list(title = "Log Price"),
     camera = list(eye = list(x = 2, y = 2, z = 2))
   ))
 
@@ -230,7 +230,7 @@ price_log_fit_aug <- augment(price_log_fit$fit)
 ggplot(price_log_fit_aug, mapping = aes(x = .fitted, y = .resid)) +
   geom_point(alpha = 0.5, colour = "#23395b") +
   geom_hline(yintercept = 0, color = "black", lty = "dashed") +
-  labs(title = "Residuals of our linear regression model",x = "Predicted natural logarithm of price", y = "Residuals")
+  labs(title = "Residuals of our linear regression model",x = "Log Price", y = "Residuals")
 ```
 ---
 
