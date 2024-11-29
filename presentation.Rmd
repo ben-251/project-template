@@ -131,7 +131,7 @@ ggplot( aes(x = Var1, y = Var2, fill = correlation)) +
   geom_tile(color = "white") +
   geom_text(aes(label = round(correlation, digits = 2)))+
   scale_fill_gradient2(low = "white", mid = "lightblue", high = "#23395b", midpoint = 0) +
-  labs(title = "The Correlation Matrix", x = "Natural log of Price", y = "") +
+  labs(title = "The Correlation Matrix", x = "", y = "") +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
