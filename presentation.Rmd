@@ -336,6 +336,3 @@ class: inverse, center, middle
 # <h1> Questions? </h1>
 
 ---
-
-#appendix in the case of extra questions?
-
