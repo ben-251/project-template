@@ -164,7 +164,7 @@ laptop_data_final %>%
   labs(
     title = "RAM against Log Price",
     x = "RAM (GB)",
-    y = "Log Price)"
+    y = "Log Price"
   )
 
 ```
