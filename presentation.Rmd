@@ -214,8 +214,8 @@ ggplot(filter(laptop_data_long, x_var %in% c("Company", "Cpu_brand", "TypeName")
   geom_bar(stat = "identity", position = "dodge")+
   facet_wrap(~x_var, scales = "free_x")+
   theme_minimal()+
-  labs(x = "X Variables",
-       y = "Log Price"
+  labs(x = "Categorical Variables",
+       y = "Ln Price"
        )+
   theme(
     legend.position = "none",
