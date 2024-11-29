@@ -202,7 +202,51 @@ p <- plot_ly(laptop_data_final,
 p
 ```
 ---
+class: center, middle
+```{r silly faceting, echo =FALSE}
 
+laptop_data_long <- laptop_data_final %>%
+  mutate(Ips = as.character(Ips), 
+         TouchScreen = as.character(TouchScreen))%>%
+  pivot_longer(cols = c(Company, TypeName,TouchScreen,Ips,Cpu_brand,Gpu_brand,Os,storage_type), names_to = "x_var", values_to = "x",)
+
+ggplot(filter(laptop_data_long, x_var %in% c("Company", "Cpu_brand", "TypeName")), aes(x = x, y = log_price, fill = x))+
+  geom_bar(stat = "identity", position = "dodge")+
+  facet_wrap(~x_var, scales = "free_x")+
+  theme_minimal()+
+  labs(x = "X Variables",
+       y = "Log Price"
+       )+
+  theme(
+    legend.position = "none",
+    axis.text.x = element_text(
+      angle = 45, hjust = 1))
+
+```
+---
+class: center, middle
+```{r silly faceting 2, echo =FALSE}
+
+laptop_data_long <- laptop_data_final %>%
+  mutate(Ips = as.character(Ips), 
+         TouchScreen = as.character(TouchScreen))%>%
+  pivot_longer(cols = c(Company, TypeName,TouchScreen,Ips,Cpu_brand,Gpu_brand,Os,storage_type), names_to = "x_var", values_to = "x")
+
+ggplot(filter(laptop_data_long, !x_var %in% c("Company", "Cpu_brand", "TypeName")), aes(x = x, y = log_price, fill = x))+
+  geom_bar(stat = "identity", position = "dodge")+
+  facet_wrap(~x_var, scales = "free_x")+
+  theme_minimal()+
+  labs(x = "X Variables",
+       y = "Log Price"
+       )+
+  theme(
+    legend.position = "none",
+    axis.text.x = element_text(
+      angle = 0, hjust = 1))+
+  scale_fill_brewer(palette = "Paired")
+
+```
+---
 class: inverse, center, middle
 
 # Choosing the right fit - why choose a *linear regression* model?
@@ -295,48 +339,3 @@ class: inverse, center, middle
 
 #appendix in the case of extra questions?
 
----
-class: center, middle
-```{r silly faceting, echo =FALSE}
-
-laptop_data_long <- laptop_data_final %>%
-  mutate(Ips = as.character(Ips), 
-         TouchScreen = as.character(TouchScreen))%>%
-  pivot_longer(cols = c(Company, TypeName,TouchScreen,Ips,Cpu_brand,Gpu_brand,Os,storage_type), names_to = "x_var", values_to = "x",)
-
-ggplot(filter(laptop_data_long, x_var %in% c("Company", "Cpu_brand", "TypeName")), aes(x = x, y = log_price, fill = x))+
-  geom_bar(stat = "identity", position = "dodge")+
-  facet_wrap(~x_var, scales = "free_x")+
-  theme_minimal()+
-  labs(x = "X Variables",
-       y = "Log Price"
-       )+
-  theme(
-    legend.position = "none",
-    axis.text.x = element_text(
-      angle = 45, hjust = 1))
-
-```
----
-class: center, middle
-```{r silly faceting 2, echo =FALSE}
-
-laptop_data_long <- laptop_data_final %>%
-  mutate(Ips = as.character(Ips), 
-         TouchScreen = as.character(TouchScreen))%>%
-  pivot_longer(cols = c(Company, TypeName,TouchScreen,Ips,Cpu_brand,Gpu_brand,Os,storage_type), names_to = "x_var", values_to = "x")
-
-ggplot(filter(laptop_data_long, !x_var %in% c("Company", "Cpu_brand", "TypeName")), aes(x = x, y = log_price, fill = x))+
-  geom_bar(stat = "identity", position = "dodge")+
-  facet_wrap(~x_var, scales = "free_x")+
-  theme_minimal()+
-  labs(x = "X Variables",
-       y = "Log Price"
-       )+
-  theme(
-    legend.position = "none",
-    axis.text.x = element_text(
-      angle = 0, hjust = 1))+
-  scale_fill_brewer(palette = "Paired")
-
-```
