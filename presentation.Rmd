@@ -160,7 +160,7 @@ class: center, middle
 laptop_data_final %>%
   ggplot(mapping = aes(x=Ram,y=log_price,)) +
   geom_point(color="cadetblue") +
-  geom_smooth(, method = "lm", color="darkblue" )+
+  geom_smooth(method = "lm", color="darkblue" )+
   labs(
     title = "RAM against Log Price",
     x = "RAM (GB)",
@@ -177,7 +177,7 @@ class: center, middle
 laptop_data_final %>%
   ggplot(mapping = aes(x=SSD,y=log_price))+
   geom_point(color="cadetblue") +
-  geom_smooth(, method = "lm", color="darkblue" )+
+  geom_smooth(method = "lm", color="darkblue" )+
   labs(
     title = "SSD against Log Price",
     x = "SSD (GB)",
@@ -186,7 +186,7 @@ laptop_data_final %>%
 ```
 ---
 class: center, middle
-```{r log_price vs SSD vs Ram, echo=FALSE}
+```{r log_price vs SSD vs Ram, echo=FALSE, message=FALSE}
 p <- plot_ly(laptop_data_final,
   x = ~Ram, y = ~SSD, z = ~log_price,
   marker = list(size = 3, color = "cadetblue", alpha = 0.5, 
@@ -216,7 +216,7 @@ class: inverse, center, middle
 
 class: center, middle
 
-```{r Residuals plot 2, echo = FALSE}
+```{r Residuals plot 2, echo = FALSE, message=FALSE}
 set.seed(26)
 laptop_split <- initial_split(laptop_data_final)
 train_data <- training(laptop_split)
@@ -254,7 +254,7 @@ $$
 $$
 ---
 ## Numeric Variables
-For every additional GB of Ram, the estimated log price increases on average by £1.03
+For every additional GB of Ram, the estimated price increases on average by a factor of 1.03
 
 ## Categorical
 Each category also has a baseline:
@@ -262,8 +262,8 @@ Each category also has a baseline:
 The base line intercept has no meaning as a laptop can be of the baseline type (2-in-1 Convertibles) but a laptop cannot have 0 RAM
 
 All else constant, and relative to 2-in-1 Convertibles:
-- the price increases on average by £1.15 for Gaming Laptops
-- the price decreases on average by £0.86 for Notebooks
+- the price increases on average by a factor of 1.15 for Gaming Laptops
+- the price decreases on average by a factor of 0.86 for Notebooks
 
 ---
 
@@ -275,7 +275,7 @@ class: inverse, middle
 - The variables with largest effect on price are the amount of RAM and amount of SSD storage
 - The categorical variable with the largest effect on price is the type of laptop
 - Company has influence on the price but the highest difference is only 0.17
-- The company that produes the laptop does have some influence on the price enough to be included in the model  but not as highly correlated as others.
+- The company that produes the laptop does have some influence on the price enough to be included in the model but not as highly correlated as others.
 - RMSE is 0.286
 - Adjusted R squared is 0.717544
 
