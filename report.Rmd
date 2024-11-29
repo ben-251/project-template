@@ -1,6 +1,6 @@
 ---
 title: "Laptop Price Prediction"
-author: "by Team-Name: Jamie, Gandom, Adam, Ben"
+author: "by The Code Crunchers: Jamie, Gandom, Adam, Ben"
 date: "`r Sys.Date()`"
 output: html_document
 ---

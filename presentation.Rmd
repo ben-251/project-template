@@ -163,8 +163,8 @@ laptop_data_final %>%
   geom_smooth(, method = "lm", color="darkblue" )+
   labs(
     title = "RAM against ln(Price)",
-    x = "Ram",
-    y = "ln(Price)"
+    x = "RAM (GB)",
+    y = "ln(Price) (e^£)"
   )
 
 ```
@@ -180,8 +180,8 @@ laptop_data_final %>%
   geom_smooth(, method = "lm", color="darkblue" )+
   labs(
     title = "SSD against ln(Price)",
-    x = "SSD(GB)",
-    y = "ln(Price)",
+    x = "SSD (GB)",
+    y = "ln(Price) (e^£)",
   )
 ```
 ---
@@ -203,6 +203,7 @@ p
 ```
 ---
 
+<<<<<<< HEAD
 class: inverse, center, middle
 
 # Choosing the right fit - why choose a *linear regression* model?
@@ -293,6 +294,8 @@ class: inverse, center, middle
 
 ---
 
+=======
+>>>>>>> 25368a1423690cfca21c0a392bbdeea0077199a8
 class: center, middle
 ```{r silly faceting, echo =FALSE}
 
@@ -337,3 +340,98 @@ ggplot(filter(laptop_data_long, !x_var %in% c("Company", "Cpu_brand", "TypeName"
   scale_fill_brewer(palette = "Paired")
 
 ```
+---
+class: inverse, center, middle
+
+# Choosing the right fit - why choose a *linear regression* model?
+
+- The response variable Price is numeric and continuous, making it unsuitable for logistic regression
+
+- Linear regression effectively captures the price trend in the data
+
+- Preferred over non-linear model to reduce the risk of overfitting
+---
+
+class: center, middle
+
+```{r Residuals plot 2, echo = FALSE}
+set.seed(26)
+laptop_split <- initial_split(laptop_data_final)
+train_data <- training(laptop_split)
+test_data  <- testing(laptop_split)
+
+price_log10_fit2 <- linear_reg() %>%
+  set_engine("lm") %>%
+  fit(log_price ~ Ram + SSD + TypeName + Os + Cpu_brand+ Gpu_brand  + Company, data=train_data)
+
+price_log10_fit2_aug <- augment(price_log10_fit2$fit)
+ggplot(price_log10_fit2_aug, mapping = aes(x = .fitted, y = .resid)) +
+  geom_point(alpha = 0.5, colour = "#23395b") +
+  geom_hline(yintercept = 0, color = "black", lty = "dashed") +
+  labs(title = "Residuals of our linear regression model",x = "Predicted natural logarithm of price", y = "Residuals")
+```
+---
+
+class: middle
+
+# Our final model
+The first few elements of the model:
+```{r model-equation, echo = FALSE}
+table <- tidy(price_log10_fit2$fit) %>%
+  slice_head(n = 6) %>%
+  mutate(
+    estimate = round(estimate, 4),
+    exp_estimate = round(exp(estimate),4)
+  ) %>%
+  select(term, estimate,exp_estimate)
+kable(table, format = "html")
+```
+
+$$
+\widehat{logPrice} = 5.5929 +  (0.0271 \times Ram) + (0.0009 \times SSD) + \dots
+$$
+---
+## Numeric Variables
+For every additional GB of Ram,all else held constant, the estimated price increases on average by a factor of 1.0275
+
+For every additional GB of SSD, all else held constant, the estimated price increases on average by a factor of 1.0009
+
+## Categorical
+Each category also has a baseline:
+
+The base line intercept has no meaning as a laptop cannot have 0 RAM, and a laptop cannot have "no company" or "no type of laptop"
+
+For:
+- The price increases by a factor of 1.1042 for Gaming Laptops relative to 2-in-1 convertible laptops
+- The price decreases by a factor of 0.8492 for Notebooks relative to 2-in-1 Convertible laptops
+
+---
+
+class: inverse, middle
+
+# What we found
+
+- The best model is linear regression
+- The variables with largest effect on price are the amount of RAM and amount of SSD storage
+- The categorical variable with the largest effect on price is the type of laptop
+- The company that produes the laptop does have some influence on the price enough to be included in the model  but not as highly correlated as others.
+- RMSE is 0.286	
+- Adjusted R squared is 0.717544
+
+---
+
+class: middle, center
+
+#<h1> To conclude... </h1>
+
+---
+
+class: inverse, center, middle
+
+# <h1> Questions? </h1>
+
+---
+
+#appendix in the case of extra questions?
+
+---
