@@ -155,7 +155,7 @@ print("SSD")
 
 ---
 class: center, middle
-```{r Ram vs log_price, echo=FALSE}
+```{r Ram vs log_price, echo=FALSE, message=FALSE}
 
 laptop_data_final %>%
   ggplot(mapping = aes(x=Ram,y=log_price,)) +
@@ -173,7 +173,7 @@ laptop_data_final %>%
 
 ---
 class: center, middle
-```{r log_price vs SSD, echo=FALSE}
+```{r log_price vs SSD, echo=FALSE, message=FALSE}
 laptop_data_final %>%
   ggplot(mapping = aes(x=SSD,y=log_price))+
   geom_point(color="cadetblue") +
