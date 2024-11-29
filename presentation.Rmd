@@ -242,29 +242,28 @@ The first few elements of the model:
 table <- tidy(price_log_fit$fit) %>%
   slice_head(n = 6) %>%
   mutate(
-    estimate = round(estimate, 4),
-	exp_estimate = round(exp(estimate),4) # used only for the interpretation
-  ) %>%
-  select(term, estimate)
+	  exp_estimate = round(exp(estimate),4), # used only for the interpretation
+    estimate = round(estimate, 4) # only round estimate AFTER finding exp_estimate, otherwise it's inaccurate
+	) %>%
+  select(term, estimate, exp_estimate)
 kable(table, format = "html")
 ```
 
 $$
-\widehat{logPrice} = 5.59 +  (0.0271 \times Ram) + (0.000857 \times SSD) + \dots
+\widehat{logPrice} = 5.59 +  (0.0271 \times Ram) + (0.0009 \times SSD) + \dots
 $$
 ---
 ## Numeric Variables
-For every additional GB of Ram, the estimated log price increases on average by e^0.0271 log GBP
+For every additional GB of Ram, the estimated log price increases on average by £1.03
 
 ## Categorical
 Each category also has a baseline:
 
-The base line intercept has no meaning as a laptop can be of the base type or base company but a laptop cannot have 0 RAM
+The base line intercept has no meaning as a laptop can be of the baseline type (2-in-1 Convertibles) but a laptop cannot have 0 RAM
 
-// check the estimates again
-For:
-- The log price increases by e^0.139 log pounds for Gaming Laptops relative to 2-in-1 convertibles
-- The log price decreases by e^0.155 log pounds for Notebooks relative to 2-in-1 Convertibles
+All else constant, and relative to 2-in-1 Convertibles:
+- the price increases on average by £1.15 for Gaming Laptops
+- the price decreases on average by £0.86 for Notebooks
 
 ---
 
@@ -277,7 +276,7 @@ class: inverse, middle
 - The categorical variable with the largest effect on price is the type of laptop
 - Company has influence on the price but the highest difference is only 0.17
 - The company that produes the laptop does have some influence on the price enough to be included in the model  but not as highly correlated as others.
-- RMSE is 180.5603 (0.286)
+- RMSE is 0.286
 - Adjusted R squared is 0.717544
 
 ---
