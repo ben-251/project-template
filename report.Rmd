@@ -260,6 +260,8 @@ laptop_data_final %>%
 
 ```
 
+This positive correlation was expected, because the RAM is a major specification in laptops. The points are gathered in vertical lines because RAM (and most storage) is usually in powers of two (e.g 256, 512).
+
 ```{r log_price vs SSD, echo=FALSE, message=FALSE}
 laptop_data_final %>%
   ggplot(mapping = aes(x=SSD,y=log_price))+
@@ -271,6 +273,8 @@ laptop_data_final %>%
     y = "Log Price",
   )
 ```
+
+SSD shows a similar trend to RAM, and also has the large groups around powers of two again, as expected for computer storage.
 
 ```{r log_price vs SSD vs Ram, echo=FALSE, message=FALSE}
 p <- plot_ly(laptop_data_final,
@@ -288,6 +292,7 @@ p <- plot_ly(laptop_data_final,
 p
 ```
 
+The above 3d plot shows the relationship between price and both the numeric values at the same time.
 
 ```{r log_price vs PPI, echo=FALSE, message=FALSE}
 
@@ -312,7 +317,7 @@ laptop_data_final %>%
   geom_smooth(, method = "lm", )+
   theme_minimal() +
   labs(
-    title = "Processor Speed  against Price",
+    title = "Processor Speed against Price",
     x = "Processor Speed (GHz)",
     y = "Price",
   )
@@ -352,7 +357,7 @@ To conclude, the price of a laptop can be predicted to be within a reasonable ra
 
 However, there are several limitations to consider within this report. Firstly, as previously mentioned, the scope of our dataset was limited to only 1,196 laptops and 23 specifications - which we further cut down - explaining the imperfect RMSE  and adjusted R^2 values. This means the limited sample size will not fully represent the broader context of all laptops ever. Additionally, linking to this topic is the issue of the rapidly progressing technological market which means any and all research done on laptop types will be limited to the time frame in which the exploration was conducted. For example, new types of storage could be introduced which would consequently reduce the price of laptops with the more dated storage specifications. Finally, the laptop prices, in pounds, were converted from Indian rupees. This means the exchange rate used is bound to become more and more outdated as time goes on as the value of both currencies vary according to each country’s economic status. 
 
-Moving forward, we would address these limitations by collecting additional data with a focus on the UK to remove the need for currency exchange conversions, which will also help in enhancing analytical precision. Future analyses could also incorporate investigations of the relationship between RAM, SSD, and any other storage specification. Perhaps this would help increase the precision and sensitivity of our model
+Moving forward, we would address these limitations by collecting additional data with a focus on the UK to remove the need for currency exchange conversions, which will also help in enhancing analytical precision. Future analyses could also incorporate investigations of the relationship between RAM, SSD, and any other storage specification. Perhaps this would help increase the precision and sensitivity of our model. We could also consider setting RAM as a categorical variable, since RAM is largely discrete values.
 
 
 
