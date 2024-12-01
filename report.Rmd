@@ -99,39 +99,39 @@ We can use this model as a way for people to identify what laptop type and from 
 
 Our selected data sets contain information on 1,196 laptops with 23 variables. “Laptop_data_final” is a merged dataset of two separate collections, cleaned to limit the laptops to the following specifications which we deemed as relevant in our research:
 
-Company: The manufacturer of the laptop, which could influence pricing based on brand reputation and target market.
+<u>Company</u>: The manufacturer of the laptop, which could influence pricing based on brand reputation and target market.
 
-TypeName: The category of the laptop (i.e. 2 in 1 Convertible, Netbook, Workstation, Ultrabook, Notebook, Gaming). Different types cater to specific user needs, which likely impacts pricing, specifications offered, and weight.
+<u>TypeName</u>: The category of the laptop (i.e. 2 in 1 Convertible, Netbook, Workstation, Ultrabook, Notebook, Gaming). Different types cater to specific user needs, which likely impacts pricing, specifications offered, and weight.
 
-Ram: RAM size in GB is a critical performance factor. High RAM capacities (e.g., 16GB, 32GB) are often associated with higher prices.
+<u>Ram</u>: RAM size in GB is a critical performance factor. High RAM capacities (e.g., 16GB, 32GB) are often associated with higher prices.
 
-Weight: Indicates portability, an important aspect of laptop design. Lighter laptops (e.g. Ultrabooks) may command premium prices.
+<u>Weight</u>: Indicates portability, an important aspect of laptop design. Lighter laptops (e.g. Ultrabooks) may command premium prices.
 
-Log_price: The target variable for our analysis, represents the laptop's cost. We plan to understand how other variables influence it. However, this number was represented as the natural log of the price of laptops in Rupees. Initially, we believe this was done to present a more linear graph to represent the price. Due to this, we produced a new variable titled “price” and converted this to pounds in our initial data cleaning to demonstrate a more understandable and relevant variable.
+<u>Log_price</u>: The target variable for our analysis, represents the laptop's cost. We plan to understand how other variables influence it. However, this number was represented as the natural log of the price of laptops in Rupees. Initially, we believe this was done to present a more linear graph to represent the price. Due to this, we produced a new variable titled “price” and converted this to pounds in our initial data cleaning to demonstrate a more understandable and relevant variable.
 
-TouchScreen: Whether a laptop has a touchscreen feature, a potential indicator of modern or premium models and is usually charged at a higher rate.
+<u>TouchScreen</u>: Whether a laptop has a touchscreen feature, a potential indicator of modern or premium models and is usually charged at a higher rate.
 
-Ips: The presence of an IPS display, which typically provides better color accuracy and viewing angles, is often seen in higher-priced laptops.
+<u>Ips</u>: The presence of an IPS display, which typically provides better color accuracy and viewing angles, is often seen in higher-priced laptops.
 
-Ppi (Pixels Per Inch): Indicates display resolution and clarity. Higher PPI is often correlated with premium displays.
+<u>Ppi (Pixels Per Inch)</u>: Indicates display resolution and clarity. Higher PPI is often correlated with premium displays.
 
-Cpu_brand: The processor brand/model (e.g., Intel Core i5, AMD Ryzen). CPU type directly impacts the laptop’s performance and price.
+<u>Cpu_brand</u>: The processor brand/model (e.g., Intel Core i5, AMD Ryzen). CPU type directly impacts the laptop’s performance and price.
 
-HDD: Capacity of traditional hard drives in GB. Larger HDDs might affect price, though SSDs are now more common in modern laptops.
+<u>HDD</u>: Capacity of traditional hard drives in GB. Larger HDDs might affect price, though SSDs are now more common in modern laptops.
 
-SSD: Capacity of solid-state drives in GB. SSDs are faster and more expensive than HDDs, significantly impacting pricing.
+<u>SSD: </u>Capacity of solid-state drives in GB. SSDs are faster and more expensive than HDDs, significantly impacting pricing.
 
-Storage_type: An additional variable created by us to determine whether the laptop possessed either HDD or SSD
+<u>Storage_type</u>: An additional variable created by us to determine whether the laptop possessed either HDD or SSD
 
-Gpu_brand: Graphics card brand (e.g., Intel, NVIDIA, AMD). Gaming laptops or those with high-end GPUs are likely more expensive.
+<u>Gpu_brand</u>: Graphics card brand (e.g., Intel, NVIDIA, AMD). Gaming laptops or those with high-end GPUs are likely more expensive.
 
-Os: The operating system installed (e.g., Mac, Windows, Linux, Others). Mac laptops, for instance, are typically priced higher.
+<u>Os</u>: The operating system installed (e.g., Mac, Windows, Linux, Others). Mac laptops, for instance, are typically priced higher.
 
-Inches: Decribes the length of one corner of the laptop to the other generally adjusted to suit the laptop type.
+<u>Inches</u>: Decribes the length of one corner of the laptop to the other generally adjusted to suit the laptop type.
 
-Storage capacity: represents the total storage space available in each laptop, measured in gigabytes (GB).
+<u>Storage capacity</u>: represents the total storage space available in each laptop, measured in gigabytes (GB).
 
-GHz: represents the processor clock speed of laptops, measured in gigahertz (GHz). This is an indicator of the CPU's performance, with higher GHz values generally corresponding to faster processing speeds.
+<u>GHz</u>: represents the processor clock speed of laptops, measured in gigahertz (GHz). This is an indicator of the CPU's performance, with higher GHz values generally corresponding to faster processing speeds.
 
 This dataset thus allows us to explore the relationships between a laptop's specifications, the company selling the laptop, and their prices.
 
