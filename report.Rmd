@@ -13,7 +13,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r load-lib, include = FALSE}
 library(tidyverse)
 library(tidymodels)
-
+library(knitr)
 ```
 
 
@@ -50,6 +50,10 @@ laptop_data_tidy <- laptop_data_merged %>%
 
 laptop_data_tidy <- laptop_data_tidy%>%
   filter(,storage_capacity != 0)
+
+full_company_list <- laptop_data_tidy %>% 
+  count(Company) %>%
+  arrange(n)
 
 laptop_data_tidy <- laptop_data_tidy %>%
   mutate(,
@@ -101,33 +105,7 @@ Our selected data sets contain information on 1,196 laptops with 23 variables. �
 (done on the google docs, I'll paste it in when we finalise the variables we plan on analysing- g)
 
 
-(In the monday lecture they used an example saying: using log something instead of the normal variable was something that really should be in the report and not the presentation so I put it here-J)
-```{r Price Histogram, echo=FALSE}
 
-laptop_data_final %>%
-  ggplot(mapping = aes(x=Price)) +
-  geom_histogram(bins = 25,fill = "orange",color="navyblue")+
-  theme_light()+
-  labs(
-    title = "Spread of laptop prices",
-    x = "Price",
-    y = "Number of Laptops"
-  )
-  
-```
-
-
-```{r log_Price Histogram, echo=FALSE}
-laptop_data_final %>%
-  ggplot(mapping = aes(x=log_price)) +
-  geom_histogram(bins = 25,fill = "orange",color="navyblue")+
-  theme_light()+
-  labs(
-    title = "Spread of laptop prices",
-    x = "Natural Log of Price",
-    y = "Number of Laptops"
-  )
-```
 
 ## Findings
 
@@ -140,7 +118,71 @@ It must first be acknowledged that this analysis is subject to certain limitatio
 
 
 <h4>Data cleaning and wrangling:</h4>
-*(summarise cleaning and pre-processing done to the data. Brief description of data science techniques used in the investigation)*
+First, the two datasets were merged and any duplicate variables were subsequently removed. From the HDD and SSD variables, we created a variable denoting the total amount of storage in the laptop, and subsequently removed any observations with a storage capacity of 0 as this is not possible; such was one of the assumptions we made. Furthermore, we created a variable that denoted whether a laptop had SSD storage, HDD storage or both called “storage_type”. 
+
+At this point, we surmised it would be best to limit the company variable (describing the company from which the laptop is purchased) to only the companies with over 100 laptops, all other companies were then denoted as “other”, this was done to simplify the model as there was a large number of companies with few entries:
+
+```{r few-companies}
+kable(full_company_list)
+```
+
+The price variable was given originally as log transformed and in rupees, we converted Price back into pounds and also decided to log transform the price in pounds as the data is right skewed:
+
+```{r right-skew-proof, echo=FALSE}
+laptop_data_final %>%
+  ggplot(mapping = aes(x=Price)) +
+  geom_histogram(bins = 25,fill = "orange",color="navyblue")+
+  theme_light()+
+  labs(
+    title = "Spread of laptop prices before log transformation",
+    x = "Price",
+    y = "Number of Laptops"
+  )
+```
+
+```{r right-skew-proof-log, echo=FALSE}
+laptop_data_final %>%
+  ggplot(mapping = aes(x=log_price)) +
+  geom_histogram(bins = 25,fill = "orange",color="navyblue")+
+  theme_light()+
+  labs(
+    title = "Spread of laptop prices after log transformation",
+    x = "Natural Log of Price",
+    y = "Number of Laptops"
+  )
+```
+
+Using log price also allowed us to avoid the fan-shaped residual plot:
+```{r residual-comparison, echo=FALSE}
+set.seed(26)
+laptop_split <- initial_split(laptop_data_final)
+train_data <- training(laptop_split)
+test_data  <- testing(laptop_split)
+## non-log
+price_10_fit2 <- linear_reg() %>%
+  set_engine("lm") %>%
+  fit(Price ~ Ram + SSD + TypeName + Os + Cpu_brand+ Gpu_brand  + Company, data=train_data)
+
+price_10_fit2_aug <- augment(price_10_fit2$fit)
+ggplot(price_10_fit2_aug, mapping = aes(x = .fitted, y = .resid)) +
+  geom_point(alpha = 0.5) +
+  geom_hline(yintercept = 0, color = "gray", lty = "dashed") +
+  labs(title = "Residual Plot after log transform", x = "Predicted height", y = "Residuals")
+```
+```{r residual-comparison-log, echo=FALSE}
+## log
+price_log10_fit2 <- linear_reg() %>%
+  set_engine("lm") %>%
+  fit(log_price ~ Ram + SSD + TypeName + Os + Cpu_brand+ Gpu_brand  + Company, data=train_data)
+
+price_log10_fit2_aug <- augment(price_log10_fit2$fit)
+ggplot(price_log10_fit2_aug, mapping = aes(x = .fitted, y = .resid)) +
+  geom_point(alpha = 0.5) +
+  geom_hline(yintercept = 0, color = "gray", lty = "dashed") +
+  labs(title="Residual Plot with log transform",x = "Predicted height", y = "Residuals")
+```
+
+Finally we were also able to extract the clock speed of the processor from the uncleaned dataset and store it as a numeric variable.
 
 
 <h4>(Exploratory data analysis: </h4>

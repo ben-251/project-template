@@ -11,7 +11,7 @@
 
 <meta name="author" content="by The Code Crunchers: Gigi, Ben, Jamie &amp; Adam" />
 
-<meta name="date" content="2024-11-28" />
+<meta name="date" content="2024-12-01" />
 
 <title>IDS investigation worksheet - PULL BEFORE EDITING GUYS!!!</title>
 
@@ -354,7 +354,7 @@ display: none;
 EDITING GUYS!!!</h1>
 <h4 class="author">by The Code Crunchers: Gigi, Ben, Jamie &amp;
 Adam</h4>
-<h4 class="date">2024-11-28</h4>
+<h4 class="date">2024-12-01</h4>
 
 </div>
 
@@ -415,6 +415,9 @@ laptop_data_merged &lt;- cbind(laptop_data, select(laptop_data_filtered, Second_
 <pre class="r"><code>laptop_data_tidy &lt;- laptop_data_tidy%&gt;%
   filter(,storage_capacity != 0)
 #From the work Adams done, it looks like when storage_capacity = 0 that often that these laptops do have storage but its just like flash storage and I don&#39;t know if we should just get rid or them or not but thought I&#39;d at least say x.</code></pre>
+<pre class="r"><code>full_company_list &lt;- laptop_data_tidy %&gt;% 
+  count(Company) %&gt;%
+  arrange(n)</code></pre>
 <pre class="r"><code>laptop_data_tidy &lt;- laptop_data_tidy %&gt;%
   group_by(Company) %&gt;%
     mutate(

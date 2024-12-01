@@ -76,6 +76,12 @@ laptop_data_tidy <- laptop_data_tidy%>%
 #From the work Adams done, it looks like when storage_capacity = 0 that often that these laptops do have storage but its just like flash storage and I don't know if we should just get rid or them or not but thought I'd at least say x.
 ```
 
+```{r company-count-test}
+full_company_list <- laptop_data_tidy %>% 
+  count(Company) %>%
+  arrange(n)
+```
+
 ```{r clean company}
 laptop_data_tidy <- laptop_data_tidy %>%
   group_by(Company) %>%
