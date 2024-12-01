@@ -317,7 +317,7 @@ laptop_data_final %>%
   )
 ```
 
-As we can see in the visualisation above processor speed for certain processor speed tends to be always slightly lower or higher than fitted line, revealing that clockspeed fails to entirely capture the processor performance. We did not try to consider Ghz as categorical because there are too many values with very little entries and also the dispersion of the values is often quite large.
+As we can see in the visualisation above processor speed for certain GHz values tends to be always slightly lower or higher than fitted line, revealing that clockspeed fails to entirely capture the processor performance. We did not try to consider Ghz as categorical because there are too many values with very little entries and also the dispersion of the values is often quite large.
 
 Building on what we’ve learned we then created multiple models to evaluate which variables yield such improvement for the model that they are worth keeping or they should not be considered. 
 
