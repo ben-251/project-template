@@ -102,8 +102,49 @@ We can use this model as a way for people to identify what laptop type and from 
 
 Our selected data sets contain information on 1,196 laptops with 23 variables. “Laptop_data_final” is a merged dataset of two separate collections, cleaned to limit the laptops to the following specifications which we deemed as relevant in our research:
 
-(done on the google docs, I'll paste it in when we finalise the variables we plan on analysing- g)
+Company: The manufacturer of the laptop, which could influence pricing based on brand reputation and target market.
 
+TypeName: The category of the laptop (i.e. 2 in 1 Convertible, Netbook, Workstation, Ultrabook, Notebook, Gaming). Different types cater to specific user needs, which likely impacts pricing, specifications offered, and weight.
+
+Ram: RAM size in GB is a critical performance factor. High RAM capacities (e.g., 16GB, 32GB) are often associated with higher prices.
+
+Weight: Indicates portability, an important aspect of laptop design. Lighter laptops (e.g. Ultrabooks) may command premium prices.
+
+Log_price: The target variable for our analysis, represents the laptop's cost. We plan to understand how other variables influence it. However, this number was represented as the natural log of the price of laptops in Rupees. Initially, we believe this was done to present a more linear graph to represent the price. Due to this, we produced a new variable titled “price” and converted this to pounds in our initial data cleaning to demonstrate a more understandable and relevant variable.
+
+TouchScreen: Whether a laptop has a touchscreen feature, a potential indicator of modern or premium models and is usually charged at a higher rate.
+
+Ips: The presence of an IPS display, which typically provides better color accuracy and viewing angles, is often seen in higher-priced laptops.
+
+Ppi (Pixels Per Inch): Indicates display resolution and clarity. Higher PPI is often correlated with premium displays.
+
+Cpu_brand: The processor brand/model (e.g., Intel Core i5, AMD Ryzen). CPU type directly impacts the laptop’s performance and price.
+
+HDD: Capacity of traditional hard drives in GB. Larger HDDs might affect price, though SSDs are now more common in modern laptops.
+
+SSD: Capacity of solid-state drives in GB. SSDs are faster and more expensive than HDDs, significantly impacting pricing.
+
+Storage_type: An additional variable created by us to determine whether the laptop possessed either HDD or SSD
+
+Gpu_brand: Graphics card brand (e.g., Intel, NVIDIA, AMD). Gaming laptops or those with high-end GPUs are likely more expensive.
+
+Os: The operating system installed (e.g., Mac, Windows, Linux, Others). Mac laptops, for instance, are typically priced higher.
+
+Inches: Decribes the length of one corner of the laptop to the other generally adjusted to suit the laptop type.
+
+ScreenResolution: describes the resolution and some display characteristics of the laptops. It provides a mix of resolution details, panel type, and touchscreen features.
+
+Cpu: describes the specific processor model and its clock speed (in GHz) for laptops. It is written in this order: Processor Brand and Series, Processor Model, Clock Speed
+
+Gpu: describes the specific graphics processor used in laptops in this order: GPU Brand, GPU Model
+
+Memory: describes the storage configuration of laptops, combining storage type (HDD and/ or SSD) and capacity. This was an additional variable we created to simplify and combine the HDD and SSD specifications
+
+Storage capacity: represents the total storage space available in each laptop, measured in gigabytes (GB).
+
+GHz: represents the processor clock speed of laptops, measured in gigahertz (GHz). This is an indicator of the CPU's performance, with higher GHz values generally corresponding to faster processing speeds.
+
+This dataset thus allows us to explore the relationships between a laptop's specifications, the company selling the laptop, and their prices.
 
 
 
@@ -112,9 +153,9 @@ Our selected data sets contain information on 1,196 laptops with 23 variables. �
 <h3><center>*An analysis of the price of a laptop based on its features and specifications*</center></h3>
 
 <h4>Introduction:</h4>
-This report presents findings from the analysis of two laptop datasets - available on Kaggle - to identify patterns and factors affecting price. The dataset contains the information of 1,196 laptops with 23 specifications, such as Company, RAM, Weight and Storage type. Initially, the objective of this analysis was to create a model to aid people in identifying the laptop type and company they should likely purchase from, based on a series of specifications they would like. The research then progressed into an analysis of how price is influenced by the presence of such specifications and by the end of the exploratory data analysis, we found ourselves researching <u>*(WHAT ARE WE RESEARCHING??)*</u>. The following sections outline our methods, results and evaluation of findings as well as some issues we faced and how they were overcome.
+This report presents findings from the analysis of two laptop datasets -one uncleaned and the other cleaned -  available on Kaggle to identify patterns and factors affecting price. The dataset contains the information of 1,196 laptops with 23 specifications, such as Company, RAM, Weight and Storage type. Initially, the objective of this analysis was to create a model to aid people in identifying the laptop type and company they should likely purchase from, based on a series of specifications they would like. Upon further exploratory analysis, we limited our scope to an analysis of how price is influenced by the presence of such specifications. The following sections outline our methods, results and evaluation of findings as well as some issues we faced and how they were overcome.
 
-It must first be acknowledged that this analysis is subject to certain limitations and should be interpreted with caution. The scope of the laptop statistics was constrained to the companies of Acer, Asus, Dell, HP, Lenovo and Other; categorised into one of the following categories: 2 in 1 Convertible, Netbook, Workstation, Ultrabook, Notebook and Gaming. Thus, while the analysis provides valuable insights, it is not exhaustive and may not capture all potential variables or nuances relevant to the study. Any assumptions made have been mentioned in the ‘data cleaning and wrangling’ and ‘exploratory data analysis’ sections.
+It must first be acknowledged that this analysis is subject to certain limitations and should be interpreted with caution. The scope of the laptop statistics was constrained to the companies of Acer, Asus, Dell, HP, Lenovo and Other; categorised into one of the following categories: 2 in 1 Convertible, Netbook, Workstation, Ultrabook, Notebook or Gaming. Thus, while the analysis provides valuable insights, it is not exhaustive and may not capture all potential variables or nuances relevant to the study. Any assumptions made have been mentioned in the ‘data cleaning and wrangling’ and ‘exploratory data analysis’ sections.
 
 
 <h4>Data cleaning and wrangling:</h4>
@@ -186,15 +227,41 @@ Finally we were also able to extract the clock speed of the processor from the u
 
 
 <h4>(Exploratory data analysis: </h4>
-*(research, understanding, calculating summary stats, narrowing observations of interest, create new variables, visualisations) A brief explanation of what the results mean in the given context of the data*
+Our dataset contained no missing values, and so we created various visualisations to improve our understanding of relations between price and other variables as well as variation of numeric variables in relation to certain character variables such as computer type and company.
+
+*Correlation matrix*
+
+*Ram / ssd against price*
+
+*Ppi against price*
+
+*Processor speed against price*
+
+As we can see in the visualisation above processor speed for certain processor speed tends to be always slightly lower or higher than fitted line, revealing that clockspeed fails to entirely capture the processor performance. We did not try to consider Ghz as categorical because there are too many values with very little entries and also the dispersion of the values is often quite large.
+Other relevant visualisations
+
+Building on what we’ve learned we then created multiple models to evaluate which variables yield such improvement for the model that they are worth keeping or they should not be considered. 
+
 
 
 <h4>Modelling:</h4>
-*(answers our question)*
+With all this information we then created a model predicting price using the aforementioned numerical and categorical variables, which can be represented as a linear equation.
+
+*insert linear equation*
+
+As all categorical variables have been converted into dummy variables, our model can be interpreted as a straight line with a gradient based on RAM and SSD and with an intercept that changes depending on the categorical variables.
+
+To interpret the slope we can then say that all else held constant that for every additional GB of Ram, the estimated price increases on average by a factor of 1.027 and for every additional GB of SSD storage, the estimated price increases on average by a factor of 1.0009. Furthermore,  to interpret the intercept we can also say that if a laptop is a gaming laptop then the estimated price increases by a factor of 1.15 compared to a 2n1 convertible, and that if the laptop is a notebook the price decreases by a factor of 0.856 compared to a 2n1 convertible.
+
+It is worthwhile to note that the baseline intercept price of £268.52, does not make sense in the context of the data as a laptop cannot have 0 RAM.
+
+To evaluate the model we calculated the RMSE  value and the adjusted R^2 value to measure the accuracy and variability within our model, for this we found RMSE as 0.286 and adj R^2 as 0.717. We can interpret these results as meaning that on average our model is off by around 28.6% and that our model can explain around 70% of the variability in the price.
+
 
 
 <h4>Conclusion: </h4>
-*(what are the advantages/ limitations of the investigation. If we had more time what more would we have done) = evaluation*
+To conclude, the price of a laptop can be predicted to be within a reasonable range of uncertainty, and the model would inform you if you are being massively over or undercharged with decent certainty. And that generally the variables that tend to influence price the most are variables linked to a higher processing power, not so much the quality of life features. However, there are several limitations to consider within this report. Firstly, as previously mentioned, the scope of our dataset was limited to only 1,196 laptops and 23 specifications - which we further cut down - explaining the imperfect RMSE  and adjusted R^2 values. This means the limited sample size will not fully represent the broader context of all laptops ever. Additionally, linking to this topic is the issue of the rapidly progressing technological market which means any and all research done on laptop types will be limited to the time frame in which the exploration was conducted. For example, new types of storage could be introduced which would consequently reduce the price of laptops with the more dated storage specifications. Finally, the laptop prices, in pounds, were converted from Indian rupees. This means the exchange rate used is bound to become more and more outdated as time goes on as the value of both currencies vary according to each country’s economic status. Moving forward, we would address these limitations by collecting additional data with a focus on the UK to remove the need for currency exchange conversions, which will also help in enhancing analytical precision. Future analyses could also incorporate investigations of the relationship between RAM, SSD, and any other storage specification. Perhaps this would help increase the precision and sensitivity of our model
+
 
 
 
