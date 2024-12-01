@@ -285,7 +285,6 @@ p <- plot_ly(laptop_data_final,
 
 p
 ```
-*check, code doesn't work*
 
 
 ```{r log_price vs PPI, echo=FALSE, message=FALSE}
