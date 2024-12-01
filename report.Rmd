@@ -210,6 +210,7 @@ ggplot(price_10_fit2_aug, mapping = aes(x = .fitted, y = .resid)) +
   geom_hline(yintercept = 0, color = "gray", lty = "dashed") +
   labs(title = "Residual Plot after log transform", x = "Predicted height", y = "Residuals")
 ```
+
 ```{r residual-comparison-log, echo=FALSE}
 ## log
 price_log10_fit2 <- linear_reg() %>%
@@ -229,13 +230,116 @@ Finally we were also able to extract the clock speed of the processor from the u
 <h4>(Exploratory data analysis: </h4>
 Our dataset contained no missing values, and so we created various visualisations to improve our understanding of relations between price and other variables as well as variation of numeric variables in relation to certain character variables such as computer type and company.
 
-*Correlation matrix*
+```{r correlation matrix plot, echo=FALSE}
+correlation_matrix <- laptop_data_final %>%
+  select_if(is.numeric) %>%
+  cor(use = "complete.obs")
 
-*Ram / ssd against price*
 
-*Ppi against price*
+cor_tidy <- as.data.frame(as.table(correlation_matrix)) %>%
+  rename(Var1 = Var1, Var2 = Var2, correlation = Freq)
 
-*Processor speed against price*
+cor_tidier<-cor_tidy%>%
+  arrange(,correlation)
+
+cor_tidier%>%
+  filter(Var2=="log_price",Var1!="Price",Var1!="log_price")%>%
+ggplot( aes(x = Var1, y = Var2, fill = correlation)) +
+  geom_tile(color = "white") +
+  geom_text(aes(label = round(correlation, digits = 2)))+
+  scale_fill_gradient2(low = "white", mid = "lightblue", high = "#23395b", midpoint = 0) +
+  labs(title = "The Correlation Matrix", x = "", y = "") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+
+```
+Here is a correlation matrix of these - As we can see from the graph, Price has its highest correlation with RAM which was largely expected, and the amount of SSD storage which was more surprising as both the total storage amount and HDD both have a low correlation
+
+```{r Ram vs log_price, echo=FALSE}
+
+laptop_data_final %>%
+  ggplot(mapping = aes(x=Ram,y=log_price,)) +
+  geom_point(color="cadetblue") +
+  geom_smooth(method = "lm", color="darkblue" )+
+  labs(
+    title = "RAM against Log Price",
+    x = "RAM (GB)",
+    y = "Log Price"
+  )
+
+```
+
+```{r log_price vs SSD, echo=FALSE}
+laptop_data_final %>%
+  ggplot(mapping = aes(x=SSD,y=log_price))+
+  geom_point(color="cadetblue") +
+  geom_smooth(method = "lm", color="darkblue" )+
+  labs(
+    title = "SSD against Log Price",
+    x = "SSD (GB)",
+    y = "Log Price",
+  )
+```
+
+```{r log_price vs SSD vs Ram, echo=FALSE, message=FALSE}
+#p <- plot_ly(laptop_data_final,
+#  x = ~Ram, y = ~SSD, z = ~log_price,
+ #   marker = list(size = 3, color = "cadetblue", alpha = 0.5, 
+  #                line = list(color = "darkblue", width = 2))) %>%
+ #   add_markers() %>%
+ #   plotly::layout(scene = list(
+ #     xaxis = list(title = "Ram"),
+  #    yaxis = list(title = "SSD "),
+  #    zaxis = list(title = "Log Price"),
+ #     camera = list(eye = list(x = 2, y = 2, z = 2))
+ #   ))
+
+#  p
+```
+*check, code doesn't work*
+
+
+```{r log_price vs PPI, echo=FALSE}
+laptop_data_company <- laptop_data_final %>%
+  group_by(Company)
+
+laptop_data_company %>%
+  ggplot(mapping = aes(x=Ppi,y=Price, color=Company)) +
+  geom_smooth(se = FALSE, method = "lm")+
+  theme_minimal() +
+  labs(
+    title = "Pixels per Inches against Price",
+    x = "Pixels per Inches",
+    y = "Price",
+  )
+
+laptop_data_final %>%
+  ggplot(mapping = aes(x=Ppi,y=Price,)) +
+  geom_point() +
+  geom_smooth(, method = "lm", )+
+  theme_minimal() +
+  labs(
+    title = "Pixels per Inches against Price",
+    x = "Pixels per Inches",
+    y = "Price",
+  )
+
+```
+
+```{r log_price vs Processor speed, echo=FALSE}
+
+laptop_data_final %>%
+  ggplot(mapping = aes(x=GHz,y=Price,)) +
+  geom_point() +
+  geom_smooth(, method = "lm", )+
+  theme_minimal() +
+  labs(
+    title = "Processor Speed  against Price",
+    x = "Processor Speed (GHz)",
+    y = "Price",
+  )
+```
 
 As we can see in the visualisation above processor speed for certain processor speed tends to be always slightly lower or higher than fitted line, revealing that clockspeed fails to entirely capture the processor performance. We did not try to consider Ghz as categorical because there are too many values with very little entries and also the dispersion of the values is often quite large.
 Other relevant visualisations
