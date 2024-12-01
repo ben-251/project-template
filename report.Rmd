@@ -91,6 +91,7 @@ laptop_data_final<-select(laptop_data_final,-Second_Price,-ScreenResolution,-Gpu
 
 
 “To what extent can the price of a laptop be predicted based on some of its specifications”
+
 We can use this model as a way for people to identify what laptop type they are looking to purchase based on the series of specifications they want. Thus, the  initial question we were looking to investigate was:To what degree does the existence of various specifications influence price
 
 
@@ -215,7 +216,7 @@ ggplot(price_log10_fit2_aug, mapping = aes(x = .fitted, y = .resid)) +
 Finally we were also able to extract the clock speed of the processor from the uncleaned dataset and store it as a numeric variable.
 
 
-<h4>(Exploratory data analysis: </h4>
+<h4>Exploratory data analysis: </h4>
 Our dataset contained no missing values, and so we created various visualisations to improve our understanding of relations between price and other variables as well as variation of numeric variables in relation to certain character variables such as computer type and company.
 
 ```{r correlation matrix plot, echo=FALSE}
@@ -288,18 +289,6 @@ p
 
 
 ```{r log_price vs PPI, echo=FALSE, message=FALSE}
-laptop_data_company <- laptop_data_final %>%
-  group_by(Company)
-
-laptop_data_company %>%
-  ggplot(mapping = aes(x=Ppi,y=Price, color=Company)) +
-  geom_smooth(se = FALSE, method = "lm")+
-  theme_minimal() +
-  labs(
-    title = "Pixels per Inches against Price",
-    x = "Pixels per Inches",
-    y = "Price",
-  )
 
 laptop_data_final %>%
   ggplot(mapping = aes(x=Ppi,y=Price,)) +
