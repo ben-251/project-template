@@ -156,7 +156,7 @@ At this point, we surmised it would be best to limit the company variable (descr
 kable(full_company_list)
 ```
 
-The price variable was given originally as log transformed and in rupees, we converted Price back into pounds and also decided to log transform the price in pounds as the data is right skewed:
+The price variable was given originally as log transformed and in rupees. We converted Price back into pounds and also decided to log transform the price in pounds as the data was skewed rightward:
 
 ```{r right-skew-proof, echo=FALSE}
 laptop_data_final %>%
