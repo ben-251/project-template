@@ -294,7 +294,7 @@ kable(table, format = "html")
 ```
 
 $$
-\widehat{logPrice} = 5.59 +  (0.0271 \times Ram) + (0.0009 \times SSD) + \dots
+\widehat{logPrice} = 5.48 +  (0.0266 \times Ram) + (0.0008 \times SSD) + \dots
 $$
 ---
 ## Numeric Variables
@@ -306,8 +306,8 @@ Each category also has a baseline:
 The base line intercept has no meaning as a laptop can be of the baseline type (2-in-1 Convertibles) but a laptop cannot have 0 RAM
 
 All else constant, and relative to 2-in-1 Convertibles:
-- the price increases on average by a factor of 1.15 for Gaming Laptops
-- the price decreases on average by a factor of 0.86 for Notebooks
+- the price increases on average by a factor of 1.10 for Gaming Laptops
+- the price decreases on average by a factor of 0.85 for Notebooks
 
 ---
 

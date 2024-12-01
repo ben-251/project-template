@@ -334,14 +334,14 @@ tidy(price_log10_fit2$fit)
 This can be represented as a linear equation:
 
 $$
-\widehat{logPrice} = 5.59 +  (0.0271 \times Ram) + (0.0009 \times SSD) + \dots
+\widehat{logPrice} = 5.48 +  (0.0266 \times Ram) + (0.0008 \times SSD) + \dots
 $$
 
 As all categorical variables have been converted into dummy variables, our model can be interpreted as a straight line with a gradient based on RAM and SSD and with an intercept that changes depending on the categorical variables.
 
-To interpret the slope we can then say that all else held constant that for every additional GB of Ram, the estimated price increases on average by a factor of 1.027 and for every additional GB of SSD storage, the estimated price increases on average by a factor of 1.0009. Furthermore,  to interpret the intercept we can also say that if a laptop is a gaming laptop then the estimated price increases by a factor of 1.15 compared to a 2n1 convertible, and that if the laptop is a notebook the price decreases by a factor of 0.856 compared to a 2n1 convertible.
+To interpret the slope we can then say that all else held constant that for every additional GB of Ram, the estimated price increases on average by a factor of 1.03 and for every additional GB of SSD storage, the estimated price increases on average by a factor of 1.0008. Furthermore,  to interpret the intercept we can also say that if a laptop is a gaming laptop then the estimated price increases by a factor of 1.1042 compared to the baseline of 2-in-1 convertible, and that if the laptop is a notebook the price decreases by a factor of 0.8492 compared to a 2-in-1 convertible.
 
-It is worthwhile to note that the baseline intercept price of £268.52, does not make sense in the context of the data as a laptop cannot have 0 RAM.
+It is worth noting that the baseline intercept price of £268.52 does not make sense in the context of the data as a laptop cannot have 0 RAM.
 
 To evaluate the model we calculated the RMSE  value and the adjusted R^2 value to measure the accuracy and variability within our model, for this we found RMSE as 0.286 and adj R^2 as 0.717. We can interpret these results as meaning that on average our model is off by around 28.6% and that our model can explain around 70% of the variability in the price.
 
