@@ -90,10 +90,8 @@ laptop_data_final<-select(laptop_data_final,-Second_Price,-ScreenResolution,-Gpu
 ## Research Question
 
 
-“To what extent can the price of a laptop be predicted based on some of its specifications and does the price level vary based upon its company”
-
-We can use this model as a way for people to identify what laptop type and from what company to make their purchase based on a series of specifications they want. Our initial questions to investigate included: 'To what degree does the existence of various specifications influence price' and 'to what degree will companies vary their price for the same laptop type'.
-
+“To what extent can the price of a laptop be predicted based on some of its specifications”
+We can use this model as a way for people to identify what laptop type they are looking to purchase based on the series of specifications they want. Thus, the  initial question we were looking to investigate was:To what degree does the existence of various specifications influence price
 
 
 ## Data
