@@ -129,14 +129,6 @@ Os: The operating system installed (e.g., Mac, Windows, Linux, Others). Mac lapt
 
 Inches: Decribes the length of one corner of the laptop to the other generally adjusted to suit the laptop type.
 
-ScreenResolution: describes the resolution and some display characteristics of the laptops. It provides a mix of resolution details, panel type, and touchscreen features.
-
-Cpu: describes the specific processor model and its clock speed (in GHz) for laptops. It is written in this order: Processor Brand and Series, Processor Model, Clock Speed
-
-Gpu: describes the specific graphics processor used in laptops in this order: GPU Brand, GPU Model
-
-Memory: describes the storage configuration of laptops, combining storage type (HDD and/ or SSD) and capacity. This was an additional variable we created to simplify and combine the HDD and SSD specifications
-
 Storage capacity: represents the total storage space available in each laptop, measured in gigabytes (GB).
 
 GHz: represents the processor clock speed of laptops, measured in gigahertz (GHz). This is an indicator of the CPU's performance, with higher GHz values generally corresponding to faster processing speeds.
