@@ -161,7 +161,7 @@ The price variable was given originally as log transformed and in rupees, we con
 ```{r right-skew-proof, echo=FALSE}
 laptop_data_final %>%
   ggplot(mapping = aes(x=Price)) +
-  geom_histogram(bins = 25,fill = "orange",color="navyblue")+
+  geom_histogram(bins = 25,fill = "cadetblue",color="black")+
   theme_light()+
   labs(
     title = "Spread of laptop prices before log transformation",
@@ -173,7 +173,7 @@ laptop_data_final %>%
 ```{r right-skew-proof-log, echo=FALSE}
 laptop_data_final %>%
   ggplot(mapping = aes(x=log_price)) +
-  geom_histogram(bins = 25,fill = "orange",color="navyblue")+
+  geom_histogram(bins = 25,fill = "cadetblue",color="black")+
   theme_light()+
   labs(
     title = "Spread of laptop prices after log transformation",
