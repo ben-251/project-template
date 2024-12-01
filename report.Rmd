@@ -243,6 +243,7 @@ ggplot( aes(x = Var1, y = Var2, fill = correlation)) +
 
 
 ```
+
 Here is a correlation matrix of these - As we can see from the graph, Price has its highest correlation with RAM which was largely expected, and the amount of SSD storage which was more surprising as both the total storage amount and HDD both have a low correlation
 
 ```{r Ram vs log_price, echo=FALSE, message=FALSE}
@@ -347,7 +348,11 @@ To evaluate the model we calculated the RMSE  value and the adjusted R^2 value t
 
 
 <h4>Conclusion: </h4>
-To conclude, the price of a laptop can be predicted to be within a reasonable range of uncertainty, and the model would inform you if you are being massively over or undercharged with decent certainty. And that generally the variables that tend to influence price the most are variables linked to a higher processing power, not so much the quality of life features. However, there are several limitations to consider within this report. Firstly, as previously mentioned, the scope of our dataset was limited to only 1,196 laptops and 23 specifications - which we further cut down - explaining the imperfect RMSE  and adjusted R^2 values. This means the limited sample size will not fully represent the broader context of all laptops ever. Additionally, linking to this topic is the issue of the rapidly progressing technological market which means any and all research done on laptop types will be limited to the time frame in which the exploration was conducted. For example, new types of storage could be introduced which would consequently reduce the price of laptops with the more dated storage specifications. Finally, the laptop prices, in pounds, were converted from Indian rupees. This means the exchange rate used is bound to become more and more outdated as time goes on as the value of both currencies vary according to each country’s economic status. Moving forward, we would address these limitations by collecting additional data with a focus on the UK to remove the need for currency exchange conversions, which will also help in enhancing analytical precision. Future analyses could also incorporate investigations of the relationship between RAM, SSD, and any other storage specification. Perhaps this would help increase the precision and sensitivity of our model
+To conclude, the price of a laptop can be predicted to be within a reasonable range of uncertainty, and the model would inform you if you are being massively over or undercharged with decent certainty. Furthermore, generally the variables that tend to influence price the most are variables linked to a higher processing power, not so much the quality of life features. 
+
+However, there are several limitations to consider within this report. Firstly, as previously mentioned, the scope of our dataset was limited to only 1,196 laptops and 23 specifications - which we further cut down - explaining the imperfect RMSE  and adjusted R^2 values. This means the limited sample size will not fully represent the broader context of all laptops ever. Additionally, linking to this topic is the issue of the rapidly progressing technological market which means any and all research done on laptop types will be limited to the time frame in which the exploration was conducted. For example, new types of storage could be introduced which would consequently reduce the price of laptops with the more dated storage specifications. Finally, the laptop prices, in pounds, were converted from Indian rupees. This means the exchange rate used is bound to become more and more outdated as time goes on as the value of both currencies vary according to each country’s economic status. 
+
+Moving forward, we would address these limitations by collecting additional data with a focus on the UK to remove the need for currency exchange conversions, which will also help in enhancing analytical precision. Future analyses could also incorporate investigations of the relationship between RAM, SSD, and any other storage specification. Perhaps this would help increase the precision and sensitivity of our model
 
 
 
