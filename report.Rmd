@@ -97,15 +97,15 @@ We can use this model as a way for people to identify what laptop type they are 
 
 ## Data
 
-Our selected data sets contain information on 1,196 laptops with 23 variables. “Laptop_data_final” is a merged dataset of two separate collections, cleaned to limit the laptops to the following specifications which we deemed as relevant in our research:
+Our selected data sets contain information on 1,196 laptops with 23 variables. `Laptop_data_final` is a merged dataset of two separate collections, cleaned to limit the laptops to the following specifications which we deemed as relevant in our research:
 
 <u>Company</u>: The manufacturer of the laptop, which could influence pricing based on brand reputation and target market.
 
 <u>TypeName</u>: The category of the laptop (i.e. 2 in 1 Convertible, Netbook, Workstation, Ultrabook, Notebook, Gaming). Different types cater to specific user needs, which likely impacts pricing, specifications offered, and weight.
 
-<u>Ram</u>: RAM size in GB is a critical performance factor. High RAM capacities (e.g., 16GB, 32GB) are often associated with higher prices.
+<u>Ram</u>: Random Access Memory, a type of short term memory and a critical performance factor. High RAM capacities (e.g., 16GB, 32GB) are often associated with higher prices. It is measured in GB.
 
-<u>Weight</u>: Indicates portability, an important aspect of laptop design. Lighter laptops (e.g. Ultrabooks) may command premium prices.
+<u>Weight</u>: Indicates portability, an important aspect of laptop design. Lighter laptops (e.g. Ultrabooks) may command premium prices. It is measured in kg.
 
 <u>Log_price</u>: The target variable for our analysis, represents the laptop's cost. We plan to understand how other variables influence it. However, this number was represented as the natural log of the price of laptops in Rupees. Initially, we believe this was done to present a more linear graph to represent the price. Due to this, we produced a new variable titled “price” and converted this to pounds in our initial data cleaning to demonstrate a more understandable and relevant variable.
 
@@ -260,7 +260,7 @@ laptop_data_final %>%
 
 ```
 
-This positive correlation was expected, because the RAM is a major specification in laptops. The points are gathered in vertical lines because RAM (and most storage) is usually in powers of two (e.g 256, 512).
+This positive correlation was expected, because the RAM is a major specification in laptops. The points are gathered in vertical lines because RAM (and most storage) is usually in powers of two (e.g 32, 64).
 
 ```{r log_price vs SSD, echo=FALSE, message=FALSE}
 laptop_data_final %>%
