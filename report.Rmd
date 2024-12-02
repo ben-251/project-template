@@ -152,7 +152,7 @@ First, the two datasets were merged and any duplicate variables were subsequentl
 
 At this point, we surmised it would be best to limit the company variable (describing the company from which the laptop is purchased) to only the companies with over 100 laptops, all other companies were then denoted as “other”, this was done to simplify the model as there was a large number of companies with few entries:
 
-```{r few-companies}
+```{r few-companies, echo=FALSE}
 kable(full_company_list)
 ```
 
@@ -332,8 +332,13 @@ Building on what we’ve learned we then created multiple models to evaluate whi
 <h4>Modelling:</h4>
 With all this information we then created a model predicting price using the aforementioned numerical and categorical variables.
 
-```{r residual-interpretation}
-tidy(price_log10_fit2$fit) 
+```{r model-interpretation,echo=FALSE}
+tidy(price_log10_fit2$fit) %>%
+  mutate(
+	  exp_estimate = exp(estimate), # used only for the interpretation
+    estimate = round(estimate, 4) # only round estimate AFTER finding exp_estimate, otherwise it's inaccurate
+	) %>%
+  select(term, estimate, exp_estimate)
 ```
 
 This can be represented as a linear equation:
@@ -344,7 +349,9 @@ $$
 
 As all categorical variables have been converted into dummy variables, our model can be interpreted as a straight line with a gradient based on RAM and SSD and with an intercept that changes depending on the categorical variables.
 
-To interpret the slope we can then say that all else held constant that for every additional GB of Ram, the estimated price increases on average by a factor of 1.03 and for every additional GB of SSD storage, the estimated price increases on average by a factor of 1.0008. Furthermore,  to interpret the intercept we can also say that if a laptop is a gaming laptop then the estimated price increases by a factor of 1.1042 compared to the baseline of 2-in-1 convertible, and that if the laptop is a notebook the price decreases by a factor of 0.8492 compared to a 2-in-1 convertible.
+To interpret the slope, we substitute each estimate into $e^x$ to generate a column called `exp_estimate`.
+
+We can then say that all else held constant that for every additional GB of Ram, the estimated price increases on average by a factor of 1.03 and for every additional GB of SSD storage, the estimated price increases on average by a factor of 1.0008. Furthermore,  to interpret the intercept we can also say that if a laptop is a gaming laptop then the estimated price increases by a factor of 1.1042 compared to the baseline of 2-in-1 convertible, and that if the laptop is a notebook the price decreases by a factor of 0.8492 compared to a 2-in-1 convertible.
 
 It is worth noting that the baseline intercept price of £268.52 does not make sense in the context of the data as a laptop cannot have 0 RAM.
 
